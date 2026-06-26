@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" prefix="og: https://ogp.me/ns#">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -717,12 +717,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  
  <div class="lang-wrap">
  <button type="button" class="lang-btn" aria-label="언어 선택" aria-haspopup="listbox" onclick="toggleLang('desktop')" id="langBtn">
- <span id="langFlag"><i class="fa-solid fa-earth-asia" style="font-size:0.9em;"></i></span>
+ <span id="langFlag"><i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i></span>
  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
  </button>
  <div class="lang-dropdown" id="langDropdown">
- <div class="lang-option selected" onclick="setLang('ko')"><i class="fa-solid fa-earth-asia" style="margin-right:6px;"></i>한국어</div>
- <div class="lang-option" onclick="setLang('en')"><i class="fa-solid fa-earth-americas" style="margin-right:6px;"></i>English</div>
+ <div class="lang-option" onclick="setLang('ko')"><i class="fa-solid fa-earth-asia" style="margin-right:6px;"></i>한국어</div>
+ <div class="lang-option selected" onclick="setLang('en')"><i class="fa-solid fa-earth-americas" style="margin-right:6px;"></i>English</div>
  </div>
  </div>
  </div>
@@ -734,8 +734,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   </button>
   <div style="position:relative;">
    <button type="button" class="mobile-lang-quick" id="mobileLangQuick" aria-label="Switch Language" onclick="toggleQuickLang()">
-    <span id="mobileLangQuickFlag"><i class="fa-solid fa-earth-asia" style="font-size:0.9em;"></i></span>
-    <span id="mobileLangQuickText">KO</span>
+    <span id="mobileLangQuickFlag"><i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i></span>
+    <span id="mobileLangQuickText">EN</span>
    </button>
    <div class="mobile-lang-quick-dropdown" id="mobileLangQuickDropdown">
     <div class="lang-option" onclick="setLang('ko');closeQuickLang()"><i class="fa-solid fa-earth-asia" style="margin-right:6px;"></i>한국어</div>
@@ -753,7 +753,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  <button type="button" class="nav-btn" onclick="goPage('feedback');closeMobileMenu()" data-k="nav_feedback">피드백</button>
  <div class="lang-wrap" style="margin-top:8px;border-top:1px solid var(--border);padding-top:12px;">
   <button type="button" class="lang-btn" onclick="toggleLang('mobile')" id="mobileLangBtn" aria-label="언어 선택">
-   <span id="mobileLangFlag"><i class="fa-solid fa-earth-asia" style="font-size:0.9em;"></i></span> <span id="mobileLangText">한국어</span>
+   <span id="mobileLangFlag"><i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i></span> <span id="mobileLangText">English</span>
    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;margin-left:auto;" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
   </button>
   <div class="lang-dropdown" id="mobileLangDropdown" style="display:none;padding:6px;border-radius:12px;margin-top:6px;">
@@ -2242,7 +2242,7 @@ var feedbackData = {
  satisfaction: JSON.parse(localStorage.getItem('kozy_sat')||'[]'),
  issue: JSON.parse(localStorage.getItem('kozy_issue')||'[]')
 };
-var currentLang = 'ko';
+var currentLang = 'en';
 var selectedDur = '';
 var extendMonths = 1;            // 기간 연장 시 선택한 개월 수
 var EXTEND_UNIT = 10;            // 기간 연장 단가 (개월당 USD)
@@ -3438,12 +3438,19 @@ function closeQuickLang(){
 var _origSetLang = setLang;
 setLang = function(lang){
   _origSetLang(lang);
+  try { localStorage.setItem('kozy_lang', lang); } catch(e){}
   var quickFlag = document.getElementById('mobileLangQuickFlag');
   var quickText = document.getElementById('mobileLangQuickText');
   var FLAG_MAP_LOCAL = {ko:'<i class="fa-solid fa-earth-asia" style="font-size:0.9em;"></i>', en:'<i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i>'};
   if(quickFlag) quickFlag.innerHTML = FLAG_MAP_LOCAL[lang] || FLAG_MAP_LOCAL['ko'];
   if(quickText) quickText.textContent = lang === 'en' ? 'EN' : 'KO';
 };
+// 기본 언어 = 영어. 이전에 선택한 언어가 있으면 그대로 유지.
+(function bootLang(){
+  var saved;
+  try { saved = localStorage.getItem('kozy_lang'); } catch(e){}
+  setLang(saved === 'ko' || saved === 'en' ? saved : 'en');
+})();
 document.addEventListener('click', function(e){
   if(!e.target.closest('.mobile-lang-quick') && !e.target.closest('.mobile-lang-quick-dropdown')){
     closeQuickLang();
