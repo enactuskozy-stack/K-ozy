@@ -1,0 +1,10 @@
+{
+  "name": "kozy-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "K-ozy bedding rental & settlement support — site + Netlify Functions",
+  "dependencies": {
+    "postgres": "^3.4.9"
+  }
+}

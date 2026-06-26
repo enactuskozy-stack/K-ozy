@@ -1,0 +1,12 @@
+# dependencies (Netlify가 빌드 시 설치)
+node_modules/
+
+# Netlify 로컬/빌드 산출물 (코드 아님 — 절대 커밋 금지)
+.netlify/
+
+# 로컬 환경변수
+.env
+.env.*
+
+# OS
+.DS_Store

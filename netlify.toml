@@ -1,0 +1,14 @@
+# K-ozy 사이트 — 정적 HTML + Netlify Functions
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# index.html 단일 페이지 앱 — 함수 경로 외 모든 경로는 index.html 로
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
