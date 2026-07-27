@@ -243,7 +243,7 @@
 /* 포인트 컬러: 스카이블루 단일 계열. -solid는 불투명(텍스트/숫자/중요정보용), 기존 토큰은 옅은 배경/보더용으로 유지 */
 --blue-solid:#2F62E8;--blue-solid-dark:#1E4FCC;
 --blue:rgba(47, 98, 232, 0.6);--blue-mid:#2F62E8;--blue-pale:rgba(47, 98, 232, 0.1);--accent:rgba(47, 98, 232, 0.6);--accent-hover:rgba(47, 98, 232, 0.8);--accent-pale:rgba(47, 98, 232, 0.1);--border:rgba(47, 98, 232, 0.2);--border-mid:rgba(47, 98, 232, 0.4);--shadow:rgba(47, 98, 232, 0.2);--shadow-lg:rgba(47, 98, 232, 0.3);}*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--off-white);color:var(--text-main);overflow-x:hidden;}.page{display:none;min-height:100vh;}.page.active{display:block;}nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);height:66px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;}.nav-logo{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.5rem;font-weight:800;cursor:pointer;letter-spacing:-1px;color:var(--navy);}.nav-logo span{color:var(--blue);}.nav-links{display:flex;gap:6px;align-items:center;}.nav-btn{padding:8px 17px;border-radius:12px;font-size:0.84rem;font-weight:500;cursor:pointer;border:none;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;background:transparent;color:var(--text-muted);}.nav-btn:hover{color:var(--navy);background:var(--blue-pale);}.nav-btn.active-nav{color:var(--blue);background:var(--blue-pale);font-weight:600;}.lang-wrap{position:relative;}.lang-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);color:var(--text-main);font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;}.lang-btn:hover{border-color:var(--blue);}.lang-btn svg{width:12px;height:12px;transition:transform 0.2s;}.lang-btn.open svg{transform:rotate(180deg);}.lang-dropdown{display:none;position:absolute;top:calc(100%+8px);right:0;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:6px;min-width:130px;box-shadow:0 8px 28px var(--shadow);z-index:300;}.lang-dropdown.open{display:block;}.lang-option{padding:9px 16px;border-radius:12px;font-size:0.84rem;font-weight:500;cursor:pointer;transition:background 0.15s;color:var(--text-main);display:flex;align-items:center;gap:8px;}.lang-option:hover{background:var(--blue-pale);}.lang-option.selected{background:var(--blue-pale);font-weight:600;color:var(--blue);}.hero{padding-top:66px;min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:#FFFFFF;padding-bottom:80px;box-sizing:border-box;}.hero-bg-img{position:absolute;inset:0;opacity:1;overflow:hidden;}.hero-bg-img svg,.hero-bg-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}.hero-overlay{position:absolute;inset:0;background:rgba(0, 0, 0, 0.45);}.hero-content{position:relative;z-index:1;padding:0 8%;max-width:760px;animation:fadeUp 0.85s ease both;}.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(47, 98, 232, 0.18);color:var(--blue-mid);border:1px solid rgba(47, 98, 232, 0.35);padding:6px 16px;border-radius:12px;font-size:0.77rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:28px;}.hero h1{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:800;line-height:1.08;letter-spacing:-2.5px;margin-bottom:24px;color:#FFFFFF;}.hero h1 em{font-style:normal;color:var(--blue-mid);}.hero-sub{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,0.95);max-width:520px;margin-bottom:44px;font-weight:400;}.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}.btn-primary{padding:14px 34px;border-radius:12px;background:var(--blue);color:var(--text-main);font-size:0.95rem;font-weight:600;cursor:pointer;border:none;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.25s;letter-spacing:0.01em;display:inline-flex;flex-direction:column;align-items:center;text-align:center;min-width:220px;gap:3px;}.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47, 98, 232, 0.4);}.btn-sub{font-size:0.72rem;font-weight:400;opacity:0.72;letter-spacing:0;}.section{padding:96px 8%;}.section-label{font-size:0.77rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--blue-solid);margin-bottom:12px;}.section-title{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;line-height:1.15;letter-spacing:-1.5px;margin-bottom:16px;color:var(--navy);}.section-sub{font-size:0.97rem;color:var(--text-muted);line-height:1.8;max-width:540px;}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:0;}.about-img-wrap{border-radius:16px;overflow:hidden;aspect-ratio:4/5;position:relative;box-shadow:0 24px 60px rgba(15,23,42,0.12);}.about-img-wrap img{width:100%;height:100%;object-fit:cover;}.about-img-badge{position:absolute;bottom:24px;left:24px;right:24px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-radius:16px;padding:18px 22px;border:1px solid var(--border);box-shadow:0 4px 20px var(--shadow);}.about-img-badge p{font-size:0.9rem;font-weight:700;color:var(--navy);line-height:1.5;}.about-img-badge span{font-size:0.78rem;color:var(--text-muted);}.about-text .section-title{margin-top:12px;}.about-features{display:flex;flex-direction:column;gap:20px;margin-top:36px;}.about-feat{display:flex;gap:16px;align-items:flex-start;}.about-feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}.bg-sage{background:rgba(47, 98, 232, 0.05);}.bg-sand{background:rgba(47, 98, 232, 0.05);}.bg-coral{background:rgba(47, 98, 232, 0.05);}.about-feat h4{font-size:0.95rem;font-weight:700;margin-bottom:4px;color:var(--navy);}.about-feat p{font-size:0.85rem;color:var(--text-muted);line-height:1.7;}.steps-section{background:var(--white);}.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}.step{padding:32px 28px;border-right:1px solid var(--border);}.step:last-child{border-right:none;}.step-num{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:3rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:14px;letter-spacing:-2px;}.step h3{font-size:0.97rem;font-weight:700;margin-bottom:8px;color:var(--navy);}.step p{font-size:0.84rem;color:var(--text-muted);line-height:1.75;}.service-card{border-radius:16px;padding:48px 44px;position:relative;overflow:hidden;cursor:pointer;transition:all 0.3s;}.service-card:hover{transform:translateY(-5px);box-shadow:0 24px 56px var(--shadow-lg);}.service-card.rental{background:var(--white);color:var(--text-main);box-shadow:0 4px 20px var(--shadow);}.service-card.donation{background:var(--white);color:var(--text-main);box-shadow:0 4px 20px var(--shadow);}.service-card h3{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.85rem;font-weight:800;line-height:1.2;margin-bottom:13px;letter-spacing:-1px;}.service-card p{font-size:0.88rem;line-height:1.78;opacity:0.78;margin-bottom:30px;}.story-hero{padding-top:66px;background:#FFFFFF;color:var(--text-main);padding-bottom:80px;}.story-hero-inner{padding:80px 8% 0;max-width:900px;}.story-hero .section-label{color:var(--blue-solid);}.story-hero .section-title{color:var(--text-main);font-size:clamp(2.1rem,4.2vw,3.1rem);line-height:1.22;letter-spacing:-1.5px;}.story-hero p{font-size:1rem;line-height:1.9;opacity:0.65;max-width:560px;margin-top:20px;}.story-img-banner{margin:0 5%;border-radius:16px;overflow:hidden;aspect-ratio:21/8;position:relative;top:-40px;box-shadow:0 12px 32px rgba(15,23,42,0.10);}.story-img-banner img{width:100%;height:100%;object-fit:cover;}.story-body{padding:0 8% 96px;}.story-block{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-bottom:80px;}.story-block.reverse{direction:rtl;}.story-block.reverse>*{direction:ltr;}.value-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px 28px;text-align:center;transition:all 0.2s;}.value-card:hover{box-shadow:0 8px 28px var(--shadow);transform:translateY(-3px);}.value-icon{font-size:2rem;margin-bottom:14px;}.value-card h4{font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--navy);}.value-card p{font-size:0.83rem;color:var(--text-muted);line-height:1.7;}.form-page{padding-top:66px;background:var(--off-white);}.form-hero{padding:60px 8% 44px;border-bottom:1px solid var(--border);background:var(--white);}.form-hero-inner{max-width:660px;}.form-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:12px;font-size:0.77rem;font-weight:700;letter-spacing:0.06em;margin-bottom:18px;}.badge-rental{background:var(--blue-pale);color:var(--blue);}.form-hero h2{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;color:var(--navy);}.form-hero p{font-size:0.93rem;color:var(--text-muted);line-height:1.85;}.form-container{padding:52px 8% 80px;}.form-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;max-width:1100px;width:100%;}.form-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:44px;box-shadow:0 4px 20px var(--shadow);}.form-sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:0 4px 16px var(--shadow);}.form-sidebar-img{aspect-ratio:16/10;overflow:hidden;}.form-sidebar-img img{width:100%;height:100%;object-fit:cover;}.form-sidebar-body{padding:24px;}.form-sidebar-body h4{font-size:0.95rem;font-weight:700;margin-bottom:8px;color:var(--navy);}.form-sidebar-body p{font-size:0.83rem;color:var(--text-muted);line-height:1.7;}.form-sidebar-info{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-top:16px;}.form-sidebar-info h4{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px;}.form-sidebar-info ul{list-style:none;display:flex;flex-direction:column;gap:8px;}.form-sidebar-info li{font-size:0.83rem;color:var(--text-muted);display:flex;gap:8px;line-height:1.6;}.form-sidebar-info li::before{content:"·";color:var(--blue);font-weight:700;flex-shrink:0;}.fsec{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin:32px 0 18px;padding-top:32px;border-top:1px solid var(--border);}.fsec:first-child{margin-top:0;padding-top:0;border-top:none;}.fg{margin-bottom:20px;}.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}label{display:block;font-size:0.81rem;font-weight:600;color:var(--navy);margin-bottom:7px;}label .req{color:#EF4444;margin-left:2px;}input,select,textarea{width:100%;padding:12px 15px;border:1.5px solid var(--border);border-radius:12px;font-size:0.88rem;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--white);color:var(--text-main);transition:all 0.2s;outline:none;}input:focus,select:focus,textarea:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(47, 98, 232, 0.2);}input::placeholder,textarea::placeholder{color:var(--text-sub);}textarea{resize:vertical;min-height:90px;}select{cursor:pointer;}.hint{font-size:0.77rem;color:var(--text-muted);margin-top:5px;line-height:1.5;}.address-note{background:#FEF3C7;border-radius:12px;padding:12px 16px;font-size:0.8rem;color:#92400E;margin-top:8px;line-height:1.6;}.pkg-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}.pkg-card{border:2px solid var(--border);border-radius:12px;padding:18px 16px;cursor:pointer;transition:all 0.2s;position:relative;background:var(--off-white);}.pkg-card:hover{border-color:var(--blue-mid);}.pkg-card.selected{border-color:var(--blue);background:var(--blue-pale);}.pkg-card input[type=radio]{position:absolute;opacity:0;}.pkg-card-title{font-size:0.88rem;font-weight:700;margin-bottom:6px;color:var(--navy);}.pkg-card-items{font-size:0.78rem;color:var(--text-muted);line-height:1.7;}.pkg-card-check{position:absolute;top:14px;right:14px;width:20px;height:20px;border-radius:50%;background:var(--mid-gray);display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s;}.pkg-card.selected .pkg-card-check{background:var(--blue);color:var(--text-main);}.privacy-notice{background:var(--blue-pale);border-radius:12px;padding:13px 16px;font-size:0.78rem;font-weight:400;color:var(--text-muted);line-height:1.6;margin:20px 0;display:flex;align-items:flex-start;gap:8px;}
-.privacy-notice i{margin-top:2px;flex-shrink:0;color:var(--blue-solid);}.chk-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}.chk-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}.chk-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;border-radius:8px;cursor:pointer;accent-color:var(--blue);margin-top:2px;}.chk-item span{font-size:0.83rem;font-weight:400;color:var(--text-muted);cursor:pointer;margin:0;}.submit-btn{width:100%;padding:17px;background:var(--navy);color:#fff;border:1.5px solid var(--navy);border-radius:12px;font-size:0.97rem;font-weight:700;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;cursor:pointer;transition:all 0.25s;letter-spacing:0.01em;}.submit-btn:hover{background:var(--navy-mid);color:#fff;border-color:var(--navy-mid);transform:translateY(-2px);box-shadow:0 8px 28px rgba(15,23,42,0.3);}.submit-btn.don{background:var(--navy);border-color:var(--navy);}.submit-btn.don:hover{background:var(--navy-mid);color:#fff;border-color:var(--navy-mid);}.admin-page{padding-top:66px;background:var(--off-white);min-height:100vh;}.admin-login{min-height:calc(100vh - 66px);display:flex;align-items:center;justify-content:center;padding:40px;}.login-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:52px 44px;max-width:400px;width:100%;box-shadow:0 8px 32px var(--shadow);}.login-card h2{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px;letter-spacing:-1px;color:var(--navy);}.login-card .sub{color:var(--text-muted);font-size:0.88rem;margin-bottom:32px;}.stat-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px 26px;box-shadow:0 2px 8px var(--shadow);}.stat-label{font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;}.stat-num{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:2.3rem;font-weight:800;color:var(--navy);letter-spacing:-1px;}.orders-table{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;}.tbl-head{display:grid;padding:14px 22px;background:var(--light-gray);font-size:0.73rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);border-bottom:1px solid var(--border);}.tbl-row{display:grid;padding:18px 22px;border-bottom:1px solid var(--border);font-size:0.86rem;align-items:center;transition:background 0.15s;}.tbl-row:last-child{border-bottom:none;}.tbl-row:hover{background:var(--off-white);}.rental-col{grid-template-columns:0.4fr 1fr 0.9fr 0.8fr 0.6fr 0.6fr 0.7fr 0.8fr 0.5fr;gap:10px;}.badge-status{padding:4px 11px;border-radius:8px;font-size:0.73rem;font-weight:600;white-space:nowrap;display:inline-block;}.s-new{background:#FEE2E2;color:#DC2626;}.s-ok{background:var(--blue-pale);color:var(--blue);}.s-proc{background:var(--light-gray);color:var(--text-muted);}.s-warn{background:#FEF3C7;color:#92400E;}.s-pass{background:#D1FAE5;color:#065F46;}.s-fail{background:#FEE2E2;color:#991B1B;}.empty-st{padding:52px;text-align:center;color:var(--text-muted);}.empty-st .ei{font-size:2.8rem;margin-bottom:14px;}.fb-col{grid-template-columns:0.4fr 1.1fr 0.7fr 1fr 1.5fr 0.7fr;gap:10px;}.iss-col{grid-template-columns:0.4fr 1.1fr 1fr 1.5fr 0.7fr 0.7fr;gap:10px;}.stat-sub{font-size:0.76rem;color:var(--text-muted);margin-top:6px;line-height:1.6;}.stat-sub strong{color:var(--navy);}.detail-modal{max-width:560px;width:95%;padding:0;border-radius:16px;overflow:hidden;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;text-align:left;max-height:85vh;overflow-y:auto;}.detail-modal-header{display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--border);background:#FFFFFF;position:sticky;top:0;z-index:1;}.detail-modal-header h3{font-size:1.1rem;font-weight:700;color:var(--text-main);margin:0;}.detail-grid{display:flex;flex-direction:column;gap:0;padding:0;}.detail-section{padding:24px 28px;border-bottom:1px solid var(--border);}.detail-section:last-child{border-bottom:none;}.detail-sec-title{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}.detail-row:last-child{border-bottom:none;}.detail-row span{color:var(--text-muted);flex-shrink:0;}.detail-row strong{color:var(--navy);text-align:right;word-break:break-word;}.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(4px);}.modal-bg.show{display:flex;}.modal{background:var(--white);border-radius:16px;padding:52px 44px;max-width:420px;width:90%;text-align:center;animation:popIn 0.38s cubic-bezier(0.34,1.56,0.64,1) both;}.modal-icon{width:68px;height:68px;border-radius:50%;background:var(--blue-pale);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 22px;}.modal h3{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.5px;color:var(--navy);}.modal p{font-size:0.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:28px;white-space:pre-line;}footer{background:#131F4E;color:#fff;padding:60px 8% 36px;}.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:44px;}.footer-logo{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.75rem;font-weight:800;margin-bottom:12px;letter-spacing:-1px;color:#fff;}.footer-logo span{color:var(--blue-mid);}footer p{font-size:0.84rem;color:rgba(255,255,255,0.65);line-height:1.8;}.fcol h4{font-size:0.76rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:14px;}.fcol a{display:block;font-size:0.86rem;color:rgba(255,255,255,0.75);margin-bottom:9px;cursor:pointer;text-decoration:none;transition:color 0.2s;}.fcol a:hover{color:#fff;}.footer-bottom{padding-top:26px;border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;align-items:center;font-size:0.77rem;color:rgba(255,255,255,0.45);flex-wrap:wrap;gap:8px;}.admin-footer-link{cursor:pointer;color:#222D58;font-size:0.75rem;background:none;border:none;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:color 0.2s;}.admin-footer-link:hover{color:#3A4880;}.feedback-page{padding-top:66px;background:var(--white);min-height:100vh;}.feedback-hero{background:#FFFFFF;padding:70px 8% 60px;color:var(--text-main);}.feedback-hero .section-label{color:var(--blue-solid);}.feedback-hero h2{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;color:var(--text-main);}.feedback-hero p{font-size:0.95rem;color:var(--text-muted);line-height:1.8;max-width:520px;}.feedback-container{padding:52px 8% 80px;max-width:1240px;}.feedback-tabs-wrap{display:flex;gap:6px;background:var(--light-gray);border-radius:12px;padding:5px;width:fit-content;margin-bottom:44px;}.feedback-tab{padding:10px 26px;border-radius:12px;border:none;font-size:0.87rem;font-weight:600;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:transparent;color:var(--text-muted);transition:all 0.2s;}.feedback-tab.active{background:var(--white);color:var(--navy);box-shadow:0 2px 10px var(--shadow);}.feedback-grid{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start;}.feedback-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:44px;box-shadow:0 4px 20px var(--shadow);}.star-group{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:6px;margin:10px 0 22px;}.star-group input{display:none;}.star-group label{font-size:2rem;cursor:pointer;color:var(--mid-gray);transition:color 0.15s;line-height:1;}.star-group label:hover,.star-group label:hover~label,.star-group input:checked~label{color:#FBBF24;}.issue-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 24px;}.issue-chip{padding:8px 16px;border-radius:12px;font-size:0.82rem;font-weight:600;border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;}.issue-chip:hover{border-color:var(--blue);color:var(--blue);}.issue-chip.selected{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}.satisfaction-scale{display:flex;gap:6px;margin:12px 0 22px;flex-wrap:wrap;}.scale-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;color:var(--text-muted);}.scale-btn:hover{border-color:var(--blue);color:var(--blue);}.scale-btn.selected{background:var(--blue);border-color:var(--blue);color:var(--text-main);}.scale-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:22px;}.feedback-stats-card{background:#FFFFFF;border:1px solid var(--border);border-radius:16px;padding:32px 28px;color:var(--text-main);margin-bottom:20px;box-shadow:0 4px 20px var(--shadow);}.feedback-stats-card h4{font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px;}.fstat-item{margin-bottom:18px;}.fstat-label{font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;display:flex;justify-content:space-between;}.fstat-label span{color:var(--text-main);font-weight:700;}.fstat-bar{height:8px;background:var(--light-gray);border-radius:16px;overflow:hidden;}.fstat-fill{height:100%;background:var(--blue);border-radius:16px;transition:width 0.8s ease;}.fstat-big{text-align:center;padding:18px 0 8px;}.fstat-big .num{font-size:3.2rem;font-weight:800;color:var(--text-main);letter-spacing:-2px;line-height:1;}.fstat-big .lbl{font-size:0.8rem;color:var(--text-muted);margin-top:4px;}.fstat-stars{font-size:1.2rem;margin-top:6px;letter-spacing:2px;color:#FBBF24;}.recent-feedback-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px 28px;box-shadow:0 4px 16px var(--shadow);}.recent-feedback-card h4{font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;}.rfeed-item{padding:14px 0;border-bottom:1px solid var(--border);}.rfeed-item:last-child{border-bottom:none;}.rfeed-stars{color:#FBBF24;font-size:0.85rem;margin-bottom:4px;}.rfeed-text{font-size:0.84rem;color:var(--text-main);line-height:1.6;margin-bottom:4px;}.rfeed-meta{font-size:0.75rem;color:var(--text-muted);}.del-btn{padding:5px 9px;border-radius:8px;border:1.5px solid #FEE2E2;background:#FEF2F2;color:#DC2626;font-size:0.78rem;cursor:pointer;transition:all 0.2s;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1;}.del-btn:hover{background:#DC2626;color:#fff;border-color:#DC2626;}
+.privacy-notice i{margin-top:2px;flex-shrink:0;color:var(--blue-solid);}.chk-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}.chk-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}.chk-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;border-radius:8px;cursor:pointer;accent-color:var(--blue);margin-top:2px;}.chk-item span{font-size:0.83rem;font-weight:400;color:var(--text-muted);cursor:pointer;margin:0;}.submit-btn{width:100%;padding:17px;background:var(--navy);color:#fff;border:1.5px solid var(--navy);border-radius:12px;font-size:0.97rem;font-weight:700;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;cursor:pointer;transition:all 0.25s;letter-spacing:0.01em;}.submit-btn:hover{background:var(--navy-mid);color:#fff;border-color:var(--navy-mid);transform:translateY(-2px);box-shadow:0 8px 28px rgba(15,23,42,0.3);}.submit-btn.don{background:var(--navy);border-color:var(--navy);}.submit-btn.don:hover{background:var(--navy-mid);color:#fff;border-color:var(--navy-mid);}.admin-page{padding-top:66px;background:var(--off-white);min-height:100vh;}.admin-login{min-height:calc(100vh - 66px);display:flex;align-items:center;justify-content:center;padding:40px;}.login-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:52px 44px;max-width:400px;width:100%;box-shadow:0 8px 32px var(--shadow);}.login-card h2{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px;letter-spacing:-1px;color:var(--navy);}.login-card .sub{color:var(--text-muted);font-size:0.88rem;margin-bottom:32px;}.stat-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px 26px;box-shadow:0 2px 8px var(--shadow);}.stat-label{font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;}.stat-num{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:2.3rem;font-weight:800;color:var(--navy);letter-spacing:-1px;}.orders-table{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;}.tbl-head{display:grid;padding:14px 22px;background:var(--light-gray);font-size:0.73rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);border-bottom:1px solid var(--border);}.tbl-row{display:grid;padding:18px 22px;border-bottom:1px solid var(--border);font-size:0.86rem;align-items:center;transition:background 0.15s;}.tbl-row:last-child{border-bottom:none;}.tbl-row:hover{background:var(--off-white);}.rental-col{grid-template-columns:0.4fr 1fr 0.9fr 0.8fr 0.6fr 0.6fr 0.7fr 0.8fr 0.5fr;gap:10px;}.badge-status{padding:4px 11px;border-radius:8px;font-size:0.73rem;font-weight:600;white-space:nowrap;display:inline-block;}.s-new{background:#FEE2E2;color:#DC2626;}.s-ok{background:var(--blue-pale);color:var(--blue);}.s-proc{background:var(--light-gray);color:var(--text-muted);}.s-warn{background:#FEF3C7;color:#92400E;}.s-pass{background:#D1FAE5;color:#065F46;}.s-fail{background:#FEE2E2;color:#991B1B;}.empty-st{padding:52px;text-align:center;color:var(--text-muted);}.empty-st .ei{font-size:2.8rem;margin-bottom:14px;}.fb-col{grid-template-columns:0.4fr 1.1fr 0.7fr 1fr 1.5fr 0.7fr 0.5fr;gap:10px;}.iss-col{grid-template-columns:0.4fr 1.1fr 1fr 1.5fr 0.7fr 0.7fr 0.5fr;gap:10px;}.stat-sub{font-size:0.76rem;color:var(--text-muted);margin-top:6px;line-height:1.6;}.stat-sub strong{color:var(--navy);}.detail-modal{max-width:560px;width:95%;padding:0;border-radius:16px;overflow:hidden;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;text-align:left;max-height:85vh;overflow-y:auto;}.detail-modal-header{display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--border);background:#FFFFFF;position:sticky;top:0;z-index:1;}.detail-modal-header h3{font-size:1.1rem;font-weight:700;color:var(--text-main);margin:0;}.detail-grid{display:flex;flex-direction:column;gap:0;padding:0;}.detail-section{padding:24px 28px;border-bottom:1px solid var(--border);}.detail-section:last-child{border-bottom:none;}.detail-sec-title{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}.detail-row:last-child{border-bottom:none;}.detail-row span{color:var(--text-muted);flex-shrink:0;}.detail-row strong{color:var(--navy);text-align:right;word-break:break-word;}.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(4px);}.modal-bg.show{display:flex;}.modal{background:var(--white);border-radius:16px;padding:52px 44px;max-width:420px;width:90%;text-align:center;animation:popIn 0.38s cubic-bezier(0.34,1.56,0.64,1) both;}.modal-icon{width:68px;height:68px;border-radius:50%;background:var(--blue-pale);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 22px;}.modal h3{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.5px;color:var(--navy);}.modal p{font-size:0.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:28px;white-space:pre-line;}footer{background:#131F4E;color:#fff;padding:60px 8% 36px;}.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:44px;}.footer-logo{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:1.75rem;font-weight:800;margin-bottom:12px;letter-spacing:-1px;color:#fff;}.footer-logo span{color:var(--blue-mid);}footer p{font-size:0.84rem;color:rgba(255,255,255,0.65);line-height:1.8;}.fcol h4{font-size:0.76rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:14px;}.fcol a{display:block;font-size:0.86rem;color:rgba(255,255,255,0.75);margin-bottom:9px;cursor:pointer;text-decoration:none;transition:color 0.2s;}.fcol a:hover{color:#fff;}.footer-bottom{padding-top:26px;border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;align-items:center;font-size:0.77rem;color:rgba(255,255,255,0.45);flex-wrap:wrap;gap:8px;}.admin-footer-link{cursor:pointer;color:#222D58;font-size:0.75rem;background:none;border:none;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:color 0.2s;}.admin-footer-link:hover{color:#3A4880;}.feedback-page{padding-top:66px;background:var(--white);min-height:100vh;}.feedback-hero{background:#FFFFFF;padding:70px 8% 60px;color:var(--text-main);}.feedback-hero .section-label{color:var(--blue-solid);}.feedback-hero h2{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;color:var(--text-main);}.feedback-hero p{font-size:0.95rem;color:var(--text-muted);line-height:1.8;max-width:520px;}.feedback-container{padding:52px 8% 80px;max-width:1240px;}.feedback-tabs-wrap{display:flex;gap:6px;background:var(--light-gray);border-radius:12px;padding:5px;width:fit-content;margin-bottom:44px;}.feedback-tab{padding:10px 26px;border-radius:12px;border:none;font-size:0.87rem;font-weight:600;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:transparent;color:var(--text-muted);transition:all 0.2s;}.feedback-tab.active{background:var(--white);color:var(--navy);box-shadow:0 2px 10px var(--shadow);}.feedback-grid{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start;}.feedback-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:44px;box-shadow:0 4px 20px var(--shadow);}.star-group{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:6px;margin:10px 0 22px;}.star-group input{display:none;}.star-group label{font-size:2rem;cursor:pointer;color:var(--mid-gray);transition:color 0.15s;line-height:1;}.star-group label:hover,.star-group label:hover~label,.star-group input:checked~label{color:#FBBF24;}.issue-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 24px;}.issue-chip{padding:8px 16px;border-radius:12px;font-size:0.82rem;font-weight:600;border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;}.issue-chip:hover{border-color:var(--blue);color:var(--blue);}.issue-chip.selected{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}.satisfaction-scale{display:flex;gap:6px;margin:12px 0 22px;flex-wrap:wrap;}.scale-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;color:var(--text-muted);}.scale-btn:hover{border-color:var(--blue);color:var(--blue);}.scale-btn.selected{background:var(--blue);border-color:var(--blue);color:var(--text-main);}.scale-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:22px;}.feedback-stats-card{background:#FFFFFF;border:1px solid var(--border);border-radius:16px;padding:32px 28px;color:var(--text-main);margin-bottom:20px;box-shadow:0 4px 20px var(--shadow);}.feedback-stats-card h4{font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px;}.fstat-item{margin-bottom:18px;}.fstat-label{font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;display:flex;justify-content:space-between;}.fstat-label span{color:var(--text-main);font-weight:700;}.fstat-bar{height:8px;background:var(--light-gray);border-radius:16px;overflow:hidden;}.fstat-fill{height:100%;background:var(--blue);border-radius:16px;transition:width 0.8s ease;}.fstat-big{text-align:center;padding:18px 0 8px;}.fstat-big .num{font-size:3.2rem;font-weight:800;color:var(--text-main);letter-spacing:-2px;line-height:1;}.fstat-big .lbl{font-size:0.8rem;color:var(--text-muted);margin-top:4px;}.fstat-stars{font-size:1.2rem;margin-top:6px;letter-spacing:2px;color:#FBBF24;}.recent-feedback-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px 28px;box-shadow:0 4px 16px var(--shadow);}.recent-feedback-card h4{font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;}.rfeed-item{padding:14px 0;border-bottom:1px solid var(--border);}.rfeed-item:last-child{border-bottom:none;}.rfeed-stars{color:#FBBF24;font-size:0.85rem;margin-bottom:4px;}.rfeed-text{font-size:0.84rem;color:var(--text-main);line-height:1.6;margin-bottom:4px;}.rfeed-meta{font-size:0.75rem;color:var(--text-muted);}.del-btn{padding:5px 9px;border-radius:8px;border:1.5px solid #FEE2E2;background:#FEF2F2;color:#DC2626;font-size:0.78rem;cursor:pointer;transition:all 0.2s;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1;}.del-btn:hover{background:#DC2626;color:#fff;border-color:#DC2626;}
 .del-confirm-bg{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);}.del-confirm-bg.show{display:flex;}.del-confirm{background:#fff;border-radius:16px;padding:40px 36px;max-width:380px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(15,23,42,0.18);animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;}.del-confirm-icon{width:56px;height:56px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 18px;}.del-confirm h4{font-size:1.2rem;font-weight:800;color:var(--navy);margin-bottom:8px;letter-spacing:-0.3px;}.del-confirm p{font-size:0.87rem;color:var(--text-muted);line-height:1.7;margin-bottom:26px;}.del-confirm-btns{display:flex;gap:10px;justify-content:center;}.del-cancel{padding:11px 28px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);font-size:0.87rem;font-weight:600;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;}.del-cancel:hover{border-color:var(--navy);color:var(--navy);}.del-ok{padding:11px 28px;border-radius:12px;border:none;background:#DC2626;color:#fff;font-size:0.87rem;font-weight:700;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all 0.2s;}.del-ok:hover{background:#b91c1c;}@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}@keyframes popIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}@media(max-width:900px){.about-grid,.story-block,.feedback-grid{grid-template-columns:1fr;}.diff-grid{grid-template-columns:1fr 1fr;}.story-block.reverse{direction:ltr;}.steps-grid{grid-template-columns:1fr 1fr;}.step{border-right:none;border-bottom:1px solid var(--border);}.footer-grid{grid-template-columns:1fr;gap:28px;}.insta-grid{grid-template-columns:1fr !important;}}@media(max-width:600px){.frow,.pkg-cards{grid-template-columns:1fr;}.form-layout{grid-template-columns:1fr;}.diff-grid{grid-template-columns:1fr;}.form-card{padding:28px 20px;}nav{padding:0 4%;}.nav-links{gap:2px;}.nav-btn{padding:7px 10px;font-size:0.78rem;}.steps-grid{grid-template-columns:1fr;}}
 
 /* Accessibility */
@@ -926,6 +926,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .adm-filter-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .adm-filter-row label { font-size:0.8rem; font-weight:600; color:var(--text-muted); }
 .adm-filter-row select { width:auto; min-width:150px; padding:8px 12px; }
+.adm-filter-row input[type="search"], .adm-filter-row input[type="text"] {
+  width:auto; min-width:190px; padding:8px 12px; border:1.5px solid var(--border); border-radius:10px;
+  font-size:0.84rem; font-family:inherit; color:var(--text-main); background:var(--white);
+}
+.adm-filter-row input[type="search"]:focus { outline:none; border-color:var(--blue); }
+.adm-result-count { font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap; }
 
 /* 대시보드 스탯 그리드 */
 .adm-stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:28px; }
@@ -1331,7 +1337,7 @@ body.admin-subpage-mode > nav { display:none !important; }
               <div class="fg"><label data-k="fl_start">렌탈 시작일 <span class="req">*</span></label><input type="date" name="startDate" required id="startDateInput"></div>
               <div class="fg"><label data-k="fl_end">반납 예정일 <span class="req">*</span></label><input type="date" name="endDate" id="endDate"><div class="hint" id="endDateHint" data-k="end_hint">소속 학교를 선택하면 해당 학교 기숙사 퇴사일이 고정 반납일로 자동 적용됩니다.</div></div>
             </div>
-            <div class="address-note" data-k="return_notice" style="background:var(--blue-pale);color:var(--navy-mid);"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>반납 일자는 학교별 기숙사 퇴사일에 맞춰 고정됩니다. 기숙사 퇴사 전날은 반납이 가능하지만, 그 이전이나 이후에 반납하시는 경우에는 <strong>K-ozy로 직접 배송하여 반납</strong>해 주셔야 합니다.</div>
+            <div class="address-note" data-k="return_notice" style="background:var(--blue-pale);color:var(--navy-mid);"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>지정 반납일 외 반납을 희망 시 연락 바랍니다.</div>
 
             <div class="fsec" data-k="fs_addr">배송 주소</div>
             <div class="fg"><label data-k="fl_postal">우편번호</label><input type="text" name="postalCode" id="rentalPostalCode" inputmode="numeric" data-ph="postal_ph"></div>
@@ -1371,7 +1377,7 @@ body.admin-subpage-mode > nav { display:none !important; }
               <li data-k="si_r1">신청 후 담당자 확인까지 1-2 영업일 소요됩니다.</li>
               <li data-k="si_r2"><strong style="color:var(--navy);">원하시는 수령일 4~5일 전까지는 미리 주문해 주세요.</strong></li>
               <li data-k="si_r2b">배송 준비 및 일정 조율에 시간이 필요합니다.</li>
-              <li data-k="si_r3">반납 일자는 학교별 기숙사 퇴사일에 맞춰 고정됩니다. 퇴사 전날은 반납 가능하나, 그 이전·이후는 K-ozy로 직접 배송하여 반납해 주세요.</li>
+              <li data-k="si_r3">반납일은 학교별 기숙사 퇴사일입니다. 지정 반납일 외 반납을 희망 시 연락 바랍니다.</li>
               <li data-k="si_r4">문의: <a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a></li>
             </ul>
           </div>
@@ -1408,101 +1414,234 @@ body.admin-subpage-mode > nav { display:none !important; }
   </div> 
 </div> 
 
+<style id="kozyReviewCss">
+/* ═══ 고객 리뷰 (피드백 페이지) ═══ */
+.rv-layout{ display:grid; grid-template-columns:320px 1fr; gap:44px; align-items:start; }
+.rv-summary{ position:sticky; top:88px; }
+.rv-sum-title{ font-size:1.25rem; font-weight:800; color:var(--navy); margin-bottom:14px; letter-spacing:-0.5px; }
+.rv-score-row{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.rv-score{ font-size:2.5rem; font-weight:800; color:var(--navy); line-height:1; letter-spacing:-1.5px; }
+.rv-stars{ color:#FBBF24; letter-spacing:2px; font-size:1rem; display:block; }
+.rv-count{ font-size:0.8rem; color:var(--text-muted); display:block; margin-top:3px; }
+.rv-write-btn{ width:100%; padding:14px; background:var(--navy); color:#fff; border:1.5px solid var(--navy);
+  border-radius:12px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all .22s; }
+.rv-write-btn:hover{ background:var(--navy-mid); border-color:var(--navy-mid); transform:translateY(-2px); box-shadow:0 8px 24px rgba(15,23,42,0.22); }
+.rv-dist{ margin-top:22px; display:flex; flex-direction:column; gap:7px; }
+.rv-dist-row{ display:grid; grid-template-columns:30px 1fr 34px; gap:9px; align-items:center; font-size:0.78rem; color:var(--text-muted);
+  background:none; border:none; padding:0; cursor:pointer; font-family:inherit; text-align:left; }
+.rv-dist-row:hover .rv-dist-bar{ opacity:0.75; }
+.rv-dist-row.on{ color:var(--navy); font-weight:700; }
+.rv-dist-lbl{ white-space:nowrap; }
+.rv-dist-bar{ height:8px; background:var(--light-gray); border-radius:16px; overflow:hidden; transition:opacity .2s; }
+.rv-dist-bar i{ display:block; height:100%; background:#FBBF24; border-radius:16px; transition:width .6s ease; }
+.rv-dist-n{ text-align:right; }
+.rv-detail{ margin-top:26px; padding-top:22px; border-top:1px solid var(--border); }
+.rv-detail-h{ font-size:0.74rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px; }
+
+.rv-toolbar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:6px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+.rv-toolbar select{ width:auto; min-width:140px; padding:9px 12px; border:1.5px solid var(--border); border-radius:10px;
+  font-size:0.84rem; font-family:inherit; background:var(--white); color:var(--text-main); }
+.rv-shown{ font-size:0.78rem; color:var(--text-muted); margin-left:auto; }
+
+.rv-item{ padding:26px 0; border-bottom:1px solid var(--border); }
+.rv-item-stars{ color:#FBBF24; letter-spacing:2px; font-size:1rem; }
+.rv-head{ display:flex; align-items:center; gap:11px; margin:10px 0 13px; }
+.rv-avatar{ width:38px; height:38px; border-radius:50%; background:var(--blue-pale); color:var(--blue);
+  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+.rv-name{ font-size:0.88rem; font-weight:700; color:var(--navy); }
+.rv-date{ font-size:0.75rem; color:var(--text-muted); margin-top:1px; }
+.rv-title{ font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:6px; }
+.rv-body{ font-size:0.89rem; line-height:1.8; color:var(--text-muted); white-space:pre-line; }
+.rv-imp{ margin-top:10px; font-size:0.83rem; line-height:1.7; color:var(--text-muted); padding-left:12px; border-left:2px solid var(--border); }
+.rv-imp b{ color:var(--navy); font-weight:700; }
+.rv-empty{ padding:56px 20px; text-align:center; color:var(--text-muted); }
+.rv-empty i{ font-size:2.4rem; color:var(--mid-gray); margin-bottom:14px; display:block; }
+.rv-more{ display:block; width:100%; margin-top:22px; padding:13px; background:var(--white); color:var(--navy);
+  border:1.5px solid var(--border); border-radius:12px; font-size:0.86rem; font-weight:700; cursor:pointer; font-family:inherit; }
+.rv-more:hover{ border-color:var(--blue); color:var(--blue); }
+
+/* ── 리뷰 작성 모달 ── */
+.rv-modal{ background:var(--white); border-radius:16px; width:min(560px,94%); max-height:88vh; overflow-y:auto;
+  text-align:left; animation:popIn .32s cubic-bezier(0.34,1.56,0.64,1) both; }
+.rv-modal-head{ display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:22px 28px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--white); z-index:2; }
+.rv-modal-head h3{ font-size:1.08rem; font-weight:800; color:var(--navy); margin:0; }
+.rv-modal-x{ background:none; border:none; font-size:1.1rem; color:var(--text-muted); cursor:pointer; padding:4px; }
+.rv-step{ padding:26px 28px 28px; }
+.rv-m-sub{ font-size:0.86rem; color:var(--text-muted); line-height:1.7; text-align:center; margin-bottom:22px; }
+.rv-prod{ text-align:center; margin-bottom:20px; }
+.rv-prod-img{ width:96px; height:96px; margin:0 auto 12px; border-radius:14px; background:var(--light-gray);
+  display:flex; align-items:center; justify-content:center; font-size:2rem; color:var(--blue); }
+.rv-prod-name{ font-size:0.95rem; font-weight:700; color:var(--navy); }
+.rv-prod-name.center{ text-align:center; margin-bottom:14px; }
+.rv-star-pick{ display:flex; gap:8px; justify-content:center; }
+.rv-star-pick button{ background:none; border:none; font-size:2.3rem; line-height:1; color:var(--mid-gray);
+  cursor:pointer; padding:0 2px; transition:color .15s, transform .15s; }
+.rv-star-pick button:hover{ transform:scale(1.12); }
+.rv-star-pick button.on{ color:#FBBF24; }
+.rv-star-pick.small button{ font-size:1.6rem; cursor:pointer; }
+.rv-scale-hint{ display:flex; justify-content:space-between; max-width:230px; margin:8px auto 0; font-size:0.72rem; color:var(--text-muted); }
+.rv-scale-hint.small{ max-width:170px; }
+.rv-step-note{ margin-top:18px; text-align:center; font-size:0.78rem; color:var(--text-muted); }
+.rv-fields{ margin-top:24px; }
+.rv-fields .fg{ margin-bottom:16px; }
+.rv-fields .satisfaction-scale{ margin:8px 0 0; }
+.rv-terms{ font-size:0.76rem; color:var(--text-muted); line-height:1.7; text-align:center; margin:20px 0 0;
+  padding-top:16px; border-top:1px solid var(--border); }
+.rv-modal-foot{ display:flex; gap:10px; justify-content:space-between; align-items:center; margin-top:20px; }
+.rv-btn-ghost{ padding:12px 18px; background:none; border:1.5px solid var(--border); border-radius:11px;
+  font-size:0.86rem; font-weight:700; color:var(--text-muted); cursor:pointer; font-family:inherit; }
+.rv-btn-ghost:hover{ border-color:var(--blue); color:var(--blue); }
+.rv-btn-main{ flex:1; max-width:220px; padding:13px 22px; background:var(--navy); color:#fff; border:1.5px solid var(--navy);
+  border-radius:11px; font-size:0.88rem; font-weight:700; cursor:pointer; font-family:inherit; }
+.rv-btn-main:hover{ background:var(--navy-mid); border-color:var(--navy-mid); }
+.rv-btn-main:disabled{ opacity:0.55; cursor:default; }
+
+@media (max-width:900px){
+  .rv-layout{ grid-template-columns:1fr; gap:30px; }
+  .rv-summary{ position:static; }
+}
+</style>
+
+<!-- ═══ 리뷰 작성 모달 (1단계 별점 → 2단계 내용) ═══ -->
+<div class="modal-bg" id="rvModalBg" onclick="if(event.target===this)rvCloseModal()">
+ <div class="rv-modal" role="dialog" aria-modal="true" aria-labelledby="rvModalTitle">
+  <div class="rv-modal-head">
+   <h3 id="rvModalTitle" data-k="rv_m_t1">서비스를 평가해 주세요</h3>
+   <button type="button" class="rv-modal-x" onclick="rvCloseModal()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <form id="satisfactionForm" onsubmit="return false;" novalidate>
+   <!-- 1단계: 별점 -->
+   <div class="rv-step" id="rvStep1">
+    <p class="rv-m-sub" data-k="rv_m_s1">이용 경험을 짧게 남겨주시면 다른 학생들에게 큰 도움이 됩니다.</p>
+    <div class="rv-prod">
+     <div class="rv-prod-img"><i class="fa-solid fa-bed"></i></div>
+     <div class="rv-prod-name" data-k="rv_prod">K-ozy 침구 렌탈</div>
+    </div>
+    <div class="rv-star-pick" id="rvStarPick"></div>
+    <div class="rv-scale-hint"><span data-k="rv_poor">별로예요</span><span data-k="rv_great">최고예요</span></div>
+    <p class="rv-step-note" data-k="rv_m_note">별점을 선택하면 다음 단계로 넘어갑니다.</p>
+   </div>
+
+   <!-- 2단계: 리뷰 내용 -->
+   <div class="rv-step" id="rvStep2" style="display:none;">
+    <div class="rv-prod-name center" data-k="rv_prod">K-ozy 침구 렌탈</div>
+    <div class="rv-star-pick small" id="rvStarPick2"></div>
+    <div class="rv-scale-hint small"><span data-k="rv_poor">별로예요</span><span data-k="rv_great">최고예요</span></div>
+
+    <div class="rv-fields">
+     <div class="fg"><label data-k="fl_name">이름 <span class="req">*</span></label><input type="text" name="name" id="rvName" required data-ph="name_ph"></div>
+     <div class="fg"><label data-k="rv_title_lbl">리뷰 제목</label><input type="text" id="rvTitle" maxlength="60" data-ph="rv_title_ph"></div>
+     <div class="fg"><label data-k="rv_body_lbl">리뷰 내용 <span class="req">*</span></label><textarea id="rvBody" rows="5" required data-ph="rv_body_ph"></textarea></div>
+
+     <div class="rv-detail-h" data-k="fbs_detail">세부 항목 평가 (5점 척도)</div>
+     <div class="fg">
+      <label data-k="fbs_q1">이불 품질 / Bedding Quality</label>
+      <div class="satisfaction-scale" id="scaleQ1"></div>
+     </div>
+     <div class="fg">
+      <label data-k="fbs_q2">배송/수거 서비스 / Delivery &amp; Pickup</label>
+      <div class="satisfaction-scale" id="scaleQ2"></div>
+     </div>
+     <div class="fg">
+      <label data-k="fbs_q3">가격 대비 만족도 / Value for Money</label>
+      <div class="satisfaction-scale" id="scaleQ3"></div>
+     </div>
+     <div class="fg">
+      <label data-k="fbs_q4">응대/커뮤니케이션 / Customer Communication</label>
+      <div class="satisfaction-scale" id="scaleQ4"></div>
+     </div>
+
+     <div class="fg"><label data-k="fbs_improve">개선이 필요한 점</label><textarea id="rvImprove" rows="2" data-ph="fb_imp_ph"></textarea></div>
+     <div class="fg">
+      <label data-k="fbs_rec">K-ozy를 주변에 추천하시겠어요?</label>
+      <select id="rvRecommend">
+       <option value="yes" data-k="rec_yes">네, 적극 추천합니다!</option>
+       <option value="maybe" data-k="rec_maybe">상황에 따라 추천할 것 같아요</option>
+       <option value="no" data-k="rec_no">추천하기 어려울 것 같아요</option>
+      </select>
+     </div>
+    </div>
+
+    <p class="rv-terms" data-k="rv_terms">등록하신 리뷰는 이름 일부를 가린 채 K-ozy 사이트에 공개됩니다. 공개를 원하지 않으시면 이슈 보고 탭이나 이메일로 보내주세요.</p>
+    <div class="rv-modal-foot">
+     <button type="button" class="rv-btn-ghost" onclick="rvBack()" data-k="rv_back">← 이전</button>
+     <button type="button" class="rv-btn-main" id="rvSubmitBtn" onclick="rvSubmit()" data-k="rv_submit">리뷰 등록</button>
+    </div>
+   </div>
+  </form>
+ </div>
+</div>
+
 <div class="page" id="page-feedback" role="main">
  <div class="feedback-page">
  <div class="feedback-hero">
  <div class="section-label" data-k="fb_label">Feedback</div>
- <h2 data-k="fb_h2">이슈 & 만족도 제출</h2>
- <p data-k="fb_desc">K-ozy 서비스를 이용하셨나요? 여러분의 소중한 의견이 서비스를 더 좋게 만듭니다.</p>
+ <h2 data-k="fb_h2">고객 리뷰 &amp; 이슈 보고</h2>
+ <p data-k="fb_desc">K-ozy를 이용한 학생들의 후기를 확인하고, 직접 리뷰를 남겨보세요.</p>
  </div>
  <div class="feedback-container">
  <div class="feedback-tabs-wrap">
- <button type="button" class="feedback-tab active" onclick="switchFbTab('satisfaction',this)" data-k="fbt_sat"><i class="fa-solid fa-face-smile" style="margin-right:6px;"></i>만족도 평가</button>
+ <button type="button" class="feedback-tab active" onclick="switchFbTab('satisfaction',this)" data-k="fbt_sat"><i class="fa-solid fa-star" style="margin-right:6px;"></i>고객 리뷰</button>
  <button type="button" class="feedback-tab" onclick="switchFbTab('issue',this)" data-k="fbt_issue"><i class="fa-solid fa-wrench" style="margin-right:6px;"></i>이슈 보고</button>
  </div>
 
- <div id="fb-satisfaction" class="feedback-grid">
- <div class="feedback-card">
- <form id="satisfactionForm" onsubmit="submitFeedback(event,'satisfaction')" novalidate>
- <div class="fsec" data-k="fbs_who">기본 정보</div>
- <div class="fg"><label data-k="fl_name">이름 <span class="req">*</span></label><input type="text" name="name" required data-ph="name_ph"></div>
+ <!-- ═══ 만족도 = 고객 리뷰 (좌: 요약 / 우: 리뷰 목록) ═══ -->
+ <div id="fb-satisfaction" class="rv-layout">
+  <aside class="rv-summary">
+   <h3 class="rv-sum-title" data-k="rv_h">고객 리뷰</h3>
+   <div class="rv-score-row">
+    <span class="rv-score" id="statAvgStar">—</span>
+    <span>
+     <span class="rv-stars" id="statStarDisp">☆☆☆☆☆</span>
+     <span class="rv-count" id="rvCount">0</span>
+    </span>
+   </div>
+   <button type="button" class="rv-write-btn" onclick="rvOpenModal()" data-k="rv_write">리뷰 작성하기</button>
+   <div class="rv-dist" id="rvDist"></div>
+   <div class="rv-detail">
+    <div class="rv-detail-h" data-k="rv_detail_h">세부 항목 평균</div>
+    <div class="fstat-item" id="statQ1wrap">
+     <div class="fstat-label"><span data-k="fbs_q1_s">이불 품질</span> <span id="statQ1val">—</span></div>
+     <div class="fstat-bar"><div class="fstat-fill" id="statQ1bar" style="width:0%"></div></div>
+    </div>
+    <div class="fstat-item">
+     <div class="fstat-label"><span data-k="fbs_q2_s">배송/수거</span> <span id="statQ2val">—</span></div>
+     <div class="fstat-bar"><div class="fstat-fill" id="statQ2bar" style="width:0%"></div></div>
+    </div>
+    <div class="fstat-item">
+     <div class="fstat-label"><span data-k="fbs_q3_s">가격 만족도</span> <span id="statQ3val">—</span></div>
+     <div class="fstat-bar"><div class="fstat-fill" id="statQ3bar" style="width:0%"></div></div>
+    </div>
+    <div class="fstat-item">
+     <div class="fstat-label"><span data-k="fbs_q4_s">응대/소통</span> <span id="statQ4val">—</span></div>
+     <div class="fstat-bar"><div class="fstat-fill" id="statQ4bar" style="width:0%"></div></div>
+    </div>
+   </div>
+  </aside>
 
- <div class="fsec" data-k="fbs_overall">전반적인 만족도</div>
- <label data-k="fbs_star_lbl">별점으로 평가해 주세요 <span class="req">*</span></label>
- <div class="star-group">
- <input type="radio" id="s5" name="starRating" value="5"><label for="s5" title="5">★</label>
- <input type="radio" id="s4" name="starRating" value="4"><label for="s4" title="4">★</label>
- <input type="radio" id="s3" name="starRating" value="3"><label for="s3" title="3">★</label>
- <input type="radio" id="s2" name="starRating" value="2"><label for="s2" title="2">★</label>
- <input type="radio" id="s1" name="starRating" value="1"><label for="s1" title="1">★</label>
- </div>
-
- <div class="fsec" data-k="fbs_detail">세부 항목 평가 (5점 척도)</div>
- <div class="fg">
- <label data-k="fbs_q1">이불 품질 / Bedding Quality <span class="req">*</span></label>
- <div class="satisfaction-scale" id="scaleQ1"></div>
- <div class="scale-labels"><span data-k="scale_low">매우 불만족</span><span data-k="scale_hi">매우 만족</span></div>
- </div>
- <div class="fg">
- <label data-k="fbs_q2">배송/수거 서비스 / Delivery & Pickup <span class="req">*</span></label>
- <div class="satisfaction-scale" id="scaleQ2"></div>
- <div class="scale-labels"><span data-k="scale_low">매우 불만족</span><span data-k="scale_hi">매우 만족</span></div>
- </div>
- <div class="fg">
- <label data-k="fbs_q3">가격 대비 만족도 / Value for Money <span class="req">*</span></label>
- <div class="satisfaction-scale" id="scaleQ3"></div>
- <div class="scale-labels"><span data-k="scale_low">매우 불만족</span><span data-k="scale_hi">매우 만족</span></div>
- </div>
- <div class="fg">
- <label data-k="fbs_q4">응대/커뮤니케이션 / Customer Communication <span class="req">*</span></label>
- <div class="satisfaction-scale" id="scaleQ4"></div>
- <div class="scale-labels"><span data-k="scale_low">매우 불만족</span><span data-k="scale_hi">매우 만족</span></div>
- </div>
-
- <div class="fsec" data-k="fbs_open">자유 의견</div>
- <div class="fg"><label data-k="fbs_good">좋았던 점</label><textarea name="positive" data-ph="fb_good_ph" rows="3"></textarea></div>
- <div class="fg"><label data-k="fbs_improve">개선이 필요한 점</label><textarea name="improvement" data-ph="fb_imp_ph" rows="3"></textarea></div>
- <div class="fg">
- <label data-k="fbs_rec">K-ozy를 주변에 추천하시겠어요?</label>
- <select name="recommend">
- <option value="yes" data-k="rec_yes">네, 적극 추천합니다!</option>
- <option value="maybe" data-k="rec_maybe">상황에 따라 추천할 것 같아요</option>
- <option value="no" data-k="rec_no">추천하기 어려울 것 같아요</option>
- </select>
- </div>
- <button type="submit" class="submit-btn" style="margin-top:8px;" data-k="fbs_submit">만족도 제출하기 →</button>
- </form>
- </div>
- 
- <div>
- <div class="feedback-stats-card" id="satStatsCard">
- <h4 data-k="fb_stats_h">집계 현황</h4>
- <div class="fstat-big">
- <div class="num" id="statAvgStar">—</div>
- <div class="fstat-stars" id="statStarDisp">☆☆☆☆☆</div>
- <div class="lbl" data-k="fb_avg_lbl">평균 별점</div>
- </div>
- <div style="margin-top:24px;">
- <div class="fstat-item" id="statQ1wrap">
- <div class="fstat-label" data-k="fbs_q1_s">이불 품질 <span id="statQ1val">—</span></div>
- <div class="fstat-bar"><div class="fstat-fill" id="statQ1bar" style="width:0%"></div></div>
- </div>
- <div class="fstat-item">
- <div class="fstat-label" data-k="fbs_q2_s">배송/수거 <span id="statQ2val">—</span></div>
- <div class="fstat-bar"><div class="fstat-fill" id="statQ2bar" style="width:0%"></div></div>
- </div>
- <div class="fstat-item">
- <div class="fstat-label" data-k="fbs_q3_s">가격 만족도 <span id="statQ3val">—</span></div>
- <div class="fstat-bar"><div class="fstat-fill" id="statQ3bar" style="width:0%"></div></div>
- </div>
- <div class="fstat-item">
- <div class="fstat-label" data-k="fbs_q4_s">응대/소통 <span id="statQ4val">—</span></div>
- <div class="fstat-bar"><div class="fstat-fill" id="statQ4bar" style="width:0%"></div></div>
- </div>
- </div>
- </div>
- 
- </div>
+  <section class="rv-list-wrap">
+   <div class="rv-toolbar">
+    <select id="rvStarFilter" onchange="rvRenderList()" aria-label="별점 필터">
+     <option value="" data-k="rv_f_all">전체 별점</option>
+     <option value="5" data-k="rv_f_5">★ 5점만</option>
+     <option value="4" data-k="rv_f_4">★ 4점만</option>
+     <option value="3" data-k="rv_f_3">★ 3점만</option>
+     <option value="2" data-k="rv_f_2">★ 2점만</option>
+     <option value="1" data-k="rv_f_1">★ 1점만</option>
+    </select>
+    <select id="rvSort" onchange="rvRenderList()" aria-label="정렬">
+     <option value="new" data-k="rv_s_new">최신순</option>
+     <option value="old" data-k="rv_s_old">오래된순</option>
+     <option value="high" data-k="rv_s_high">별점 높은순</option>
+     <option value="low" data-k="rv_s_low">별점 낮은순</option>
+    </select>
+    <span class="rv-shown" id="rvShown"></span>
+   </div>
+   <div id="rvList"></div>
+   <button type="button" class="rv-more" id="rvMore" style="display:none;" onclick="rvShowMore()" data-k="rv_more">리뷰 더 보기</button>
+  </section>
  </div>
 
  <div id="fb-issue" class="feedback-grid" style="display:none;">
@@ -1682,6 +1821,9 @@ body.admin-subpage-mode > nav { display:none !important; }
       <button class="adm-back-btn" onclick="goPage('home')">
         <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
       </button>
+      <button class="adm-back-btn" onclick="adminLogout()" style="margin-top:8px;">
+        <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
+      </button>
     </div>
   </aside>
 
@@ -1714,7 +1856,7 @@ body.admin-subpage-mode > nav { display:none !important; }
 
         <!-- 월별 렌탈 신청 추이 (가로 전체) -->
         <div class="adm-chart-card adm-chart-wide">
-          <div class="adm-chart-title"><i class="fa-solid fa-chart-line"></i> 월별 신청 추이</div>
+          <div class="adm-chart-title"><i class="fa-solid fa-chart-line"></i> 월별 신청 · 이슈 추이</div>
           <div class="adm-chart-wrap adm-chart-wrap-wide"><canvas id="chartMonthly"></canvas></div>
         </div>
 
@@ -2049,7 +2191,7 @@ dur_ph:'선택해 주세요',
 dur_sem_title:'한 학기', dur_sem_note:'$40', dur_extend_title:'기간 연장', dur_extend_note:'$10 / 개월',
 ext_months_label:'연장 개월 수', ext_b1:'1개월 · $10', ext_b2:'2개월 · $20', ext_b3:'3개월 · $30', per_month:'/ 개월', price_incl_note:'세탁·살균·배송·수거 모두 포함',
 dur_sem_label:'한 학기', dur_extend_label2:'기간 연장',
-return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>반납일은 학교별 기숙사 퇴사일입니다. 하루 전 반납은 가능하지만, 반납일보다 많이 빠르거나 많이 늦으면 배송서비스를 이용하여 <strong>코지로 직접 배송</strong>해야 합니다.',
+return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>지정 반납일 외 반납을 희망 시 연락 바랍니다.',
 
  
  addr_note:'<i class="fa-solid fa-box"></i> 정확한 배송을 위해 건물명과 방 호수를 반드시 입력해 주세요.',
@@ -2062,7 +2204,7 @@ sb_r_h:'K-ozy 이불 렌탈', sb_r_p:'위생 세탁을 완료한 이불을 합�
  
  sb_info_h:'안내 사항',
  si_r1:"\uc2e0\uccad \ud6c4 \ub2f4\ub2f9\uc790 \ud655\uc778\uae4c\uc9c0 1-2 \uc601\uc5c5\uc77c \uc18c\uc694\ub429\ub2c8\ub2e4.", si_r2:"<strong style=\"color:var(--navy);\">\uc6d0\ud558\uc2dc\ub294 \uc218\ub839\uc77c 4~5\uc77c \uc804\uae4c\uc9c0\ub294 \ubbf8\ub9ac \uc8fc\ubb38\ud574 \uc8fc\uc138\uc694.</strong>", si_r2b:"\ubc30\uc1a1 \uc900\ube44 \ubc0f \uc77c\uc815 \uc870\uc728\uc5d0 \uc2dc\uac04\uc774 \ud544\uc694\ud569\ub2c8\ub2e4.",
- si_r3:'반납일은 학교별 기숙사 퇴사일이며, 기준일보다 많이 빠르거나 늦을 시 직접 배송이 필요합니다.', si_r4:'문의: enactuskozy@gmail.com',
+ si_r3:'반납일은 학교별 기숙사 퇴사일입니다. 지정 반납일 외 반납을 희망 시 연락 바랍니다.', si_r4:'문의: enactuskozy@gmail.com',
 
  al_h:'관리자 로그인', al_sub:'K-ozy 운영진만 접근 가능한 페이지입니다.', al_pw:'비밀번호', al_btn:'로그인',
  adm_h:'K-ozy 관리자 대시보드', adm_sub:'신청 현황을 확인하고 관리하세요', adm_back:'← 홈으로',
@@ -2078,8 +2220,8 @@ nation_hint:'대표 국가명 기준 드롭다운 추천이 표시됩니다.', p
 success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접수되었습니다.\n아래 계좌로 입금 후 담당자가 연락드립니다.',
  
  nav_feedback:'피드백',
- fb_label:'Feedback', fb_h2:'이슈 & 만족도 제출', fb_desc:'K-ozy 서비스를 이용하셨나요? 여러분의 소중한 의견이 서비스를 더 좋게 만듭니다.',
- fbt_sat:'<i class="fa-solid fa-face-smile"></i> 만족도 평가', fbt_issue:'<i class="fa-solid fa-wrench"></i> 이슈 보고',
+ fb_label:'Feedback', fb_h2:'고객 리뷰 & 이슈 보고', fb_desc:'K-ozy를 이용한 학생들의 후기를 확인하고, 직접 리뷰를 남겨보세요.',
+ fbt_sat:'<i class="fa-solid fa-star"></i> 고객 리뷰', fbt_issue:'<i class="fa-solid fa-wrench"></i> 이슈 보고',
  fbs_who:'기본 정보', 
  fbs_overall:'전반적인 만족도', fbs_star_lbl:'별점으로 평가해 주세요',
  fbs_detail:'세부 항목 평가 (5점 척도)',
@@ -2091,6 +2233,18 @@ success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접�
  fbs_submit:'만족도 제출하기 →',
  fb_stats_h:'집계 현황', fb_avg_lbl:'평균 별점', fb_recent_h:'최근 후기',
  fbs_q1_s:'이불 품질', fbs_q2_s:'배송/수거', fbs_q3_s:'가격 만족도', fbs_q4_s:'응대/소통',
+ /* 고객 리뷰 */
+ rv_h:'고객 리뷰', rv_write:'리뷰 작성하기', rv_detail_h:'세부 항목 평균', rv_more:'리뷰 더 보기',
+ rv_f_all:'전체 별점', rv_f_5:'★ 5점만', rv_f_4:'★ 4점만', rv_f_3:'★ 3점만', rv_f_2:'★ 2점만', rv_f_1:'★ 1점만',
+ rv_s_new:'최신순', rv_s_old:'오래된순', rv_s_high:'별점 높은순', rv_s_low:'별점 낮은순',
+ rv_m_t1:'서비스를 평가해 주세요', rv_m_t2:'리뷰를 남겨주세요',
+ rv_m_s1:'이용 경험을 짧게 남겨주시면 다른 학생들에게 큰 도움이 됩니다.',
+ rv_m_note:'별점을 선택하면 다음 단계로 넘어갑니다.',
+ rv_prod:'K-ozy 침구 렌탈', rv_poor:'별로예요', rv_great:'최고예요',
+ rv_title_lbl:'리뷰 제목', rv_title_ph:'예: 배송이 빨랐어요', rv_body_lbl:'리뷰 내용',
+ rv_body_ph:'이용하시면서 좋았던 점을 자유롭게 적어주세요.',
+ rv_terms:'등록하신 리뷰는 이름 일부를 가린 채 K-ozy 사이트에 공개됩니다. 공개를 원하지 않으시면 이슈 보고 탭이나 이메일로 보내주세요.',
+ rv_back:'← 이전', rv_submit:'리뷰 등록',
  fbi_who:'신고자 정보', fbi_type:'이슈 유형', fbi_cat_lbl:'해당하는 항목을 모두 선택해 주세요',
  ic_delivery:'<i class="fa-solid fa-truck"></i> 배송 지연', ic_quality:'<i class="fa-solid fa-bed"></i> 품질 문제', ic_hygiene:'<i class="fa-solid fa-soap"></i> 위생·세탁 문제',
  ic_comm:'<i class="fa-solid fa-comment"></i> 응대 불만', ic_pickup:'<i class="fa-solid fa-box"></i> 수거 문제', ic_pay:'<i class="fa-solid fa-credit-card"></i> 결제 문제', ic_return:'<i class="fa-solid fa-rotate-left"></i> 반납 문제', ic_other:'기타',
@@ -2167,7 +2321,7 @@ dur_ph:'Please select',
 dur_sem_title:'One Semester', dur_sem_note:'$40', dur_extend_title:'Extension', dur_extend_note:'$10 / month',
 ext_months_label:'Extension months', ext_b1:'1 mo · $10', ext_b2:'2 mo · $20', ext_b3:'3 mo · $30', per_month:'/ month', price_incl_note:'Laundering, sanitizing, delivery & pickup all included',
 dur_sem_label:'One Semester', dur_extend_label2:'Extension',
-return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>The return date is the dormitory move-out date for each school. Returns are possible one day in advance, but if it is much earlier or much later than the return date, you must <strong>ship it directly to K-ozy</strong> using a delivery service.',
+return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>If you wish to return on a date other than the designated return date, please contact us.',
 
  
  addr_note:'<i class="fa-solid fa-box"></i> Please enter the building name and room number for accurate delivery.',
@@ -2180,7 +2334,7 @@ return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>
  
  sb_info_h:'Information',
  si_r1:'Please allow 1-2 business days for confirmation after applying.', si_r2:'<strong style="color:var(--navy);">Please order at least 4-5 days before your preferred delivery date.</strong>', si_r2b:'We need time to prepare delivery and coordinate the schedule.',
- si_r3:'The return date is the dormitory move-out date; if it is much earlier or later, direct shipping is required.', si_r4:'Contact: enactuskozy@gmail.com',
+ si_r3:'The return date is your school\'s dormitory move-out date. Please contact us if you wish to return on a different date.', si_r4:'Contact: enactuskozy@gmail.com',
 
  al_h:'Admin Login', al_sub:'This page is for K-ozy team members only.', al_pw:'Password', al_btn:'Log In',
  adm_h:'K-ozy Admin Dashboard', adm_sub:'Review and manage applications', adm_back:'← Home',
@@ -2196,8 +2350,8 @@ nation_hint:'Suggested country names will appear as you type.', phone_hint:'You 
 success_r_title:'Application Received!', success_r_msg:'Your rental application has been submitted.\nPlease transfer to the account below and our team will be in touch.',
  
  nav_feedback:'Feedback',
- fb_label:'Feedback', fb_h2:'Issues & Satisfaction', fb_desc:'Used K-ozy? Your feedback helps us build a better service.',
- fbt_sat:'<i class="fa-solid fa-face-smile"></i> Rate Us', fbt_issue:'<i class="fa-solid fa-wrench"></i> Report Issue',
+ fb_label:'Feedback', fb_h2:'Customer Reviews & Issues', fb_desc:'See what other students say about K-ozy, and share your own experience.',
+ fbt_sat:'<i class="fa-solid fa-star"></i> Customer Reviews', fbt_issue:'<i class="fa-solid fa-wrench"></i> Report Issue',
  fbs_who:'Basic Info', 
  fbs_overall:'Overall Satisfaction', fbs_star_lbl:'Rate your experience with stars',
  fbs_detail:'Detailed Ratings (Scale of 5)',
@@ -2209,6 +2363,18 @@ success_r_title:'Application Received!', success_r_msg:'Your rental application 
  fbs_submit:'Submit Rating →',
  fb_stats_h:'Statistics', fb_avg_lbl:'Average Rating', fb_recent_h:'Recent Reviews',
  fbs_q1_s:'Bedding Quality', fbs_q2_s:'Delivery/Pickup', fbs_q3_s:'Value', fbs_q4_s:'Communication',
+ /* Customer reviews */
+ rv_h:'Customer Reviews', rv_write:'Write a review', rv_detail_h:'Category averages', rv_more:'Show more reviews',
+ rv_f_all:'All ratings', rv_f_5:'★ 5 only', rv_f_4:'★ 4 only', rv_f_3:'★ 3 only', rv_f_2:'★ 2 only', rv_f_1:'★ 1 only',
+ rv_s_new:'Newest first', rv_s_old:'Oldest first', rv_s_high:'Highest rated', rv_s_low:'Lowest rated',
+ rv_m_t1:'How would you rate this service?', rv_m_t2:'Tell us about your experience',
+ rv_m_s1:'A short review helps other students decide.',
+ rv_m_note:'Pick a rating to continue.',
+ rv_prod:'K-ozy Bedding Rental', rv_poor:'Poor', rv_great:'Great',
+ rv_title_lbl:'Review title', rv_title_ph:'e.g. Arrived on time', rv_body_lbl:'Review content',
+ rv_body_ph:'Share what you liked about the service.',
+ rv_terms:'Your review will be published on the K-ozy site with your name partially masked. If you prefer not to be published, use the Report an Issue tab or email us.',
+ rv_back:'← Back', rv_submit:'Submit review',
  fbi_who:'Reporter Info', fbi_type:'Issue Type', fbi_cat_lbl:'Select all that apply',
  ic_delivery:'<i class="fa-solid fa-truck"></i> Delivery Delay', ic_quality:'<i class="fa-solid fa-bed"></i> Quality Issue', ic_hygiene:'<i class="fa-solid fa-soap"></i> Hygiene / Cleaning Issue',
  ic_comm:'<i class="fa-solid fa-comment"></i> Communication', ic_pickup:'<i class="fa-solid fa-box"></i> Pickup Issue', ic_pay:'<i class="fa-solid fa-credit-card"></i> Payment Issue', ic_return:'<i class="fa-solid fa-rotate-left"></i> Return Issue', ic_other:'Other',
@@ -2235,12 +2401,15 @@ dur_other_desc: 'Details sent via email',
 }
 };
 
+/* 운영 데이터는 브라우저에 저장하지 않는다.
+   주문·피드백은 서버 DB(Netlify Functions)에서만 읽고 쓰며,
+   여기 있는 값은 화면 렌더용 메모리 사본이다(새로고침하면 서버에서 다시 받는다). */
 var orders = {
- rental: JSON.parse(localStorage.getItem('kozy_r')||'[]')
+ rental: []
 };
 var feedbackData = {
- satisfaction: JSON.parse(localStorage.getItem('kozy_sat')||'[]'),
- issue: JSON.parse(localStorage.getItem('kozy_issue')||'[]')
+ satisfaction: [],
+ issue: []
 };
 var currentLang = 'en';
 var selectedDur = '';
@@ -2458,11 +2627,127 @@ T.en.uni_hongik='Hongik University (Seoul)';
 
 function t(key){ return T[currentLang][key] || T['ko'][key] || key; }
 
+/* ═══ 날짜 유틸 ═══
+   과거 데이터는 submittedAt 이 toLocaleString('ko-KR') 결과("2026. 7. 27. 오후 3:12:45")로
+   저장돼 있어 정렬·월별 집계가 되지 않았다. 신규 데이터는 ISO 로 저장하고,
+   읽을 때는 아래 파서로 두 형식(과 'YYYY-MM-DD' 계열)을 모두 처리한다. */
+function kzParseDate(v){
+ if(!v) return null;
+ if(v instanceof Date) return isNaN(v.getTime())?null:v;
+ if(typeof v==='number'){ var dn=new Date(v); return isNaN(dn.getTime())?null:dn; }
+ var s=String(v).trim();
+ // ISO / 'YYYY-MM-DD' / 'YYYY-MM-DD HH:mm'
+ var m=s.match(/^(\d{4})[-.\/](\d{1,2})[-.\/](\d{1,2})(?:[T ](\d{1,2}):(\d{2}))?/);
+ if(m) return new Date(+m[1], +m[2]-1, +m[3], +(m[4]||0), +(m[5]||0));
+ // ko-KR 로케일: '2026. 7. 27. 오후 3:12:45'
+ m=s.match(/^(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\.?(?:\s*(오전|오후)?\s*(\d{1,2}):(\d{2}))?/);
+ if(m){
+  var h=+(m[6]!==undefined?m[5]:0)||0;
+  if(m[4]==='오후' && h<12) h+=12;
+  if(m[4]==='오전' && h===12) h=0;
+  return new Date(+m[1], +m[2]-1, +m[3], h, +(m[6]||0));
+ }
+ var d=new Date(s);
+ return isNaN(d.getTime())?null:d;
+}
+/** 정렬용 숫자 타임스탬프 (파싱 실패 시 0) */
+function kzTime(v){ var d=kzParseDate(v); return d?d.getTime():0; }
+/** 화면 표시용: '2026-07-27 15:12' */
+function kzFmtDateTime(v){
+ var d=kzParseDate(v); if(!d) return v?String(v):'-';
+ var p=function(n){ return String(n).padStart(2,'0'); };
+ return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+/** 화면 표시용: '2026-07-27' */
+function kzFmtDate(v){
+ var d=kzParseDate(v); if(!d) return v?String(v):'-';
+ var p=function(n){ return String(n).padStart(2,'0'); };
+ return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+}
+/** 'YYYY-MM' 월 키 */
+function kzMonthKey(v){
+ var d=kzParseDate(v); if(!d) return '';
+ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+}
+
+/* ═══ 브라우저 히스토리 (뒤로가기) ═══
+   단일 페이지 앱이라 화면을 바꿔도 히스토리가 쌓이지 않았고, 그래서 뒤로가기를 누르면
+   앱 안에서 한 단계 돌아가는 대신 사이트를 빠져나갔다(직전 방문 사이트로 이동).
+   → 화면 전환마다 history 엔트리를 쌓고, popstate 에서 그 화면으로 되돌린다. */
+var KZ_SUBPAGE_OPENERS = {
+ 'rental-admin':'openRentalAdminPage',
+ 'feedback-admin':'openFeedbackAdminPage',
+ 'issues-admin':'openIssuesAdminPage',
+ 'orders-admin':'openOrdersAdminPage',
+ 'schools-admin':'openSchoolsAdminPage',
+ 'emails-admin':'openEmailsAdminPage',
+ 'inventory-admin':'openInventoryAdminPage'
+};
+var _kzNavLock = false;   // popstate 복원 중에는 새 엔트리를 쌓지 않는다
+
+function kzViewKey(v){ return v && v.sub ? ('sub:'+v.sub) : ('page:'+((v&&v.page)||'home')); }
+function kzViewUrl(v){
+ var h = (v && v.sub) || (v && v.page) || 'home';
+ return (h==='home') ? (location.pathname+location.search) : ('#'+h);
+}
+function kzPushView(v){
+ if(_kzNavLock || !window.history || !history.pushState) return;
+ try{
+  if(history.state && kzViewKey(history.state)===kzViewKey(v)){
+   history.replaceState(v, '', kzViewUrl(v));   // 같은 화면이면 엔트리를 늘리지 않는다
+  } else {
+   history.pushState(v, '', kzViewUrl(v));
+  }
+ }catch(e){}
+}
+function kzApplyView(v){
+ _kzNavLock = true;
+ try{
+  // 열려 있던 모달은 닫고 이동한다(오버레이가 남는 것 방지)
+  document.querySelectorAll('.modal-bg.show').forEach(function(m){ m.classList.remove('show'); });
+  if(v && v.sub){
+   var fn = window[KZ_SUBPAGE_OPENERS[v.sub]];
+   if(typeof fn === 'function'){ fn(); return; }
+  }
+  goPage((v && v.page) || 'home');
+ } finally { _kzNavLock = false; }
+}
+window.addEventListener('popstate', function(e){
+ var v = e.state;
+ if(!v){
+  var h=(location.hash||'').replace(/^#/,'');
+  v = (h && document.getElementById('page-'+h)) ? (KZ_SUBPAGE_OPENERS[h]?{page:'admin',sub:h}:{page:h}) : {page:'home'};
+ }
+ kzApplyView(v);
+});
+/* 첫 진입 상태 기록 + 해시로 들어온 경우 해당 화면으로 */
+function kzInitHistory(){
+ if(!window.history || !history.replaceState) return;
+ var h=(location.hash||'').replace(/^#/,'');
+ var target=(h && document.getElementById('page-'+h)) ? h : 'home';
+ try{ history.replaceState({page:target==='home'?'home':target}, '', kzViewUrl({page:target})); }catch(e){}
+ if(target!=='home'){
+  _kzNavLock = true;
+  try{
+   if(KZ_SUBPAGE_OPENERS[target]){ var fn=window[KZ_SUBPAGE_OPENERS[target]]; if(typeof fn==='function') fn(); }
+   else goPage(target);
+  } finally { _kzNavLock = false; }
+ }
+}
+
 function goPage(name){
  var page = document.getElementById('page-'+name);
  if(!page) return;
+ // 관리자 화면은 서버 세션이 확인된 경우에만 연다.
+ // (콘솔에서 goPage('admin') 을 호출해도 데이터는 서버가 401 로 막고, 화면도 로그인으로 되돌아간다)
+ if(name==='admin' && !window.__kzAdmin){
+  if(typeof kzRequireAdmin==='function'){ kzRequireAdmin(); return; }
+  name='admin-login'; page=document.getElementById('page-admin-login');
+  if(!page) return;
+ }
  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
  page.classList.add('active');
+ document.body.classList.remove('admin-subpage-mode');   // 관리자 전용 페이지에서 빠져나온 경우 정리
  var footer = document.getElementById('site-footer');
  if(footer) footer.style.display = (name==='admin-login'||name==='admin') ? 'none' : '';
  document.querySelectorAll('.nav-btn[id^="nb-"]').forEach(function(b){ b.classList.remove('active-nav'); });
@@ -2476,14 +2761,40 @@ function goPage(name){
   if(typeof onRentalSchoolChange==='function') onRentalSchoolChange();
  }
  applyTranslations();
+ kzPushView({page:name});
+}
+
+/* ═══ 필수 입력 항목 표시(*) ═══
+   라벨 텍스트는 applyTranslations()에서 innerHTML 로 통째로 교체되는데,
+   번역 문자열에는 * 표시가 없어서 페이지가 뜨는 순간 HTML 에 적어둔
+   <span class="req">*</span> 가 함께 지워지고 있었다.
+   → 최초 1회 "이 라벨은 필수 항목"임을 기록해 두고, 번역을 적용할 때마다 다시 붙인다.
+   판단 기준: 라벨에 * 가 있었거나, 같은 입력 그룹(.fg)에 required 입력이 있는 경우. */
+var _kzReqMarked = false;
+function kzMarkRequiredLabels(){
+ if(_kzReqMarked) return;
+ _kzReqMarked = true;
+ document.querySelectorAll('label[data-k]').forEach(function(el){
+  var need = !!el.querySelector('.req');
+  if(!need){
+   var fg = el.closest('.fg') || el.parentElement;
+   if(fg && fg.querySelector('input[required],select[required],textarea[required]')) need = true;
+  }
+  if(need) el.setAttribute('data-req','1');
+ });
 }
 
 function applyTranslations(){
+ kzMarkRequiredLabels();
  document.querySelectorAll('[data-k]').forEach(function(el){
  var k=el.getAttribute('data-k'), val=t(k);
  if(!val) return;
  if(el.tagName==='INPUT' && el.hasAttribute('data-ph')){ el.placeholder=t(el.getAttribute('data-ph')); return; }
  if(el.tagName==='OPTION'){ el.textContent=val; return; }
+ if(el.getAttribute('data-req')==='1' && val.indexOf('class="req"')<0){
+  el.innerHTML=val+' <span class="req">*</span>';
+  return;
+ }
  el.innerHTML=val;
  });
  document.querySelectorAll('[data-ph]').forEach(function(el){ el.placeholder=t(el.getAttribute('data-ph')); });
@@ -2734,7 +3045,6 @@ function getKozySchoolsMerged(){
  var saved=[];
  try{
   if(typeof rzLoad==='function') saved=rzLoad('kozy_schools',[]);
-  else { var raw=localStorage.getItem('kozy_schools'); saved=raw?JSON.parse(raw):[]; }
  }catch(ex){ saved=[]; }
  var map={};
  Object.keys(SCHOOL_DIRECTORY).forEach(function(name){
@@ -2808,9 +3118,8 @@ function submitForm(e,type){
   data.channel = 'W';                       // 웹사이트 접수
   if(selectedDur==='extend') data.extendMonths = extendMonths||1;
   var ed=document.getElementById('endDate'); if(ed) data.endDate=ed.value;
-  data.id=Date.now(); data.submittedAt=new Date().toLocaleString('ko-KR'); data.status='new'; data.lang=currentLang;
+  data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
   orders.rental.push(data);
-  try { localStorage.setItem('kozy_r', JSON.stringify(orders.rental)); } catch(se){ }
   if(typeof kzCreateOrder==='function'){ kzCreateOrder(data); }
   if(co2AnimDone) updateCo2Stat();
   form.reset();
@@ -2838,18 +3147,65 @@ function submitForm(e,type){
 
 function closeModal(){ document.getElementById('modalBg').classList.remove('show'); var extra=document.getElementById('modalExtra'); if(extra) extra.innerHTML=''; }
 
+// 관리자 로그인 — 비밀번호는 브라우저에 존재하지 않는다.
+// 서버(/.netlify/functions/admin-auth)가 검증하고 HttpOnly 세션 쿠키를 발급한다.
 function adminLogin(){
- if(document.getElementById('adminPw').value==='kozy2026'){
- document.getElementById('adminPw').value='';
+ var inp=document.getElementById('adminPw');
+ var pw=inp?inp.value:'';
+ var en=(currentLang==='en');
+ if(!pw){ alert(en?'Please enter the password.':'비밀번호를 입력해 주세요.'); return; }
+ if(typeof kzAdminLogin!=='function'){
+  alert(en?'Login server is unavailable.':'로그인 서버에 연결할 수 없습니다.');
+  return;
+ }
+ var btn=document.querySelector('#page-admin-login .submit-btn');
+ if(btn){ btn.disabled=true; btn.style.opacity='0.6'; }
+
+ kzAdminLogin(pw).then(function(res){
+  if(inp) inp.value='';
+  if(res.ok){
+   enterAdminUI();
+   return;
+  }
+  if(res.status===429){
+   alert(en?'Too many attempts. Please try again later.':'로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.');
+  } else if(res.status===503){
+   alert(en
+    ? 'Admin login is not configured on the server (KOZY_ADMIN_PASSWORD_HASH).'
+    : '서버에 관리자 비밀번호가 설정되어 있지 않습니다. (환경변수 KOZY_ADMIN_PASSWORD_HASH)');
+  } else if(res.status===0){
+   alert(en?'Cannot reach the server.':'서버에 연결할 수 없습니다.');
+  } else {
+   alert(en?'Incorrect password.':'비밀번호가 올바르지 않습니다.');
+  }
+ }).catch(function(){
+  alert(en?'Login failed.':'로그인에 실패했습니다.');
+ }).then(function(){
+  if(btn){ btn.disabled=false; btn.style.opacity=''; }
+ });
+}
+
+// 서버 인증이 끝난 뒤에만 호출된다.
+function enterAdminUI(){
+ window.__kzAdmin=true;
  goPage('admin');
  if(typeof kzOnEnterAdmin==='function'){ kzOnEnterAdmin(); }
-
  setTimeout(function(){
-  admRefreshBadges();
-  renderAdmin();
-  renderDashboardCharts();
+  try{ admRefreshBadges(); }catch(e){}
+  try{ renderAdmin(); }catch(e){}
+  try{ renderDashboardCharts(); }catch(e){}
  }, 60);
- } else { alert(currentLang==='en'?'Incorrect password.':'비밀번호가 올바르지 않습니다.'); }
+}
+
+// 로그아웃: 서버 세션 쿠키를 삭제하고, 이 기기에 남은 관리자 캐시(주문·피드백)를 지운다.
+function adminLogout(){
+ var done=function(){
+  window.__kzAdmin=false;
+  document.body.classList.remove('admin-subpage-mode');
+  goPage('home');
+ };
+ if(typeof kzAdminLogout==='function'){ kzAdminLogout().then(done, done); }
+ else done();
 }
 
 function admSwitchPage(pageId, btn) {
@@ -2874,12 +3230,14 @@ function admSwitchPage(pageId, btn) {
 
 // ── 전용 전체 페이지 열기 헬퍼 ──
 function _openAdminSubPage(pageId, initFn) {
+  if(!window.__kzAdmin){ if(typeof kzRequireAdmin==='function') kzRequireAdmin(); else goPage('admin-login'); return; }
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   var pg = document.getElementById('page-'+pageId);
   if(pg) pg.classList.add('active');
   document.body.classList.add('admin-subpage-mode');
   window.scrollTo(0,0);
   if(typeof initFn === 'function') setTimeout(initFn, 60);
+  kzPushView({page:'admin', sub:pageId});
 }
 function _closeAdminSubPage() {
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
@@ -2888,6 +3246,7 @@ function _closeAdminSubPage() {
   document.body.classList.remove('admin-subpage-mode');
   window.scrollTo(0,0);
   setTimeout(function(){ renderAdmin(); renderDashboardCharts(); }, 60);
+  kzPushView({page:'admin'});
 }
 function openRentalAdminPage()      { _openAdminSubPage('rental-admin',      function(){ renderAdminPage('rental'); }); }
 function openFeedbackAdminPage()    { _openAdminSubPage('feedback-admin',    function(){ renderAdminPage('feedback'); }); }
@@ -2927,7 +3286,6 @@ function doDelete(){
  try {
   var _kzDelId = (orders.rental[idx]||{}).id;
   orders.rental.splice(idx, 1);
-  localStorage.setItem('kozy_r', JSON.stringify(orders.rental));
   if(typeof kzDeleteOrder==='function' && _kzDelId!=null){ kzDeleteOrder(_kzDelId); }
  } catch(e){}
  _delPending = null;
@@ -2961,15 +3319,19 @@ function renderDashboardCharts() {
 
   // (렌탈 상태 도넛 · 패키지 구성 도넛 · 별점 분포 바 — 대시보드에서 제거됨)
 
-  // ── 월별 신청 추이 ──
+  // ── 월별 신청 · 이슈 추이 ──
+  // 이전에는 submittedAt 문자열을 'YYYY-MM' 로 직접 비교해서 항상 0 이 나왔다.
+  // (실제 저장 형식은 '2026. 7. 27. 오후 3:12:45' 였다) → kzMonthKey 로 파싱해 집계한다.
   var now = new Date();
-  var months=[]; var rCounts=[];
+  var months=[], rCounts=[], iCounts=[], sCounts=[];
+  var rBy=kzCountByMonth(r), iBy=kzCountByMonth(issues), sBy=kzCountByMonth(sats);
   for(var m=5;m>=0;m--){
     var d2=new Date(now.getFullYear(),now.getMonth()-m,1);
-    var label=(d2.getMonth()+1)+'월';
-    months.push(label);
+    months.push((d2.getMonth()+1)+'월');
     var ym=d2.getFullYear()+'-'+String(d2.getMonth()+1).padStart(2,'0');
-    rCounts.push(r.filter(function(o){ return o.submittedAt && o.submittedAt.startsWith && (o.submittedAt.indexOf(ym.replace('-','년 '))>=0 || o.submittedAt.indexOf(ym)>=0); }).length);
+    rCounts.push(rBy[ym]||0);
+    iCounts.push(iBy[ym]||0);
+    sCounts.push(sBy[ym]||0);
   }
   var monthCanvas = document.getElementById('chartMonthly');
   if(monthCanvas){
@@ -2978,12 +3340,24 @@ function renderDashboardCharts() {
       data:{
         labels:months,
         datasets:[
-          {label:'렌탈 신청',data:rCounts,borderColor:BLUE,backgroundColor:'rgba(47, 98, 232, 0.12)',fill:true,tension:0.4,pointBackgroundColor:BLUE,pointRadius:5,pointHoverRadius:7,borderWidth:2.5}
+          {label:'렌탈 신청',data:rCounts,borderColor:BLUE,backgroundColor:'rgba(47, 98, 232, 0.12)',fill:true,tension:0.4,pointBackgroundColor:BLUE,pointRadius:5,pointHoverRadius:7,borderWidth:2.5},
+          {label:'이슈 보고',data:iCounts,borderColor:RED,backgroundColor:'rgba(239, 68, 68, 0.10)',fill:true,tension:0.4,pointBackgroundColor:RED,pointRadius:4,pointHoverRadius:6,borderWidth:2},
+          {label:'만족도 응답',data:sCounts,borderColor:GREEN,backgroundColor:'rgba(34, 197, 94, 0.08)',fill:false,tension:0.4,pointBackgroundColor:GREEN,pointRadius:4,pointHoverRadius:6,borderWidth:2,borderDash:[5,4]}
         ]
       },
-      options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:14,usePointStyle:true}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F1F5F9'},ticks:{stepSize:1},min:0} } }
+      options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:14,usePointStyle:true}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F1F5F9'},ticks:{stepSize:1,precision:0},min:0} } }
     });
   }
+}
+
+/** 목록을 submittedAt 기준 'YYYY-MM' 별 건수로 집계 */
+function kzCountByMonth(list){
+  var out={};
+  (list||[]).forEach(function(o){
+    var k=kzMonthKey(o && (o.submittedAt||o.occurredAt||o.createdAt));
+    if(k) out[k]=(out[k]||0)+1;
+  });
+  return out;
 }
 
 function admStatCard(label, num, sub, icon) {
@@ -2991,12 +3365,24 @@ function admStatCard(label, num, sub, icon) {
 }
 
 // ── 각 페이지 렌더 ─────────────────────────────────────────
+// 목록은 기본적으로 최신 접수순(내림차순)으로 보여주고, 검색·필터·정렬을 적용한다.
 function renderAdminPage(page) {
   var r=orders.rental;
   var sats=feedbackData.satisfaction, issues=feedbackData.issue;
 
   var pkgMap={A:'풀세트 (5품목)'};
   var durMap={'contact':'그 외 기간','extend':'기간 연장'};
+
+  function val(id){ var el=document.getElementById(id); return el?String(el.value||''):''; }
+  function setCount(id, shown, total){
+    var el=document.getElementById(id); if(!el) return;
+    el.textContent = (shown===total) ? (total+'건') : (shown+' / '+total+'건');
+  }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function hit(row, q, fields){
+    if(!q) return true;
+    return fields.some(function(f){ return String(row[f]==null?'':row[f]).toLowerCase().indexOf(q)>=0; });
+  }
 
   function statusSel(i,cur){
     cur=cur||'reserved';
@@ -3005,21 +3391,37 @@ function renderAdminPage(page) {
   }
 
   if(page==='rental'){
-    var rentalFilter=document.getElementById('adminRentalFilter');
-    rentalFilter=rentalFilter?rentalFilter.value:'';
     var rb=document.getElementById('rentalTbody');
-    var filteredR=r.filter(function(row){ return !rentalFilter||(row.rentStatus||'reserved')===rentalFilter; });
-    if(rb) rb.innerHTML=filteredR.length===0
-      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-bed"></i></div><p>아직 렌탈 신청이 없습니다.</p></div>'
-      :filteredR.map(function(row,i){
-        var oi=r.indexOf(row);
+    if(!rb) return;
+    var fStatus=val('adminRentalFilter');
+    var q=val('adminRentalSearch').trim().toLowerCase();
+    var sort=val('adminRentalSort')||'new';
+
+    var listR=r.map(function(row,i){ return {row:row, i:i}; })
+      .filter(function(e){
+        if(fStatus && (e.row.rentStatus||'reserved')!==fStatus) return false;
+        return hit(e.row, q, ['name','email','orderNo','school']);
+      });
+    listR.sort(function(a,b){
+      if(sort==='old') return kzTime(a.row.submittedAt)-kzTime(b.row.submittedAt);
+      if(sort==='startAsc') return String(a.row.startDate||'').localeCompare(String(b.row.startDate||''));
+      if(sort==='startDesc') return String(b.row.startDate||'').localeCompare(String(a.row.startDate||''));
+      if(sort==='name') return String(a.row.name||'').localeCompare(String(b.row.name||''),'ko');
+      return kzTime(b.row.submittedAt)-kzTime(a.row.submittedAt); // 기본: 최신순
+    });
+    setCount('adminRentalCount', listR.length, r.length);
+
+    rb.innerHTML=listR.length===0
+      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-bed"></i></div><p>'+(r.length?'조건에 맞는 신청이 없습니다.':'아직 렌탈 신청이 없습니다.')+'</p></div>'
+      :listR.map(function(e,n){
+        var row=e.row, oi=e.i;
         return '<div class="tbl-row rental-col">'+
-          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(i+1)+'</div>'+
-          '<div style="cursor:pointer" onclick="showRentalDetail('+oi+')"><strong style="color:var(--blue);text-decoration:underline dotted">'+(row.name||'-')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+row.submittedAt+'</div></div>'+
-          '<div style="font-size:0.82rem">'+(row.email||'-')+'</div>'+
-          '<div>'+(pkgMap[row.package]||row.package||'-')+'</div>'+
-          '<div>'+(durMap[row.duration]||row.duration||'-')+'</div>'+
-          '<div>'+(row.startDate||'-')+'</div>'+
+          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(n+1)+'</div>'+
+          '<div style="cursor:pointer" onclick="showRentalDetail('+oi+')"><strong style="color:var(--blue);text-decoration:underline dotted">'+esc(row.name||'-')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
+          '<div style="font-size:0.82rem">'+esc(row.email||'-')+'</div>'+
+          '<div>'+esc(pkgMap[row.package]||row.package||'-')+'</div>'+
+          '<div>'+esc(durMap[row.duration]||row.duration||'-')+'</div>'+
+          '<div>'+esc(row.startDate||'-')+'</div>'+
           '<div style="font-size:0.78rem">'+(row.duration==='extend'?'⟳ 연장':'신규')+'</div>'+
           '<div>'+statusSel(oi,row.rentStatus)+'</div>'+
           '<div><button class="del-btn" onclick="event.stopPropagation();confirmDelete(\'rental\','+oi+')" title="삭제"><i class="fa-solid fa-trash-can"></i></button></div>'+
@@ -3029,38 +3431,136 @@ function renderAdminPage(page) {
 
   if(page==='feedback'){
     var fb=document.getElementById('fbTbody');
-    if(fb) fb.innerHTML=sats.length===0
-      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-face-smile" style="color:#2F62E8"></i></div><p>아직 만족도 응답이 없습니다.</p></div>'
-      :sats.map(function(row,i){
+    if(!fb) return;
+    var fq=val('adminFbSearch').trim().toLowerCase();
+    var fstar=val('adminFbStar');
+    var fsort=val('adminFbSort')||'new';
+
+    var listF=sats.map(function(row,i){ return {row:row, i:i}; })
+      .filter(function(e){
+        if(fstar && String(+e.row.starRating||0)!==fstar) return false;
+        return hit(e.row, fq, ['name','positive','improvement','email']);
+      });
+    listF.sort(function(a,b){
+      if(fsort==='old') return kzTime(a.row.submittedAt)-kzTime(b.row.submittedAt);
+      if(fsort==='starDesc') return (+b.row.starRating||0)-(+a.row.starRating||0);
+      if(fsort==='starAsc') return (+a.row.starRating||0)-(+b.row.starRating||0);
+      return kzTime(b.row.submittedAt)-kzTime(a.row.submittedAt);
+    });
+    setCount('adminFbCount', listF.length, sats.length);
+
+    fb.innerHTML=listF.length===0
+      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-face-smile" style="color:#2F62E8"></i></div><p>'+(sats.length?'조건에 맞는 응답이 없습니다.':'아직 만족도 응답이 없습니다.')+'</p></div>'
+      :listF.map(function(e,n){
+        var row=e.row, oi=e.i;
         var st=+row.starRating||0;
-        return '<div class="tbl-row fb-col" style="cursor:pointer" onclick="showFbDetail('+i+',\'satisfaction\')">'+
-          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(i+1)+'</div>'+
-          '<div><strong>'+(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+row.submittedAt+'</div></div>'+
-          '<div><span class="badge-status s-ok">렌탈</span></div>'+
+        var body=row.body||row.positive||'';
+        var hidden=(row.hidden===true);
+        return '<div class="tbl-row fb-col"'+(hidden?' style="opacity:0.5"':'')+'>'+
+          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(n+1)+'</div>'+
+          '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'satisfaction\')"><strong>'+esc(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
+          '<div>'+(hidden?'<span class="badge-status s-proc">숨김</span>':'<span class="badge-status s-ok">공개</span>')+'</div>'+
           '<div style="color:#f59e0b">'+'★'.repeat(st)+'☆'.repeat(5-st)+'</div>'+
-          '<div style="font-size:0.82rem">'+(row.positive?'"'+row.positive.substring(0,40)+'…"':'—')+'</div>'+
-          '<div><span class="badge-status s-proc">보기 →</span></div>'+
+          '<div style="font-size:0.82rem">'+(row.title?'<strong>'+esc(row.title)+'</strong><br>':'')+(body?'"'+esc(body.substring(0,40))+'…"':'—')+'</div>'+
+          '<div style="display:flex;gap:4px;align-items:center;">'+
+            '<span style="cursor:pointer" onclick="showFbDetail('+oi+',\'satisfaction\')"><span class="badge-status s-proc">보기 →</span></span>'+
+            '<button class="rz-icon-btn" title="'+(hidden?'사이트에 다시 공개':'사이트에서 숨기기')+'" onclick="event.stopPropagation();toggleFeedbackHidden('+oi+')"><i class="fa-solid fa-eye'+(hidden?'-slash':'')+'"></i></button>'+
+          '</div>'+
+          '<div><button class="del-btn" onclick="event.stopPropagation();confirmDeleteFeedback(\'satisfaction\','+oi+')" title="삭제"><i class="fa-solid fa-trash-can"></i></button></div>'+
           '</div>';
       }).join('');
   }
 
   if(page==='issues'){
-    var sevCls={low:'s-proc',medium:'s-ok',high:'s-new'};
-    var sevMap={low:'낮음',mid:'보통',high:'높음'};
     var ib=document.getElementById('issTbody');
-    if(ib) ib.innerHTML=issues.length===0
-      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-wrench"></i></div><p>아직 이슈 보고가 없습니다.</p></div>'
-      :issues.map(function(row,i){
-        return '<div class="tbl-row iss-col" style="cursor:pointer" onclick="showFbDetail('+i+',\'issue\')">'+
-          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(i+1)+'</div>'+
-          '<div><strong>'+(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+row.submittedAt+'</div></div>'+
-          '<div style="font-size:0.82rem">'+(row.email||'-')+'</div>'+
-          '<div style="font-size:0.8rem">'+(row.issueTypes||'-').replace(/,/g,' · ')+'</div>'+
+    if(!ib) return;
+    var sevCls={low:'s-proc',mid:'s-ok',medium:'s-ok',high:'s-new'};
+    var sevMap={low:'낮음',mid:'보통',medium:'보통',high:'높음'};
+    var sevRank={high:3,mid:2,medium:2,low:1};
+    var iq=val('adminIssSearch').trim().toLowerCase();
+    var isev=val('adminIssSev');
+    var isort=val('adminIssSort')||'new';
+
+    var listI=issues.map(function(row,i){ return {row:row, i:i}; })
+      .filter(function(e){
+        if(isev){
+          var sv=e.row.severity==='medium'?'mid':e.row.severity;
+          if(sv!==isev) return false;
+        }
+        return hit(e.row, iq, ['name','email','issueTypes','issueDesc','resolution']);
+      });
+    listI.sort(function(a,b){
+      if(isort==='old') return kzTime(a.row.submittedAt)-kzTime(b.row.submittedAt);
+      if(isort==='sevDesc') return (sevRank[b.row.severity]||0)-(sevRank[a.row.severity]||0) || kzTime(b.row.submittedAt)-kzTime(a.row.submittedAt);
+      return kzTime(b.row.submittedAt)-kzTime(a.row.submittedAt);
+    });
+    setCount('adminIssCount', listI.length, issues.length);
+
+    ib.innerHTML=listI.length===0
+      ?'<div class="empty-st"><div class="ei"><i class="fa-solid fa-wrench"></i></div><p>'+(issues.length?'조건에 맞는 이슈가 없습니다.':'아직 이슈 보고가 없습니다.')+'</p></div>'
+      :listI.map(function(e,n){
+        var row=e.row, oi=e.i;
+        return '<div class="tbl-row iss-col">'+
+          '<div style="color:var(--text-muted);font-size:0.78rem">#'+(n+1)+'</div>'+
+          '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'issue\')"><strong>'+esc(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
+          '<div style="font-size:0.82rem">'+esc(row.email||'-')+'</div>'+
+          '<div style="font-size:0.8rem">'+esc((row.issueTypes||'-')).replace(/,/g,' · ')+'</div>'+
           '<div><span class="badge-status '+(sevCls[row.severity]||'s-proc')+'">'+(sevMap[row.severity]||'-')+'</span></div>'+
-          '<div><span class="badge-status s-proc">보기 →</span></div>'+
+          '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'issue\')"><span class="badge-status s-proc">보기 →</span></div>'+
+          '<div><button class="del-btn" onclick="event.stopPropagation();confirmDeleteFeedback(\'issue\','+oi+')" title="삭제"><i class="fa-solid fa-trash-can"></i></button></div>'+
           '</div>';
       }).join('');
   }
+}
+
+/* ── 리뷰 공개/숨김 전환 ──
+   사이트 공개 목록에서만 빼고 데이터는 그대로 보존한다. */
+function toggleFeedbackHidden(idx){
+  var row=feedbackData.satisfaction[idx]; if(!row) return;
+  var next=!(row.hidden===true);
+  row.hidden=next;
+  renderAdminPage('feedback');
+  if(typeof kzSetFeedbackHidden==='function' && row.id!=null){
+    kzSetFeedbackHidden(row.id, next).then(function(ok){
+      if(ok===false){
+        row.hidden=!next;   // 서버 반영 실패 → 되돌림
+        renderAdminPage('feedback');
+        if(typeof rzToast==='function') rzToast('서버에 반영하지 못했습니다. 다시 시도해 주세요.');
+      } else if(typeof rzToast==='function'){
+        rzToast(next?'이 리뷰를 사이트에서 숨겼습니다.':'이 리뷰를 사이트에 다시 공개했습니다.');
+      }
+    });
+  }
+}
+
+/* ── 리뷰(만족도·이슈) 삭제 ──
+   서버 DB 에서도 함께 삭제한다. 실패하면 화면을 되돌린다. */
+function confirmDeleteFeedback(type, idx){
+  var list=feedbackData[type]; if(!list) return;
+  var row=list[idx]; if(!row) return;
+  var what=(type==='satisfaction')?'만족도 응답':'이슈 보고';
+  var who=row.name||'익명';
+  var run=function(){
+    var removed=list.splice(idx,1)[0];
+    var done=function(){
+      renderAdminPage(type==='satisfaction'?'feedback':'issues');
+      if(typeof updateFeedbackStats==='function') updateFeedbackStats();
+      if(typeof admRefreshBadges==='function') admRefreshBadges();
+      if(typeof renderDashboardCharts==='function') renderDashboardCharts();
+    };
+    done();
+    if(typeof kzDeleteFeedback==='function' && removed && removed.id!=null){
+      kzDeleteFeedback(removed.id).then(function(ok){
+        if(ok===false){
+          list.splice(idx,0,removed); // 서버 삭제 실패 → 복원
+          done();
+          if(typeof rzToast==='function') rzToast('서버에서 삭제하지 못했습니다. 다시 시도해 주세요.');
+        }
+      });
+    }
+  };
+  if(typeof rzAsk==='function') rzAsk(what+'을(를) 삭제할까요?', who+' 님의 '+what+'이(가) 영구 삭제됩니다.', run);
+  else if(confirm(what+'을(를) 삭제할까요?')) run();
 }
 
 // 구 renderAdmin 래퍼 (폼 제출 등에서 호출되는 경우 대비)
@@ -3095,7 +3595,7 @@ function showRentalDetail(idx){
  '<div class="detail-row"><span>상세 주소</span><strong>'+(row.address2||'-')+'</strong></div></div>'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-note-sticky"></i> 추가 정보</div>'+
  '<div class="detail-row"><span>요청사항</span><strong>'+(row.notes||'없음')+'</strong></div>'+
- '<div class="detail-row"><span>신청일시</span><strong>'+(row.submittedAt||'-')+'</strong></div>'+
+ '<div class="detail-row"><span>신청일시</span><strong>'+kzFmtDateTime(row.submittedAt)+'</strong></div>'+
  '<div class="detail-row"><span>언어</span><strong>'+(row.lang==='en'?'English':'한국어')+'</strong></div></div>'+
  '</div>';
  document.getElementById('detailModalBg').classList.add('show');
@@ -3111,7 +3611,7 @@ function showFbDetail(idx,type){
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-user"></i> 기본 정보</div>'+
  '<div class="detail-row"><span>이름</span><strong>'+(row.name||'-')+'</strong></div>'+
  '<div class="detail-row"><span>이용 유형</span><strong>렌탈 이용자</strong></div>'+
- '<div class="detail-row"><span>제출일시</span><strong>'+(row.submittedAt||'-')+'</strong></div></div>'+
+ '<div class="detail-row"><span>제출일시</span><strong>'+kzFmtDateTime(row.submittedAt)+'</strong></div></div>'+
  '<div class="detail-section"><div class="detail-sec-title">⭐ 만족도</div>'+
  '<div class="detail-row"><span>별점</span><strong style="color:#f59e0b">'+'★'.repeat(st)+'☆'.repeat(5-st)+' ('+st+'/5)</strong></div>'+
  '<div class="detail-row"><span>이불 품질</span><strong>'+(row.q1||'-')+' / 5</strong></div>'+
@@ -3129,7 +3629,7 @@ function showFbDetail(idx,type){
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-user"></i> 신고자 정보</div>'+
  '<div class="detail-row"><span>이름</span><strong>'+(row.name||'-')+'</strong></div>'+
  '<div class="detail-row"><span>이메일</span><strong>'+(row.email||'-')+'</strong></div>'+
- '<div class="detail-row"><span>제출일시</span><strong>'+(row.submittedAt||'-')+'</strong></div></div>'+
+ '<div class="detail-row"><span>제출일시</span><strong>'+kzFmtDateTime(row.submittedAt)+'</strong></div></div>'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-wrench"></i> 이슈 정보</div>'+
  '<div class="detail-row"><span>이슈 유형</span><strong>'+(row.issueTypes||'-').replace(/,/g,', ')+'</strong></div>'+
  '<div class="detail-row"><span>심각도</span><strong>'+(sevMap[row.severity]||'-')+'</strong></div>'+
@@ -3200,9 +3700,8 @@ function submitFeedback(e,type){
  if(!chips.length){ alert(currentLang==='en'?'Please select at least one issue type.':'이슈 유형을 하나 이상 선택해 주세요.'); return; }
  data.issueTypes=chips.map(function(c){ var m=c.getAttribute('onclick').match(/'([^']+)'/); return m?m[1]:''; }).join(',');
  }
- data.id=Date.now(); data.submittedAt=new Date().toLocaleString('ko-KR'); data.status='new'; data.lang=currentLang;
+ data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
  feedbackData[type].push(data);
- localStorage.setItem('kozy_'+(type==='satisfaction'?'sat':'issue'), JSON.stringify(feedbackData[type]));
  if(typeof kzCreateFeedback==='function'){ kzCreateFeedback(type, data); }
  form.reset();
  document.querySelectorAll('.scale-btn').forEach(function(b){ b.classList.remove('selected'); });
@@ -3214,37 +3713,219 @@ function submitFeedback(e,type){
  document.getElementById('modalBg').classList.add('show');
 }
 
-function updateFeedbackStats(){
- var sats=feedbackData.satisfaction;
- if(!sats.length){
- document.getElementById('statAvgStar').textContent='—';
- document.getElementById('statStarDisp').textContent='☆☆☆☆☆';
- ['Q1','Q2','Q3','Q4'].forEach(function(q){
- var v=document.getElementById('stat'+q+'val'),b=document.getElementById('stat'+q+'bar');
- if(v)v.textContent='—'; if(b)b.style.width='0%';
- });
- return;
+/* ═══ 고객 리뷰 (피드백 페이지) ═══
+   리뷰는 서버에서만 읽어온다(/.netlify/functions/feedback?public=1).
+   서버는 이름을 마스킹하고(홍*동 / Sophia M.) 이메일 등 개인정보는 내보내지 않으며,
+   관리자가 숨김 처리한 리뷰는 목록에서 제외한다. */
+var kzPublicStats = null;   // { count, avgStar, q1~q4, dist }
+var kzReviews = [];         // 공개 리뷰 목록
+var RV_PAGE = 5;            // '더 보기' 단위
+var rvVisible = RV_PAGE;
+
+function rvEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rvStarText(n){ n=Math.max(0,Math.min(5,Math.round(+n||0))); return '★'.repeat(n)+'☆'.repeat(5-n); }
+
+/* ── 좌측 요약(평균·분포·세부 평균) ── */
+function applyPublicStats(st){
+ var set=function(id, txt){ var el=document.getElementById(id); if(el) el.textContent=txt; };
+ var en=(currentLang==='en');
+ if(!st || !st.count){
+  set('statAvgStar','—'); set('statStarDisp','☆☆☆☆☆');
+  set('rvCount', en?'No reviews yet':'아직 리뷰가 없습니다');
+  ['Q1','Q2','Q3','Q4'].forEach(function(q){
+   var v=document.getElementById('stat'+q+'val'), b=document.getElementById('stat'+q+'bar');
+   if(v)v.textContent='—'; if(b)b.style.width='0%';
+  });
+  rvRenderDist(null);
+  return;
  }
- function avg(key){ return sats.reduce(function(a,s){ return a+(+s[key]||0); },0)/sats.length; }
- var starAvg=avg('starRating');
- document.getElementById('statAvgStar').textContent=starAvg.toFixed(1);
- document.getElementById('statStarDisp').textContent='★'.repeat(Math.round(starAvg))+'☆'.repeat(5-Math.round(starAvg));
+ var s=+st.avgStar||0;
+ set('statAvgStar', s.toFixed(1));
+ set('statStarDisp', rvStarText(s));
+ set('rvCount', en?(st.count+' review'+(st.count===1?'':'s')):(st.count+'개의 리뷰'));
  ['q1','q2','q3','q4'].forEach(function(q,i){
- var a=avg(q), label=['Q1','Q2','Q3','Q4'][i];
- var v=document.getElementById('stat'+label+'val'), b=document.getElementById('stat'+label+'bar');
- if(v)v.textContent=a?a.toFixed(1)+'/5':'—';
- if(b)b.style.width=(a?a*20:0)+'%';
+  var a=+st[q]||0, label=['Q1','Q2','Q3','Q4'][i];
+  var v=document.getElementById('stat'+label+'val'), b=document.getElementById('stat'+label+'bar');
+  if(v)v.textContent=a?a.toFixed(1)+'/5':'—';
+  if(b)b.style.width=(a?a*20:0)+'%';
  });
- var recent=sats.slice().reverse().slice(0,3);
- var rf=document.getElementById('recentFeedbacks');
- if(rf&&recent.length){
- rf.innerHTML=recent.map(function(s){
- var st=+s.starRating||0;
- var typeLabel=(currentLang==='en'?'Rental User':'렌탈 이용자');
- return '<div class="rfeed-item"><div class="rfeed-stars">'+'★'.repeat(st)+'☆'.repeat(5-st)+'</div>'+
- '<div class="rfeed-text">'+(s.positive?'"'+s.positive.substring(0,60)+(s.positive.length>60?'...':'')+'"':'—')+'</div>'+
- '<div class="rfeed-meta">'+typeLabel+' · '+(s.submittedAt.split(' ')[0]||'')+'</div></div>';
+ rvRenderDist(st);
+}
+
+/* ── 별점 분포 막대 (클릭하면 해당 별점만 필터) ── */
+function rvRenderDist(st){
+ var el=document.getElementById('rvDist'); if(!el) return;
+ var dist=(st&&st.dist)||{}, total=(st&&st.count)||0;
+ var cur=(document.getElementById('rvStarFilter')||{}).value||'';
+ var html='';
+ for(var n=5;n>=1;n--){
+  var c=+dist[n]||0;
+  var pct=total?Math.round(c/total*100):0;
+  html+='<button type="button" class="rv-dist-row'+(cur===String(n)?' on':'')+'" onclick="rvFilterStar('+n+')">'
+   +'<span class="rv-dist-lbl">'+n+' ★</span>'
+   +'<span class="rv-dist-bar"><i style="width:'+pct+'%"></i></span>'
+   +'<span class="rv-dist-n">'+c+'</span>'
+   +'</button>';
+ }
+ el.innerHTML=html;
+}
+function rvFilterStar(n){
+ var sel=document.getElementById('rvStarFilter'); if(!sel) return;
+ sel.value=(sel.value===String(n))?'':String(n);   // 같은 별점을 다시 누르면 해제
+ rvVisible=RV_PAGE;
+ rvRenderList();
+ rvRenderDist(kzPublicStats);
+}
+
+/* ── 리뷰 목록 ── */
+function rvRenderList(){
+ var wrap=document.getElementById('rvList'); if(!wrap) return;
+ var en=(currentLang==='en');
+ var fstar=(document.getElementById('rvStarFilter')||{}).value||'';
+ var sort=(document.getElementById('rvSort')||{}).value||'new';
+
+ var list=kzReviews.filter(function(r){ return !fstar || String(r.star)===fstar; });
+ list.sort(function(a,b){
+  if(sort==='old') return kzTime(a.submittedAt)-kzTime(b.submittedAt);
+  if(sort==='high') return (b.star-a.star) || (kzTime(b.submittedAt)-kzTime(a.submittedAt));
+  if(sort==='low')  return (a.star-b.star) || (kzTime(b.submittedAt)-kzTime(a.submittedAt));
+  return kzTime(b.submittedAt)-kzTime(a.submittedAt);
+ });
+
+ var shown=Math.min(rvVisible, list.length);
+ var cnt=document.getElementById('rvShown');
+ if(cnt) cnt.textContent=list.length
+   ? (en?(shown+' of '+list.length):(list.length+'개 중 '+shown+'개 표시'))
+   : '';
+
+ if(!list.length){
+  wrap.innerHTML='<div class="rv-empty"><i class="fa-regular fa-comment-dots"></i>'
+   +(fstar
+     ? (en?'No reviews with this rating.':'해당 별점의 리뷰가 없습니다.')
+     : (en?'No reviews yet. Be the first to share your experience!':'아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨주세요!'))
+   +'</div>';
+  var mb0=document.getElementById('rvMore'); if(mb0) mb0.style.display='none';
+  return;
+ }
+
+ wrap.innerHTML=list.slice(0,shown).map(function(r){
+  var nm=r.name||'익명';
+  var initial=nm.trim().charAt(0).toUpperCase();
+  return '<article class="rv-item">'
+   +'<div class="rv-item-stars">'+rvStarText(r.star)+'</div>'
+   +'<div class="rv-head"><span class="rv-avatar">'+rvEsc(initial)+'</span>'
+     +'<span><span class="rv-name">'+rvEsc(nm)+'</span><div class="rv-date">'+kzFmtDate(r.submittedAt)+'</div></span></div>'
+   +(r.title?'<h4 class="rv-title">'+rvEsc(r.title)+'</h4>':'')
+   +'<p class="rv-body">'+(r.body?rvEsc(r.body):'—')+'</p>'
+   +(r.improvement?'<div class="rv-imp"><b>'+(en?'Could be better':'개선 희망')+'</b> · '+rvEsc(r.improvement)+'</div>':'')
+   +'</article>';
  }).join('');
+
+ var mb=document.getElementById('rvMore');
+ if(mb){
+  mb.style.display=(shown<list.length)?'block':'none';
+  mb.textContent=en?('Show more reviews ('+(list.length-shown)+')'):('리뷰 더 보기 ('+(list.length-shown)+')');
+ }
+}
+function rvShowMore(){ rvVisible+=RV_PAGE; rvRenderList(); }
+
+function updateFeedbackStats(){
+ applyPublicStats(kzPublicStats);
+ rvRenderList();
+}
+
+/* ── 리뷰 작성 모달 ── */
+var rvState={ star:0 };
+
+function rvBuildStarPicker(id, goNext){
+ var wrap=document.getElementById(id); if(!wrap) return;
+ wrap.innerHTML='';
+ for(var i=1;i<=5;i++){
+  (function(n){
+   var b=document.createElement('button');
+   b.type='button'; b.textContent='★'; b.setAttribute('aria-label', n+'점');
+   b.onclick=function(){ rvPickStar(n, goNext); };
+   wrap.appendChild(b);
+  })(i);
+ }
+}
+function rvPaintStars(){
+ ['rvStarPick','rvStarPick2'].forEach(function(id){
+  var wrap=document.getElementById(id); if(!wrap) return;
+  Array.prototype.forEach.call(wrap.children, function(b,i){ b.classList.toggle('on', i<rvState.star); });
+ });
+}
+function rvPickStar(n, goNext){
+ rvState.star=n;
+ rvPaintStars();
+ if(goNext) rvGoStep(2);
+}
+function rvGoStep(n){
+ var s1=document.getElementById('rvStep1'), s2=document.getElementById('rvStep2');
+ if(!s1||!s2) return;
+ s1.style.display=(n===1)?'':'none';
+ s2.style.display=(n===2)?'':'none';
+ var title=document.getElementById('rvModalTitle');
+ if(title) title.textContent=t(n===1?'rv_m_t1':'rv_m_t2');
+ var box=document.querySelector('#rvModalBg .rv-modal'); if(box) box.scrollTop=0;
+}
+function rvBack(){ rvGoStep(1); }
+function rvOpenModal(){
+ rvState.star=0;
+ rvBuildStarPicker('rvStarPick', true);
+ rvBuildStarPicker('rvStarPick2', false);
+ rvPaintStars();
+ ['rvName','rvTitle','rvBody','rvImprove'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+ var rec=document.getElementById('rvRecommend'); if(rec) rec.value='yes';
+ document.querySelectorAll('#satisfactionForm .scale-btn').forEach(function(b){ b.classList.remove('selected'); });
+ ['1','2','3','4'].forEach(function(n){ var h=document.getElementById('hidden_q'+n); if(h) h.value=''; });
+ rvGoStep(1);
+ document.getElementById('rvModalBg').classList.add('show');
+}
+function rvCloseModal(){ document.getElementById('rvModalBg').classList.remove('show'); }
+
+function rvSubmit(){
+ var en=(currentLang==='en');
+ var name=(document.getElementById('rvName').value||'').trim();
+ var body=(document.getElementById('rvBody').value||'').trim();
+ if(!rvState.star){ alert(en?'Please select a star rating.':'별점을 선택해 주세요.'); rvGoStep(1); return; }
+ if(!name){ alert(en?'Please enter your name.':'이름을 입력해 주세요.'); return; }
+ if(!body){ alert(en?'Please write your review.':'리뷰 내용을 입력해 주세요.'); return; }
+
+ var data={
+  id:Date.now(),
+  name:name,
+  starRating:String(rvState.star),
+  title:(document.getElementById('rvTitle').value||'').trim(),
+  body:body,
+  positive:body,                 /* 관리자 화면 호환(기존 '좋았던 점' 필드) */
+  improvement:(document.getElementById('rvImprove').value||'').trim(),
+  recommend:(document.getElementById('rvRecommend')||{}).value||'',
+  userType:'rental',
+  status:'new',
+  lang:currentLang,
+  submittedAt:new Date().toISOString()
+ };
+ ['1','2','3','4'].forEach(function(n){
+  var h=document.getElementById('hidden_q'+n);
+  if(h && h.value) data['q'+n]=h.value;
+ });
+
+ var btn=document.getElementById('rvSubmitBtn');
+ if(btn){ btn.disabled=true; }
+ var done=function(){
+  if(btn) btn.disabled=false;
+  rvCloseModal();
+  if(typeof kzLoadReviews==='function') kzLoadReviews();
+  document.getElementById('modalTitle').textContent=t('success_fb_sat_title');
+  document.getElementById('modalMsg').textContent=t('success_fb_sat_msg');
+  document.getElementById('modalBg').classList.add('show');
+ };
+ if(typeof kzCreateFeedback==='function'){
+  Promise.resolve(kzCreateFeedback('satisfaction', data)).then(done, done);
+ } else {
+  feedbackData.satisfaction.push(data);
+  done();
  }
 }
 
@@ -3305,12 +3986,7 @@ if(typeof IntersectionObserver !== 'undefined'){
 
 // Initialize
 (function init(){
-  try {
-    var sr = localStorage.getItem('kozy_r'); if(sr) orders.rental = JSON.parse(sr);
-    var ss = localStorage.getItem('kozy_sat'); if(ss) feedbackData.satisfaction = JSON.parse(ss);
-    var si = localStorage.getItem('kozy_issue'); if(si) feedbackData.issue = JSON.parse(si);
-  } catch(e){}
-
+  kzInitHistory();
   buildScales();
   updateFeedbackStats();
   applyTranslations();
@@ -3444,6 +4120,8 @@ setLang = function(lang){
   var FLAG_MAP_LOCAL = {ko:'<i class="fa-solid fa-earth-asia" style="font-size:0.9em;"></i>', en:'<i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i>'};
   if(quickFlag) quickFlag.innerHTML = FLAG_MAP_LOCAL[lang] || FLAG_MAP_LOCAL['ko'];
   if(quickText) quickText.textContent = lang === 'en' ? 'EN' : 'KO';
+  /* 리뷰 목록·요약은 JS 로 그리므로 언어가 바뀌면 다시 렌더한다 */
+  try { if(typeof updateFeedbackStats==='function') updateFeedbackStats(); } catch(e){}
 };
 // 기본 언어 = 영어. 이전에 선택한 언어가 있으면 그대로 유지.
 (function bootLang(){
@@ -3480,7 +4158,8 @@ document.addEventListener('click', function(e){
     <div class="adm-page-header">
       <h2 class="adm-page-title"><i class="fa-solid fa-bed"></i> 렌탈 신청</h2>
       <div class="adm-filter-row">
-        <label>상태 필터</label>
+        <input type="search" id="adminRentalSearch" placeholder="이름 · 이메일 · 주문번호 검색" oninput="renderAdminPage('rental')">
+        <label>상태</label>
         <select id="adminRentalFilter" onchange="renderAdminPage('rental')">
           <option value="">전체 보기</option>
           <option value="reserved">예약완료</option>
@@ -3489,6 +4168,15 @@ document.addEventListener('click', function(e){
           <option value="returned">반납완료</option>
           <option value="cancelled">취소</option>
         </select>
+        <label>정렬</label>
+        <select id="adminRentalSort" onchange="renderAdminPage('rental')">
+          <option value="new">최신 접수순</option>
+          <option value="old">오래된 접수순</option>
+          <option value="startDesc">시작일 늦은순</option>
+          <option value="startAsc">시작일 빠른순</option>
+          <option value="name">이름순 (가나다)</option>
+        </select>
+        <span class="adm-result-count" id="adminRentalCount"></span>
       </div>
     </div>
     <div class="orders-table">
@@ -3522,10 +4210,30 @@ document.addEventListener('click', function(e){
   <main class="adm-main">
     <div class="adm-page-header">
       <h2 class="adm-page-title"><i class="fa-solid fa-face-smile"></i> 만족도</h2>
+      <div class="adm-filter-row">
+        <input type="search" id="adminFbSearch" placeholder="이름 · 코멘트 검색" oninput="renderAdminPage('feedback')">
+        <label>별점</label>
+        <select id="adminFbStar" onchange="renderAdminPage('feedback')">
+          <option value="">전체</option>
+          <option value="5">★ 5</option>
+          <option value="4">★ 4</option>
+          <option value="3">★ 3</option>
+          <option value="2">★ 2</option>
+          <option value="1">★ 1</option>
+        </select>
+        <label>정렬</label>
+        <select id="adminFbSort" onchange="renderAdminPage('feedback')">
+          <option value="new">최신순</option>
+          <option value="old">오래된순</option>
+          <option value="starDesc">별점 높은순</option>
+          <option value="starAsc">별점 낮은순</option>
+        </select>
+        <span class="adm-result-count" id="adminFbCount"></span>
+      </div>
     </div>
     <div class="orders-table">
       <div class="tbl-head fb-col">
-        <div>#</div><div>이름</div><div>유형</div><div>별점</div><div>코멘트</div><div>상세</div>
+        <div>#</div><div>이름</div><div>공개</div><div>별점</div><div>제목 · 내용</div><div>상세</div><div></div>
       </div>
       <div id="fbTbody"></div>
     </div>
@@ -3554,10 +4262,27 @@ document.addEventListener('click', function(e){
   <main class="adm-main">
     <div class="adm-page-header">
       <h2 class="adm-page-title"><i class="fa-solid fa-wrench"></i> 이슈 보고</h2>
+      <div class="adm-filter-row">
+        <input type="search" id="adminIssSearch" placeholder="이름 · 이메일 · 내용 검색" oninput="renderAdminPage('issues')">
+        <label>심각도</label>
+        <select id="adminIssSev" onchange="renderAdminPage('issues')">
+          <option value="">전체</option>
+          <option value="high">높음</option>
+          <option value="mid">보통</option>
+          <option value="low">낮음</option>
+        </select>
+        <label>정렬</label>
+        <select id="adminIssSort" onchange="renderAdminPage('issues')">
+          <option value="new">최신순</option>
+          <option value="old">오래된순</option>
+          <option value="sevDesc">심각도 높은순</option>
+        </select>
+        <span class="adm-result-count" id="adminIssCount"></span>
+      </div>
     </div>
     <div class="orders-table">
       <div class="tbl-head iss-col">
-        <div>#</div><div>이름</div><div>이메일</div><div>이슈 유형</div><div>심각도</div><div>상세</div>
+        <div>#</div><div>이름</div><div>이메일</div><div>이슈 유형</div><div>심각도</div><div>상세</div><div></div>
       </div>
       <div id="issTbody"></div>
     </div>
@@ -3660,7 +4385,7 @@ function openReceiptModal(order) {
     if (notesBlock) notesBlock.style.display = 'none';
   }
   set('r-id', order.orderNo || order.id);
-  set('r-submitted', order.submittedAt);
+  set('r-submitted', kzFmtDateTime(order.submittedAt));
 
   // 상태 badge (통합 rentStatus 기준)
   var statusEl = document.getElementById('r-status');
@@ -3883,6 +4608,17 @@ document.addEventListener('keydown', function(e) {
         <option value="cancelled">취소</option>
       </select>
       <select id="rzOrderSchoolFilter" onchange="rzRenderOrders()"><option value="">전체 학교</option></select>
+      <select id="rzOrderSort" onchange="rzRenderOrders()">
+        <option value="new">최신 접수순</option>
+        <option value="old">오래된 접수순</option>
+        <option value="startDesc">시작일 늦은순</option>
+        <option value="startAsc">시작일 빠른순</option>
+        <option value="endAsc">반납 임박순</option>
+        <option value="amountDesc">금액 높은순</option>
+        <option value="orderNo">주문번호순</option>
+        <option value="name">고객명순 (가나다)</option>
+      </select>
+      <span class="adm-result-count" id="rzOrderCount"></span>
     </div>
     <div class="orders-table">
       <div class="tbl-head ordm-col">
@@ -4069,6 +4805,13 @@ document.addEventListener('keydown', function(e) {
         <div class="fg"><label>이메일 <span class="req">*</span></label><input type="email" id="rzO-email" placeholder="name@example.com"></div>
         <div class="fg"><label>접수 경로</label><select id="rzO-channel"><option value="W">웹사이트 (W)</option><option value="B">부스 (B)</option></select><div style="font-size:0.74rem;color:var(--text-muted);margin-top:5px;">주문번호 채널 구분에 사용됩니다 (예: W-24SS-003).</div></div>
       </div>
+      <div class="fg" id="rzO-orderNoWrap"><label>주문번호</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="rzO-orderNo" placeholder="예: W-26SS-003" style="flex:1;">
+          <button type="button" class="rz-btn ghost" style="padding:8px 13px;font-size:0.78rem;white-space:nowrap;" onclick="rzSuggestOrderNo()">자동 생성</button>
+        </div>
+        <div class="hint" id="rzO-orderNo-hint">비워두면 자동으로 부여됩니다. 형식: 채널(W/B)-학기코드-일련번호</div>
+      </div>
       <div class="frow">
         <div class="fg"><label>구성</label><select id="rzO-pkg"><option value="A">풀세트 (5품목)</option></select></div>
         <div class="fg"><label>기간</label><select id="rzO-dur"><option value="semester">한 학기</option><option value="extend">기간 연장</option></select></div>
@@ -4186,6 +4929,25 @@ document.addEventListener('keydown', function(e) {
   </div>
 </div>
 
+<!-- ═══ 재고 번호 수정 모달 ═══ -->
+<div class="modal-bg" id="invRenameModalBg" onclick="if(event.target===this)rzCloseModal('invRenameModalBg')">
+  <div class="rz-modal">
+    <div class="rz-modal-head"><h3><i class="fa-solid fa-pen"></i><span>재고 번호 수정</span></h3><button type="button" class="rz-modal-x" onclick="rzCloseModal('invRenameModalBg')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="rz-modal-body">
+      <input type="hidden" id="invRename-idx" value="-1">
+      <div class="fg"><label>재고 번호 <span class="req">*</span></label>
+        <input type="text" id="invRename-label" placeholder="예: CF-001">
+        <div class="hint" id="invRename-hint"></div>
+      </div>
+      <div class="fg"><label>메모</label><input type="text" id="invRename-note" placeholder="예: 2026 봄학기 입고, 세탁 완료"></div>
+    </div>
+    <div class="rz-modal-foot">
+      <button type="button" class="rz-cancel" onclick="rzCloseModal('invRenameModalBg')">취소</button>
+      <button type="button" class="rz-save" onclick="invSaveRename()">저장</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ 범용 확인 모달 ═══ -->
 <div class="modal-bg" id="rzAskBg" onclick="if(event.target===this)rzCloseModal('rzAskBg')">
   <div class="rz-modal" style="max-width:380px;text-align:center;">
@@ -4235,8 +4997,76 @@ var EMAIL_FLOW = ['reserved','renting','due','returned'];
 var KOZY_SENDER = 'enactuskozy@gmail.com';
 
 /* ── 저장소 ── */
-function rzLoad(k, fb){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):fb; }catch(e){ return fb; } }
-function rzSave(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} if(k==='kozy_r' && typeof kzSyncOrders==='function'){ kzSyncOrders(v); } }
+/* ═══ 운영 데이터 저장소 (localStorage → 서버) ═══
+   고객·학교·메일 대기열·재고·설정 플래그는 브라우저에 저장하지 않고
+   /.netlify/functions/admin-store 에 보관한다.
+   - rzLoad/rzSave 인터페이스는 그대로 두어 기존 호출부를 건드리지 않는다.
+   - 여기 있는 kzStore 는 서버에서 받아온 값을 담는 메모리 사본이다.
+   - 저장은 관리자 세션일 때만 서버로 전송한다(고객 화면에서는 아무것도 쓰지 않는다). */
+var KZ_STORE_MAP = {
+  'kozy_customers':'customers',
+  'kozy_schools':'schools',
+  'kozy_emails':'emails',
+  'kozy_inventory':'inventory'
+};
+// null = 아직 서버에서 받지 못함 → rzLoad 가 기본값(fallback)을 돌려준다
+var kzStore = { customers:null, schools:null, emails:null, inventory:null, flags:{} };
+var _kzStoreDirty = {}, _kzStoreT = null;
+
+function rzLoad(k, fb){
+  if(k==='kozy_r') return orders.rental;
+  var sk=KZ_STORE_MAP[k];
+  if(sk) return (kzStore[sk]==null) ? fb : kzStore[sk];
+  var f=kzStore.flags[k];
+  return (f===undefined) ? fb : f;
+}
+function rzSave(k, v){
+  if(k==='kozy_r'){
+    if(typeof kzSyncOrders==='function') kzSyncOrders(v);
+    return;
+  }
+  var sk=KZ_STORE_MAP[k];
+  if(sk){ kzStore[sk]=v; _kzStoreDirty[sk]=true; }
+  else { kzStore.flags[k]=v; _kzStoreDirty.flags=true; }
+  kzStoreFlush();
+}
+/** 변경분을 모아 서버에 저장(짧게 디바운스). 관리자가 아니면 보류만 한다. */
+function kzStoreFlush(){
+  if(!window.__kzAdmin || typeof kzStoreSave!=='function') return;
+  clearTimeout(_kzStoreT);
+  _kzStoreT=setTimeout(function(){
+    var keys=Object.keys(_kzStoreDirty);
+    if(!keys.length) return;
+    var payload={};
+    keys.forEach(function(kk){ payload[kk]=kzStore[kk]; });
+    _kzStoreDirty={};
+    kzStoreSave(payload).then(function(ok){
+      // 실패하면 다음 변경 때 다시 시도하도록 dirty 를 되살린다
+      if(ok===false) keys.forEach(function(kk){ _kzStoreDirty[kk]=true; });
+    });
+  }, 500);
+}
+/** 서버에서 받아온 운영 데이터를 화면 변수에 반영한다. */
+function kzApplyStore(data){
+  if(!data) return;
+  ['customers','emails','inventory'].forEach(function(k){
+    if(Array.isArray(data[k])) kzStore[k]=data[k];
+  });
+  // 학교 목록은 서버에 값이 있을 때만 덮어쓴다(최초 실행 시 기본 시드 유지)
+  var seedSchools=false;
+  if(Array.isArray(data.schools) && data.schools.length){ kzStore.schools=data.schools; }
+  else { kzStore.schools=kozySchools||[]; seedSchools=(kzStore.schools.length>0); }
+  if(data.flags && typeof data.flags==='object' && !Array.isArray(data.flags)) kzStore.flags=data.flags;
+
+  kozyCustomers = kzStore.customers;
+  kozySchools   = kzStore.schools;
+  kozyEmails    = kzStore.emails;
+  kozyInventory = kzStore.inventory;
+
+  // 서버에 학교 목록이 아직 없으면 기본 시드를 한 번 올려둔다
+  if(seedSchools){ _kzStoreDirty.schools=true; kzStoreFlush(); }
+}
+window.kzApplyStore = kzApplyStore;
 var kozyCustomers = rzLoad('kozy_customers', []);
 var kozySchools   = rzLoad('kozy_schools', [
   { name:'서강대학교', returnDate:'' },
@@ -4409,7 +5239,10 @@ function invRenderList(){
       return '<button type="button" class="inv-grade-btn '+INV_GRADES[k].cls+(k===g?' active':'')+'" title="'+INV_GRADES[k].desc+'" onclick="invSetGrade('+idx+',\''+k+'\')">'+k+'</button>';
     }).join('');
     return '<div class="tbl-row invm-col">'
-      +'<div class="rz-mono">'+rzEsc(item.label||item.id)+'</div>'
+      +'<div class="rz-mono" style="display:flex;align-items:center;gap:6px;">'
+        +'<span>'+rzEsc(item.label||item.id)+'</span>'
+        +'<button type="button" class="rz-icon-btn" title="재고 번호 수정" onclick="invOpenRename('+idx+')"><i class="fa-solid fa-pen"></i></button>'
+      +'</div>'
       +'<div style="font-size:0.82rem"><strong>'+rzEsc(invItemLabel(item.type))+'</strong></div>'
       +'<div class="inv-grade-group">'+gradeBtns+'</div>'
       +'<div style="font-size:0.78rem;color:var(--text-muted)">'+rzEsc(item.createdAt||'-')+'</div>'
@@ -4496,6 +5329,33 @@ function invSaveAdd(){
   rzCloseModal('invAddModalBg');
   invRenderInventory();
   rzToast(qty+'개 '+meta.label+'(등급 '+grade+')이(가) 등록되었습니다.');
+}
+/* ── 재고 번호(라벨) 수정 ──
+   품목 스티커를 다시 붙이거나 번호 체계를 바꿀 때 사용한다. 중복 번호는 막는다. */
+function invOpenRename(idx){
+  var it=kozyInventory[idx]; if(!it) return;
+  document.getElementById('invRename-idx').value=idx;
+  document.getElementById('invRename-label').value=it.label||it.id||'';
+  document.getElementById('invRename-note').value=it.note||'';
+  var meta=INV_ITEMS[it.type];
+  document.getElementById('invRename-hint').textContent=(meta?meta.label:it.type)+' · 등록일 '+(it.createdAt||'-')
+    +(meta?(' · 권장 형식 '+meta.prefix+'-001'):'');
+  rzOpenBg('invRenameModalBg');
+}
+function invSaveRename(){
+  var idx=+document.getElementById('invRename-idx').value;
+  var it=kozyInventory[idx]; if(!it){ rzCloseModal('invRenameModalBg'); return; }
+  var label=(document.getElementById('invRename-label').value||'').trim();
+  var note=(document.getElementById('invRename-note').value||'').trim();
+  if(!label){ rzToast('재고 번호를 입력해 주세요.'); return; }
+  if(label.length>40){ rzToast('재고 번호는 40자 이내로 입력해 주세요.'); return; }
+  var dup=kozyInventory.some(function(x,i){ return i!==idx && String(x.label||'')===label; });
+  if(dup){ rzToast('이미 사용 중인 재고 번호입니다: '+label); return; }
+  it.label=label; it.note=note;
+  rzSave('kozy_inventory', kozyInventory);
+  rzCloseModal('invRenameModalBg');
+  invRenderInventory();
+  rzToast('재고 번호를 '+label+'(으)로 변경했습니다.');
 }
 function invDelete(idx){
   var item=kozyInventory[idx]; if(!item) return;
@@ -4705,16 +5565,30 @@ function rzRenderOrders(){
   var q=(document.getElementById('rzOrderSearch').value||'').toLowerCase();
   var sf=document.getElementById('rzOrderStatusFilter').value;
   var sc=document.getElementById('rzOrderSchoolFilter').value;
+  var sortEl=document.getElementById('rzOrderSort');
+  var sort=sortEl?sortEl.value:'new';
   var rows=orders.rental.map(function(o,i){ return {o:o,i:i}; })
-    .sort(function(a,b){ return (a.o.startDate||'')<(b.o.startDate||'')?1:-1; })
     .filter(function(r){
       var o=r.o, nm=(o.name||'').toLowerCase();
       if(sf && o.rentStatus!==sf) return false;
       if(sc && o.school!==sc) return false;
-      if(q && !(nm.includes(q) || (o.orderNo||'').toLowerCase().includes(q))) return false;
+      if(q && !(nm.includes(q) || (o.orderNo||'').toLowerCase().includes(q) || (o.email||'').toLowerCase().includes(q))) return false;
       return true;
     });
-  if(!rows.length){ tb.innerHTML='<div class="empty-st"><div class="ei"><i class="fa-solid fa-inbox"></i></div><p>표시할 주문이 없습니다. 웹사이트에서 렌탈 신청이 접수되면 자동으로 등록됩니다.</p></div>'; rzRefreshDueBadge(); return; }
+  rows.sort(function(a,b){
+    var x=a.o, y=b.o;
+    if(sort==='old') return kzTime(x.submittedAt)-kzTime(y.submittedAt);
+    if(sort==='startAsc') return String(x.startDate||'').localeCompare(String(y.startDate||''));
+    if(sort==='startDesc') return String(y.startDate||'').localeCompare(String(x.startDate||''));
+    if(sort==='endAsc') return String(x.endDate||'9999').localeCompare(String(y.endDate||'9999'));
+    if(sort==='amountDesc') return (+y.amountKRW||0)-(+x.amountKRW||0);
+    if(sort==='orderNo') return String(x.orderNo||'').localeCompare(String(y.orderNo||''));
+    if(sort==='name') return String(x.name||'').localeCompare(String(y.name||''),'ko');
+    return kzTime(y.submittedAt)-kzTime(x.submittedAt); // 기본: 최신 접수순
+  });
+  var cntEl=document.getElementById('rzOrderCount');
+  if(cntEl) cntEl.textContent=(rows.length===orders.rental.length)?(orders.rental.length+'건'):(rows.length+' / '+orders.rental.length+'건');
+  if(!rows.length){ tb.innerHTML='<div class="empty-st"><div class="ei"><i class="fa-solid fa-inbox"></i></div><p>'+(orders.rental.length?'조건에 맞는 주문이 없습니다.':'표시할 주문이 없습니다. 웹사이트에서 렌탈 신청이 접수되면 자동으로 등록됩니다.')+'</p></div>'; rzRefreshDueBadge(); return; }
   tb.innerHTML=rows.map(function(r){
     var o=r.o, i=r.i;
     return '<div class="tbl-row ordm-col">'
@@ -4750,8 +5624,10 @@ function rzOpenOrderModal(i){
     document.getElementById('rzO-pkg').value='A'; document.getElementById('rzO-dur').value='semester';
     document.getElementById('rzO-start').value=rzToday(); document.getElementById('rzO-end').value='';
     document.getElementById('rzO-school').value=''; document.getElementById('rzO-amount').value='';
+    document.getElementById('rzO-orderNo').value='';
   } else {
     var o=orders.rental[i];
+    document.getElementById('rzO-orderNo').value=o.orderNo||'';
     document.getElementById('rzO-pkg').value=o.package||'A';
     document.getElementById('rzO-dur').value=o.duration||'semester';
     document.getElementById('rzO-start').value=o.startDate||'';
@@ -4766,6 +5642,29 @@ function rzOpenOrderModal(i){
   document.getElementById('rzO-pkg').onchange=rzAmountHint;
   document.getElementById('rzO-dur').onchange=rzAmountHint;
   rzOpenBg('rzOrderModalBg');
+}
+/* ── 주문번호 관리 ──
+   주문번호는 관리자가 직접 수정할 수 있다. 다른 주문과 중복되지 않는지 검사한다. */
+function rzSuggestOrderNo(){
+  var start=document.getElementById('rzO-start').value||rzToday();
+  var chEl=document.getElementById('rzO-channel');
+  var idx=+document.getElementById('rzO-idx').value;
+  var ch=(chEl && chEl.value==='B')?'B':((idx>=0 && orders.rental[idx] && orders.rental[idx].channel==='B')?'B':'W');
+  var no=rzNextOrderNo(start, ch);
+  document.getElementById('rzO-orderNo').value=no;
+  rzToast('주문번호 '+no+'을(를) 생성했습니다. 저장하면 반영됩니다.');
+}
+/** 주문번호 중복 검사 — 자기 자신(selfIdx)은 제외. 중복이면 해당 주문번호를 반환 */
+function rzOrderNoTaken(no, selfIdx){
+  if(!no) return null;
+  var hit=orders.rental.some(function(o,i){ return i!==selfIdx && String(o.orderNo||'')===no; });
+  return hit?no:null;
+}
+/** 주문번호를 바꾸면 이미 쌓인 메일 대기열의 참조도 함께 갱신한다. */
+function rzRenameOrderNoRefs(oldNo, newNo){
+  var touched=false;
+  kozyEmails.forEach(function(m){ if(m && m.oid===oldNo){ m.oid=newNo; touched=true; } });
+  if(touched) rzSave('kozy_emails', kozyEmails);
 }
 function rzSchoolHint(){
   var name=document.getElementById('rzO-school').value;
@@ -4792,18 +5691,21 @@ function rzSaveOrder(){
   var end=document.getElementById('rzO-end').value;
   if(!start||!end){ rzToast('대여 시작일과 반납 예정일을 입력해 주세요.'); return; }
   if(end<start){ rzToast('반납 예정일은 대여 시작일 이후여야 합니다.'); return; }
+  var orderNo=(document.getElementById('rzO-orderNo').value||'').trim();
+  if(orderNo.length>40){ rzToast('주문번호는 40자 이내로 입력해 주세요.'); return; }
+  if(rzOrderNoTaken(orderNo, idx)){ rzToast('이미 사용 중인 주문번호입니다: '+orderNo); return; }
   if(idx<0){
     var name=document.getElementById('rzO-name').value.trim();
     var email=document.getElementById('rzO-email').value.trim();
     if(!name||!email){ rzToast('이름과 이메일을 입력해 주세요.'); return; }
     var ch=(document.getElementById('rzO-channel')||{}).value==='B'?'B':'W';
     var o={
-      id:Date.now(), submittedAt:new Date().toLocaleString('ko-KR'), status:'confirmed', lang:'ko',
+      id:Date.now(), submittedAt:new Date().toISOString(), status:'confirmed', lang:'ko',
       name:name, email:email, nationality:document.getElementById('rzO-nat').value.trim(),
       package:document.getElementById('rzO-pkg').value, duration:document.getElementById('rzO-dur').value,
       startDate:start, endDate:end, school:document.getElementById('rzO-school').value,
       amountKRW:+document.getElementById('rzO-amount').value||0,
-      channel:ch, orderNo:rzNextOrderNo(start, ch), rentAuto:true
+      channel:ch, orderNo:orderNo||rzNextOrderNo(start, ch), rentAuto:true
     };
     o.rentStatus=rzComputeStatus(o,rzToday());
     orders.rental.push(o);
@@ -4812,7 +5714,9 @@ function rzSaveOrder(){
     rzToast('주문 '+o.orderNo+'이(가) 등록되었습니다.');
   } else {
     var o=orders.rental[idx];
-    var prev=o.rentStatus;
+    var prev=o.rentStatus, prevNo=o.orderNo;
+    o.orderNo=orderNo||o.orderNo||rzNextOrderNo(start, o.channel);
+    if(prevNo && o.orderNo!==prevNo && typeof rzRenameOrderNoRefs==='function') rzRenameOrderNoRefs(prevNo, o.orderNo);
     o.package=document.getElementById('rzO-pkg').value;
     o.duration=document.getElementById('rzO-dur').value;
     o.startDate=start; o.endDate=end;
@@ -5195,18 +6099,19 @@ renderAdmin = function(){
   if(typeof invRenderInventory==='function') invRenderInventory();
 };
 
-/* ═══ 초기화 ═══ */
-(function rzInit(){
-  if(typeof seedSchoolDirectoryToAdmin==='function') seedSchoolDirectoryToAdmin();
-  kozySchools=rzLoad('kozy_schools', kozySchools);
+/* ═══ 데이터 적재 후 공통 처리 ═══
+   최초 로드와, 관리자 로그인 후 서버에서 데이터를 받아온 시점 양쪽에서 호출된다.
+   (예전에는 localStorage 에 이미 데이터가 있다는 전제로 초기화 때 한 번만 돌았다) */
+function rzAfterDataLoad(){
   rzSyncCustomers();
-  var migrated = !rzLoad('kozy_rz_migrated', false);
+  var needMigrateFlag = !rzLoad('kozy_rz_migrated', false);
   rzEnsureOrders({ mailNew:false });
-  if(migrated) rzSave('kozy_rz_migrated', true);
+  if(needMigrateFlag && orders.rental.length) rzSave('kozy_rz_migrated', true);
+
   /* 통합 상태 1회 마이그레이션: 과거 렌탈신청 탭의 종료 상태(완료=반납완료, 취소)를
      rentStatus로 승격해 보존한다. 나머지(신규/확인완료/배송중/배송완료/반납중)는
      날짜 자동 전환 엔진이 계산한 rentStatus를 그대로 신뢰한다. */
-  if(!rzLoad('kozy_status_unified_v1', false)){
+  if(orders.rental.length && !rzLoad('kozy_status_unified_v1', false)){
     var _mig=false;
     orders.rental.forEach(function(o){
       if(o.status==='done' && o.rentStatus!=='returned'){ o.rentStatus='returned'; o.rentAuto=false; _mig=true; }
@@ -5215,10 +6120,18 @@ renderAdmin = function(){
     if(_mig) rzSave('kozy_r', orders.rental);
     rzSave('kozy_status_unified_v1', true);
   }
-  rzInjectNav();
   rzRefreshDueBadge();
   if(typeof invMigrateLegacy==='function') invMigrateLegacy();
   if(typeof invRefreshBadge==='function') invRefreshBadge();
+}
+window.rzAfterDataLoad = rzAfterDataLoad;
+
+/* ═══ 초기화 ═══ */
+(function rzInit(){
+  if(typeof seedSchoolDirectoryToAdmin==='function') seedSchoolDirectoryToAdmin();
+  kozySchools=rzLoad('kozy_schools', kozySchools);
+  rzInjectNav();
+  rzAfterDataLoad();
   /* 페이지를 켜둔 채 날짜가 바뀌는 경우 대비: 30분마다 재점검 */
   setInterval(function(){
     if(rzEnsureOrders({ mailNew:false })){
@@ -5228,7 +6141,7 @@ renderAdmin = function(){
     }
   }, 30*60*1000);
   document.addEventListener('keydown', function(e){
-    if(e.key==='Escape') ['rzOrderModalBg','rzCustModalBg','rzSchoolModalBg','rzAskBg','invAddModalBg'].forEach(rzCloseModal);
+    if(e.key==='Escape') ['rzOrderModalBg','rzCustModalBg','rzSchoolModalBg','rzAskBg','invAddModalBg','invRenameModalBg','rvModalBg'].forEach(rzCloseModal);
   });
 })();
 </script>
@@ -5538,101 +6451,238 @@ ChannelIO('boot', {
 </style>
 
 <script>
-/* ════════ K-ozy DB sync layer (Netlify Functions + Netlify DB) ════════
-   주문/피드백을 서버 DB와 동기화한다.
-   - localStorage 는 즉시 렌더용 캐시로 그대로 유지(오프라인/미배포 시 폴백)
-   - DB 는 기기 간 공용 저장소 (DB 접속정보는 서버 함수에만 존재)
-   동시성: 주문은 고유 id 로 upsert(삽입/수정)만, 통째로 덮어쓰지 않음 → 다른 기기에서
-           들어온 신규 주문이 사라지지 않는다. 삭제만 명시적 DELETE.
+/* ════════ K-ozy 서버 동기화 레이어 (Netlify Functions + DB) ════════
+   주문·피드백·운영 데이터를 서버 DB 하나에서만 읽고 쓴다.
+
+   [저장 위치] 브라우저에는 아무것도 저장하지 않는다(언어 설정 제외).
+    - 주문      : /.netlify/functions/orders
+    - 피드백    : /.netlify/functions/feedback
+    - 운영 데이터: /.netlify/functions/admin-store  (고객·학교·메일·재고·플래그)
+    화면의 배열들은 서버에서 받아온 메모리 사본이며, 새로고침하면 다시 받아온다.
+    → 기기를 바꿔도 같은 데이터를 보고, 공용 PC 에 고객 정보가 남지 않는다.
+
+   [보안 모델]
+    - 관리자 인증은 서버(/.netlify/functions/admin-auth)가 판정한다. 비밀번호는
+      서버 환경변수(KOZY_ADMIN_PASSWORD_HASH)에만 존재하고 이 파일에는 없다.
+    - 세션은 HttpOnly·SameSite=Strict 쿠키로만 유지된다. JS 로 읽을 수 없으므로
+      XSS 가 발생해도 토큰 자체를 꺼내갈 수 없다.
+    - 화면 전환(goPage/__kzAdmin)은 UI 편의 장치일 뿐이다. 실제 권한 검증은 모든
+      API 호출마다 서버에서 다시 이뤄지며, 세션 없이 조회·수정·삭제를 호출하면 401 이다.
+
+   [동시성] 주문은 고유 id 로 upsert(삽입/수정)만 하고 통째로 덮어쓰지 않는다
+            → 다른 기기에서 들어온 신규 주문이 사라지지 않는다. 삭제만 명시적 DELETE.
    ═════════════════════════════════════════════════════════════════════ */
 (function () {
   var API = '/.netlify/functions';
 
+  window.__kzAdmin = false;
+
   function alive() {
-    // file:// 로 그냥 열었을 땐 서버가 없으므로 동기화 스킵(앱은 정상 동작)
+    // file:// 로 그냥 열었을 땐 서버가 없으므로 동기화 스킵(앱은 화면만 정상 동작)
     return location.protocol === 'http:' || location.protocol === 'https:';
   }
-  function adminKey() {
-    try { return localStorage.getItem('kozy_admin_key') || ''; } catch (e) { return ''; }
+  function jsonHdr() {
+    return { 'content-type': 'application/json' };
   }
-  function isAdmin() {
-    return !!(window.__kzAdmin || adminKey());
+  function api(path, opts) {
+    opts = opts || {};
+    opts.credentials = 'same-origin'; // 세션 쿠키 동반
+    opts.cache = 'no-store';
+    return fetch(API + path, opts);
   }
-  function hdr() {
-    var h = { 'content-type': 'application/json' };
-    var k = adminKey();
-    if (k) h['x-kozy-key'] = k;
-    return h;
+  function safe(fn) {
+    try { return fn(); } catch (e) { return null; }
   }
 
+  // ── 과거 버전이 브라우저에 남긴 데이터/키 제거 (공용 PC 잔존 방지) ──
+  ['kozy_admin_key', 'kozy_admin_cache', 'kozy_r', 'kozy_sat', 'kozy_issue',
+   'kozy_customers', 'kozy_schools', 'kozy_emails', 'kozy_inventory',
+   'kozy_rz_migrated', 'kozy_status_unified_v1', 'kozy_schools_seeded_v1'].forEach(function (k) {
+    safe(function () { localStorage.removeItem(k); });
+  });
+  try { delete window.kzSetAdminKey; } catch (e) { window.kzSetAdminKey = undefined; }
+
+  /* 메모리에 있는 데이터를 비운다(로그아웃·세션 만료 시). */
+  function clearMemory() {
+    safe(function () { if (window.orders) window.orders.rental = []; });
+    safe(function () {
+      if (window.feedbackData) {
+        window.feedbackData.satisfaction = [];
+        window.feedbackData.issue = [];
+      }
+    });
+    safe(function () { if (typeof window.kzApplyStore === 'function') window.kzApplyStore({ customers: [], emails: [], inventory: [], flags: {} }); });
+  }
+  window.kzClearMemory = clearMemory;
+
+  // 관리자 API 가 401/403 을 돌려주면 세션이 끝난 것으로 보고 즉시 정리한다.
+  function guard(res) {
+    if (res && (res.status === 401 || res.status === 403)) {
+      window.__kzAdmin = false;
+      clearMemory();
+      if (typeof goPage === 'function') goPage('admin-login');
+      return false;
+    }
+    return !!(res && res.ok);
+  }
+
+  /* ── 인증 ── */
+  window.kzAdminLogin = function (password) {
+    if (!alive()) return Promise.resolve({ ok: false, status: 0 });
+    return api('/admin-auth', {
+      method: 'POST',
+      headers: jsonHdr(),
+      body: JSON.stringify({ password: password }),
+    })
+      .then(function (r) { return { ok: r.ok, status: r.status }; })
+      .catch(function () { return { ok: false, status: 0 }; });
+  };
+
+  window.kzAdminSession = function () {
+    if (!alive()) return Promise.resolve(false);
+    return api('/admin-auth', { method: 'GET' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return !!(j && j.authenticated); })
+      .catch(function () { return false; });
+  };
+
+  window.kzAdminLogout = function () {
+    window.__kzAdmin = false;
+    clearMemory();
+    if (!alive()) return Promise.resolve();
+    return api('/admin-auth', { method: 'DELETE' }).catch(function () {});
+  };
+
+  // 관리자 화면을 열려는 시도를 서버 세션으로 검증한다.
+  // (콘솔에서 goPage('admin') 을 호출한 경우에도 여기로 들어온다)
+  window.kzRequireAdmin = function () {
+    return window.kzAdminSession().then(function (ok) {
+      if (ok) {
+        window.__kzAdmin = true;
+        if (typeof enterAdminUI === 'function') enterAdminUI();
+        return true;
+      }
+      window.__kzAdmin = false;
+      clearMemory();
+      if (typeof goPage === 'function') goPage('admin-login');
+      return false;
+    });
+  };
+
   /* ── 주문 ── */
-  // 고객 신규 주문 1건 (공개 엔드포인트)
+  // 고객 신규 주문 1건 (공개 엔드포인트 — 서버가 상태·주문번호 등 관리자 필드를 무시한다)
   window.kzCreateOrder = function (o) {
     if (!alive()) return Promise.resolve();
-    return fetch(API + '/orders', { method: 'POST', headers: hdr(), body: JSON.stringify(o) })
+    return api('/orders', { method: 'POST', headers: jsonHdr(), body: JSON.stringify(o) })
       .catch(function (e) { console.warn('[kz] createOrder', e); });
   };
 
   // 관리자 전체 동기화(upsert) — 짧게 디바운스해서 연속 저장을 한 번에 묶음
   var _syncT = null, _syncPending = null;
   window.kzSyncOrders = function (arr) {
-    if (!alive() || !isAdmin()) return; // 고객 화면(관리자 아님)에서는 스킵
+    if (!alive() || !window.__kzAdmin) return; // 고객 화면(관리자 아님)에서는 스킵
     _syncPending = arr;
     clearTimeout(_syncT);
     _syncT = setTimeout(function () {
       var payload = _syncPending; _syncPending = null;
-      fetch(API + '/orders', { method: 'POST', headers: hdr(), body: JSON.stringify(payload) })
+      api('/orders', { method: 'POST', headers: jsonHdr(), body: JSON.stringify(payload) })
+        .then(guard)
         .catch(function (e) { console.warn('[kz] syncOrders', e); });
     }, 400);
   };
 
   window.kzDeleteOrder = function (id) {
-    if (!alive()) return Promise.resolve();
-    return fetch(API + '/orders?id=' + encodeURIComponent(id), { method: 'DELETE', headers: hdr() })
-      .catch(function (e) { console.warn('[kz] deleteOrder', e); });
+    if (!alive() || !window.__kzAdmin) return Promise.resolve(false);
+    return api('/orders?id=' + encodeURIComponent(id), { method: 'DELETE' })
+      .then(guard)
+      .catch(function (e) { console.warn('[kz] deleteOrder', e); return false; });
   };
 
   /* ── 피드백 ── */
+  // 공개 리뷰 목록 + 집계 — 피드백(고객 리뷰) 페이지용.
+  // 서버가 이름을 마스킹하고 개인정보는 빼고 내려준다.
+  window.kzLoadReviews = function () {
+    if (!alive()) return Promise.resolve(null);
+    return api('/feedback?public=1', { method: 'GET' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (j) {
+          window.kzPublicStats = j.summary || null;
+          window.kzReviews = Array.isArray(j.reviews) ? j.reviews : [];
+          if (typeof updateFeedbackStats === 'function') updateFeedbackStats();
+        }
+        return j;
+      })
+      .catch(function () { return null; });
+  };
+
+  // 관리자: 리뷰 공개/숨김 전환
+  window.kzSetFeedbackHidden = function (id, hidden) {
+    if (!alive() || !window.__kzAdmin) return Promise.resolve(false);
+    return api('/feedback', {
+      method: 'PUT',
+      headers: jsonHdr(),
+      body: JSON.stringify({ id: id, hidden: !!hidden }),
+    })
+      .then(guard)
+      .catch(function (e) { console.warn('[kz] setFeedbackHidden', e); return false; });
+  };
+
   window.kzCreateFeedback = function (type, o) {
     if (!alive()) return Promise.resolve();
     var body = Object.assign({}, o, { type: type });
-    return fetch(API + '/feedback', { method: 'POST', headers: hdr(), body: JSON.stringify(body) })
+    return api('/feedback', { method: 'POST', headers: jsonHdr(), body: JSON.stringify(body) })
       .catch(function (e) { console.warn('[kz] createFeedback', e); });
   };
 
-  /* ── 하이드레이트: DB → 로컬 (관리자 진입 시) ── */
+  // 관리자: 리뷰(만족도·이슈) 삭제
+  window.kzDeleteFeedback = function (id) {
+    if (!alive()) return Promise.resolve(true); // 서버가 없으면 화면에서만 제거
+    if (!window.__kzAdmin) return Promise.resolve(false);
+    return api('/feedback?id=' + encodeURIComponent(id), { method: 'DELETE' })
+      .then(guard)
+      .catch(function (e) { console.warn('[kz] deleteFeedback', e); return false; });
+  };
+
+  /* ── 운영 데이터 저장소 (고객·학교·메일·재고·플래그) ── */
+  window.kzStoreLoad = function () {
+    if (!alive() || !window.__kzAdmin) return Promise.resolve(null);
+    return api('/admin-store', { method: 'GET' })
+      .then(function (r) { return guard(r) ? r.json() : null; })
+      .catch(function (e) { console.warn('[kz] storeLoad', e); return null; });
+  };
+
+  window.kzStoreSave = function (payload) {
+    if (!alive() || !window.__kzAdmin) return Promise.resolve(false);
+    return api('/admin-store', { method: 'PUT', headers: jsonHdr(), body: JSON.stringify(payload) })
+      .then(guard)
+      .catch(function (e) { console.warn('[kz] storeSave', e); return false; });
+  };
+
+  /* ── 하이드레이트: 서버 → 메모리 (관리자 진입 시) ── */
   window.kzHydrate = function () {
     if (!alive()) return Promise.resolve(false);
-    var p1 = fetch(API + '/orders', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; });
-    var p2 = fetch(API + '/feedback', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; });
-    return Promise.all([p1, p2]).then(function (res) {
+    var p1 = api('/orders', { method: 'GET' }).then(function (r) { return guard(r) ? r.json() : null; });
+    var p2 = api('/feedback', { method: 'GET' }).then(function (r) { return guard(r) ? r.json() : null; });
+    var p3 = window.kzStoreLoad();
+    return Promise.all([p1, p2, p3]).then(function (res) {
       var ok = false;
-      if (Array.isArray(res[0])) {
-        window.orders.rental = res[0];
-        try { localStorage.setItem('kozy_r', JSON.stringify(res[0])); } catch (e) {}
-        ok = true;
-      }
+      if (Array.isArray(res[0])) { window.orders.rental = res[0]; ok = true; }
       if (res[1]) {
-        if (Array.isArray(res[1].satisfaction)) {
-          window.feedbackData.satisfaction = res[1].satisfaction;
-          try { localStorage.setItem('kozy_sat', JSON.stringify(res[1].satisfaction)); } catch (e) {}
-        }
-        if (Array.isArray(res[1].issue)) {
-          window.feedbackData.issue = res[1].issue;
-          try { localStorage.setItem('kozy_issue', JSON.stringify(res[1].issue)); } catch (e) {}
-        }
+        if (Array.isArray(res[1].satisfaction)) window.feedbackData.satisfaction = res[1].satisfaction;
+        if (Array.isArray(res[1].issue)) window.feedbackData.issue = res[1].issue;
         ok = true;
       }
+      if (res[2] && typeof window.kzApplyStore === 'function') { window.kzApplyStore(res[2]); ok = true; }
       return ok;
     }).catch(function (e) { console.warn('[kz] hydrate', e); return false; });
   };
 
-  // 관리자 화면 진입 직후: DB 로드 → 상태 재계산 → 재렌더 (모두 방어적으로)
+  // 관리자 화면 진입 직후: 서버 로드 → 상태 재계산 → 재렌더 (모두 방어적으로)
   window.kzOnEnterAdmin = function () {
-    window.__kzAdmin = true;
     return window.kzHydrate().then(function (ok) {
       if (!ok) return;
-      try { if (typeof rzEnsureOrders === 'function') rzEnsureOrders({ mailNew: false }); } catch (e) {}
+      try { if (typeof rzAfterDataLoad === 'function') rzAfterDataLoad(); } catch (e) {}
       try { if (typeof renderAdmin === 'function') renderAdmin(); } catch (e) {}
       try { if (typeof rzRenderOrders === 'function') rzRenderOrders(); } catch (e) {}
       try { if (typeof updateFeedbackStats === 'function') updateFeedbackStats(); } catch (e) {}
@@ -5640,34 +6690,15 @@ ChannelIO('boot', {
       try { if (typeof renderDashboardCharts === 'function') renderDashboardCharts(); } catch (e) {}
       try { if (typeof invRenderInventory === 'function') invRenderInventory(); } catch (e) {}
       try { if (typeof rzRefreshDueBadge === 'function') rzRefreshDueBadge(); } catch (e) {}
+      try { if (typeof rzFillSchoolSelects === 'function') rzFillSchoolSelects(); } catch (e) {}
     });
   };
 
-  // 관리자 키를 콘솔에서도 설정 가능: kzSetAdminKey('값')
-  window.kzSetAdminKey = function (k) {
-    try { localStorage.setItem('kozy_admin_key', (k || '').trim()); } catch (e) {}
-    return '저장됨';
-  };
-
-  // 관리자 로그인 박스 아래에 '관리자 키' 입력칸을 자동 주입 (HTML 수정 없이)
-  function injectKeyField() {
-    var pw = document.getElementById('adminPw');
-    if (!pw || document.getElementById('kozyAdminKey')) return;
-    var inp = document.createElement('input');
-    inp.id = 'kozyAdminKey';
-    inp.type = 'password';
-    inp.placeholder = '관리자 키 (서버 KOZY_ADMIN_KEY · 비워두면 공개)';
-    try { inp.value = localStorage.getItem('kozy_admin_key') || ''; } catch (e) {}
-    inp.style.cssText = 'display:block;width:100%;margin-top:8px;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;';
-    inp.addEventListener('input', function () {
-      try { localStorage.setItem('kozy_admin_key', inp.value.trim()); } catch (e) {}
-    });
-    pw.parentNode.insertBefore(inp, pw.nextSibling);
-  }
+  // 공개 페이지 진입 시 리뷰 목록·집계를 한 번 받아온다
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectKeyField);
+    document.addEventListener('DOMContentLoaded', function () { window.kzLoadReviews(); });
   } else {
-    injectKeyField();
+    window.kzLoadReviews();
   }
 })();
 
