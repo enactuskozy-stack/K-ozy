@@ -1497,11 +1497,57 @@ body.admin-subpage-mode > nav { display:none !important; }
 .rv-btn-main:hover{ background:var(--navy-mid); border-color:var(--navy-mid); }
 .rv-btn-main:disabled{ opacity:0.55; cursor:default; }
 
+/* ── 사진 첨부 (리뷰 · 이슈 보고 공통) ── */
+.kz-photo{ display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; margin-top:8px; }
+.kz-ph-item{ position:relative; width:84px; height:84px; border-radius:10px; overflow:hidden;
+  border:1.5px solid var(--border); background:var(--light-gray); }
+.kz-ph-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+.kz-ph-del{ position:absolute; top:3px; right:3px; width:22px; height:22px; padding:0; border:none; border-radius:50%;
+  background:rgba(15,23,42,0.72); color:#fff; font-size:0.7rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; }
+.kz-ph-del:hover{ background:rgba(15,23,42,0.92); }
+.kz-ph-add{ width:84px; height:84px; border:1.5px dashed var(--border); border-radius:10px; background:var(--white);
+  color:var(--text-muted); font-family:inherit; font-size:0.72rem; font-weight:600; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; transition:all .2s; }
+.kz-ph-add:hover{ border-color:var(--blue); color:var(--blue); }
+.kz-ph-add i{ font-size:1.05rem; }
+.kz-ph-hint{ font-size:0.74rem; color:var(--text-muted); margin-top:8px; line-height:1.65; }
+.kz-ph-busy{ display:none; font-size:0.76rem; color:var(--blue); margin-top:7px; }
+.kz-ph-busy.on{ display:block; }
+/* 사진이 붙은 제출은 전송에 시간이 걸린다 — 그동안 버튼을 잠근다 */
+.submit-btn:disabled{ opacity:0.55; cursor:default; transform:none; box-shadow:none; }
+.submit-btn:disabled:hover{ background:var(--navy); border-color:var(--navy); transform:none; box-shadow:none; }
+
+/* 리뷰 카드 · 관리자 상세의 사진 썸네일 */
+.rv-photos{ display:flex; flex-wrap:wrap; gap:8px; margin-top:13px; }
+.rv-photo{ width:92px; height:92px; padding:0; border:1px solid var(--border); border-radius:10px;
+  overflow:hidden; background:var(--light-gray); cursor:zoom-in; }
+.rv-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* 사진 원본 보기 */
+.kz-lightbox{ display:none; position:fixed; inset:0; z-index:900; background:rgba(15,23,42,0.88);
+  align-items:center; justify-content:center; padding:28px; }
+.kz-lightbox.show{ display:flex; }
+.kz-lightbox img{ max-width:min(920px,94vw); max-height:86vh; border-radius:12px; background:#fff;
+  box-shadow:0 24px 60px rgba(0,0,0,0.45); }
+.kz-lb-x{ position:absolute; top:18px; right:20px; width:40px; height:40px; border:none; border-radius:50%;
+  background:rgba(255,255,255,0.16); color:#fff; font-size:1.05rem; cursor:pointer; }
+.kz-lb-x:hover{ background:rgba(255,255,255,0.3); }
+.kz-lb-load{ display:none; position:absolute; bottom:26px; color:rgba(255,255,255,0.82); font-size:0.8rem; }
+.kz-lb-load.on{ display:block; }
+
 @media (max-width:900px){
   .rv-layout{ grid-template-columns:1fr; gap:30px; }
   .rv-summary{ position:static; }
 }
 </style>
+
+<!-- ═══ 첨부 사진 원본 보기 ═══ -->
+<div class="kz-lightbox" id="kzLightbox" onclick="kzPhotoCloseView()" role="dialog" aria-modal="true">
+ <button type="button" class="kz-lb-x" onclick="kzPhotoCloseView()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+ <img id="kzLightboxImg" src="" alt="" onclick="event.stopPropagation()">
+ <div class="kz-lb-load" id="kzLightboxLoad" data-k="photo_loading">원본을 불러오는 중…</div>
+</div>
 
 <!-- ═══ 리뷰 작성 모달 (1단계 별점 → 2단계 내용) ═══ -->
 <div class="modal-bg" id="rvModalBg" onclick="if(event.target===this)rvCloseModal()">
@@ -1534,6 +1580,15 @@ body.admin-subpage-mode > nav { display:none !important; }
      <div class="fg"><label data-k="fl_name">이름 <span class="req">*</span></label><input type="text" name="name" id="rvName" required data-ph="name_ph"></div>
      <div class="fg"><label data-k="rv_title_lbl">리뷰 제목</label><input type="text" id="rvTitle" maxlength="60" data-ph="rv_title_ph"></div>
      <div class="fg"><label data-k="rv_body_lbl">리뷰 내용 <span class="req">*</span></label><textarea id="rvBody" rows="5" required data-ph="rv_body_ph"></textarea></div>
+
+     <div class="fg">
+      <label data-k="photo_lbl">사진 첨부 (선택)</label>
+      <input type="file" id="rvPhotoInput" accept="image/*" multiple style="display:none"
+             onchange="kzPhotoAdd('review',this.files);this.value='';">
+      <div class="kz-photo" id="rvPhotoList"></div>
+      <div class="kz-ph-busy" id="rvPhotoBusy" data-k="photo_busy">사진을 준비하는 중…</div>
+      <div class="kz-ph-hint" data-k="photo_hint_public">최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 리뷰와 함께 공개됩니다.</div>
+     </div>
 
      <div class="rv-detail-h" data-k="fbs_detail">세부 항목 평가 (5점 척도)</div>
      <div class="fg">
@@ -1681,6 +1736,14 @@ body.admin-subpage-mode > nav { display:none !important; }
  <div class="fg"><label data-k="fbi_when">발생 일시 <span class="req">*</span></label><input type="date" name="issueDate" required id="issueDateInput"></div>
  <div class="fg"><label data-k="fbi_desc">이슈 상세 설명 <span class="req">*</span></label><textarea name="description" required data-ph="issue_desc_ph" rows="5"></textarea></div>
  <div class="fg"><label data-k="fbi_expect">원하시는 해결 방법</label><textarea name="resolution" data-ph="issue_res_ph" rows="3"></textarea></div>
+ <div class="fg">
+ <label data-k="photo_lbl">사진 첨부 (선택)</label>
+ <input type="file" id="issuePhotoInput" accept="image/*" multiple style="display:none"
+        onchange="kzPhotoAdd('issue',this.files);this.value='';">
+ <div class="kz-photo" id="issuePhotoList"></div>
+ <div class="kz-ph-busy" id="issuePhotoBusy" data-k="photo_busy">사진을 준비하는 중…</div>
+ <div class="kz-ph-hint" data-k="photo_hint_private">최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 운영팀만 확인합니다.</div>
+ </div>
  <div class="privacy-notice" data-k="privacy_fb"><i class="fa-solid fa-shield-halved" style="margin-right:6px;"></i>제출된 이슈는 K-ozy 운영팀에서 확인 후 이메일로 답변드립니다. 일반적으로 1-2 영업일 내 처리됩니다.</div>
  <button type="submit" class="submit-btn don" data-k="fbi_submit">이슈 제출하기 →</button>
  </form>
@@ -2245,6 +2308,15 @@ success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접�
  rv_body_ph:'이용하시면서 좋았던 점을 자유롭게 적어주세요.',
  rv_terms:'등록하신 리뷰는 이름 일부를 가린 채 K-ozy 사이트에 공개됩니다. 공개를 원하지 않으시면 이슈 보고 탭이나 이메일로 보내주세요.',
  rv_back:'← 이전', rv_submit:'리뷰 등록',
+ /* 사진 첨부 */
+ photo_lbl:'사진 첨부 (선택)', photo_add:'사진 추가', photo_remove:'사진 삭제', photo_open:'사진 크게 보기',
+ photo_busy:'사진을 준비하는 중…', photo_loading:'원본을 불러오는 중…',
+ photo_hint_public:'최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 리뷰와 함께 공개됩니다.',
+ photo_hint_private:'최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 운영팀만 확인합니다.',
+ photo_max:'사진은 최대 3장까지 첨부할 수 있습니다.',
+ photo_type:'이미지 파일만 첨부할 수 있습니다.',
+ photo_big:'파일이 너무 큽니다. 15MB 이하의 이미지를 사용해 주세요.',
+ photo_fail:'사진을 불러오지 못했습니다. 다른 파일로 다시 시도해 주세요.',
  fbi_who:'신고자 정보', fbi_type:'이슈 유형', fbi_cat_lbl:'해당하는 항목을 모두 선택해 주세요',
  ic_delivery:'<i class="fa-solid fa-truck"></i> 배송 지연', ic_quality:'<i class="fa-solid fa-bed"></i> 품질 문제', ic_hygiene:'<i class="fa-solid fa-soap"></i> 위생·세탁 문제',
  ic_comm:'<i class="fa-solid fa-comment"></i> 응대 불만', ic_pickup:'<i class="fa-solid fa-box"></i> 수거 문제', ic_pay:'<i class="fa-solid fa-credit-card"></i> 결제 문제', ic_return:'<i class="fa-solid fa-rotate-left"></i> 반납 문제', ic_other:'기타',
@@ -2256,7 +2328,7 @@ success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접�
  fbi_step1_h:'이슈 접수', fbi_step1_p:'제출 즉시 운영팀에 알림이 발송됩니다.',
  fbi_step2_h:'검토 및 확인', fbi_step2_p:'1-2 영업일 내 이메일로 확인 연락드립니다.',
  fbi_step3_h:'해결 및 완료', fbi_step3_p:'신속하게 처리 후 결과를 안내드립니다.',
- issue_desc_ph:'이슈를 자세히 설명해 주세요. (발생 상황, 문제 내용, 사진이 있으면 이메일로 첨부 가능: enactuskozy@gmail.com)',
+ issue_desc_ph:'이슈를 자세히 설명해 주세요. (발생 상황, 문제 내용 등 — 사진은 아래에서 바로 첨부할 수 있습니다)',
  issue_res_ph:'어떻게 해결되기를 원하시나요?',
  fb_good_ph:'K-ozy에서 특히 좋았던 점을 자유롭게 작성해 주세요.',
  fb_imp_ph:'개선이 필요하다고 느끼신 부분을 알려주세요.',
@@ -2375,6 +2447,15 @@ success_r_title:'Application Received!', success_r_msg:'Your rental application 
  rv_body_ph:'Share what you liked about the service.',
  rv_terms:'Your review will be published on the K-ozy site with your name partially masked. If you prefer not to be published, use the Report an Issue tab or email us.',
  rv_back:'← Back', rv_submit:'Submit review',
+ /* Photo attachments */
+ photo_lbl:'Add photos (optional)', photo_add:'Add photo', photo_remove:'Remove photo', photo_open:'View larger',
+ photo_busy:'Preparing photos…', photo_loading:'Loading full image…',
+ photo_hint_public:'Up to 3 photos · JPG, PNG or WEBP · resized automatically on upload. Photos are published together with your review.',
+ photo_hint_private:'Up to 3 photos · JPG, PNG or WEBP · resized automatically on upload. Only the K-ozy team can see them.',
+ photo_max:'You can attach up to 3 photos.',
+ photo_type:'Only image files can be attached.',
+ photo_big:'That file is too large. Please use an image under 15MB.',
+ photo_fail:'We could not read that photo. Please try another file.',
  fbi_who:'Reporter Info', fbi_type:'Issue Type', fbi_cat_lbl:'Select all that apply',
  ic_delivery:'<i class="fa-solid fa-truck"></i> Delivery Delay', ic_quality:'<i class="fa-solid fa-bed"></i> Quality Issue', ic_hygiene:'<i class="fa-solid fa-soap"></i> Hygiene / Cleaning Issue',
  ic_comm:'<i class="fa-solid fa-comment"></i> Communication', ic_pickup:'<i class="fa-solid fa-box"></i> Pickup Issue', ic_pay:'<i class="fa-solid fa-credit-card"></i> Payment Issue', ic_return:'<i class="fa-solid fa-rotate-left"></i> Return Issue', ic_other:'Other',
@@ -2386,7 +2467,7 @@ success_r_title:'Application Received!', success_r_msg:'Your rental application 
  fbi_step1_h:'Issue Received', fbi_step1_p:'Our team is notified immediately upon submission.',
  fbi_step2_h:'Review & Confirm', fbi_step2_p:'We\'ll send a confirmation email within 1-2 business days.',
  fbi_step3_h:'Resolution', fbi_step3_p:'We resolve the issue and update you on the outcome.',
- issue_desc_ph:'Please describe the issue in detail. (You can also send photos to enactuskozy@gmail.com)',
+ issue_desc_ph:'Please describe the issue in detail. (You can attach photos right below.)',
  issue_res_ph:'How would you like this resolved?',
  fb_good_ph:'Write specific things that you liked about K-ozy. ex) cleanliness, efficiency, ...',
  fb_imp_ph:'What areas could we improve?',
@@ -2803,6 +2884,8 @@ function applyTranslations(){
  var btnInstaLabel=document.getElementById('modalBtnInstaLabel');
  if(btnHomeLabel) btnHomeLabel.textContent=t('modal_btn_home');
  if(btnInstaLabel) btnInstaLabel.textContent=t('modal_btn_insta');
+ // 사진 첨부 위젯은 JS 로 그리므로 언어가 바뀌면 다시 그린다.
+ if(typeof kzPhotoRender==='function'){ kzPhotoRender('review'); kzPhotoRender('issue'); }
  document.documentElement.lang=currentLang;
 }
 
@@ -3461,7 +3544,7 @@ function renderAdminPage(page) {
           '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'satisfaction\')"><strong>'+esc(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
           '<div>'+(hidden?'<span class="badge-status s-proc">숨김</span>':'<span class="badge-status s-ok">공개</span>')+'</div>'+
           '<div style="color:#f59e0b">'+'★'.repeat(st)+'☆'.repeat(5-st)+'</div>'+
-          '<div style="font-size:0.82rem">'+(row.title?'<strong>'+esc(row.title)+'</strong><br>':'')+(body?'"'+esc(body.substring(0,40))+'…"':'—')+'</div>'+
+          '<div style="font-size:0.82rem">'+(row.title?'<strong>'+esc(row.title)+'</strong><br>':'')+(body?'"'+esc(body.substring(0,40))+'…"':'—')+fbPhotoBadge(row)+'</div>'+
           '<div style="display:flex;gap:4px;align-items:center;">'+
             '<span style="cursor:pointer" onclick="showFbDetail('+oi+',\'satisfaction\')"><span class="badge-status s-proc">보기 →</span></span>'+
             '<button class="rz-icon-btn" title="'+(hidden?'사이트에 다시 공개':'사이트에서 숨기기')+'" onclick="event.stopPropagation();toggleFeedbackHidden('+oi+')"><i class="fa-solid fa-eye'+(hidden?'-slash':'')+'"></i></button>'+
@@ -3504,7 +3587,7 @@ function renderAdminPage(page) {
           '<div style="color:var(--text-muted);font-size:0.78rem">#'+(n+1)+'</div>'+
           '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'issue\')"><strong>'+esc(row.name||'익명')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
           '<div style="font-size:0.82rem">'+esc(row.email||'-')+'</div>'+
-          '<div style="font-size:0.8rem">'+esc((row.issueTypes||'-')).replace(/,/g,' · ')+'</div>'+
+          '<div style="font-size:0.8rem">'+esc((row.issueTypes||'-')).replace(/,/g,' · ')+fbPhotoBadge(row)+'</div>'+
           '<div><span class="badge-status '+(sevCls[row.severity]||'s-proc')+'">'+(sevMap[row.severity]||'-')+'</span></div>'+
           '<div style="cursor:pointer" onclick="showFbDetail('+oi+',\'issue\')"><span class="badge-status s-proc">보기 →</span></div>'+
           '<div><button class="del-btn" onclick="event.stopPropagation();confirmDeleteFeedback(\'issue\','+oi+')" title="삭제"><i class="fa-solid fa-trash-can"></i></button></div>'+
@@ -3601,6 +3684,23 @@ function showRentalDetail(idx){
  document.getElementById('detailModalBg').classList.add('show');
 }
 
+/** 관리자 목록에 붙는 '사진 N장' 표시 */
+function fbPhotoBadge(row){
+ var n=(Array.isArray(row&&row.photos)?row.photos:[]).length;
+ if(!n) return '';
+ return '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">'
+   +'<i class="fa-solid fa-image" style="margin-right:4px;"></i>사진 '+n+'장</div>';
+}
+
+/** 관리자 상세용 첨부 사진 섹션 (목록에는 썸네일만 들어있고 원본은 클릭 시 받아온다) */
+function fbPhotoSection(row){
+ if(typeof kzPhotoGridHtml!=='function') return '';
+ var thumbs=(Array.isArray(row&&row.photos)?row.photos:[]).map(function(p){ return typeof p==='string'?p:((p&&p.t)||''); });
+ var grid=kzPhotoGridHtml(row&&row.id, thumbs);
+ if(!grid) return '';
+ return '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-image"></i> 첨부 사진 ('+thumbs.filter(Boolean).length+'장)</div>'+grid+'</div>';
+}
+
 function showFbDetail(idx,type){
  var row=type==='satisfaction'?feedbackData.satisfaction[idx]:feedbackData.issue[idx];
  if(!row) return;
@@ -3622,6 +3722,7 @@ function showFbDetail(idx,type){
  '<div class="detail-row"><span>좋았던 점</span><strong>'+(row.positive||'—')+'</strong></div>'+
  '<div class="detail-row"><span>개선 필요점</span><strong>'+(row.improvement||'—')+'</strong></div>'+
  '<div class="detail-row"><span>추천 의향</span><strong>'+(row.recommend==='yes'?'<i class="fa-solid fa-circle-check" style="color:#22c55e"></i> 적극 추천':row.recommend==='maybe'?'<i class="fa-solid fa-circle-question" style="color:#f59e0b"></i> 상황에 따라':'<i class="fa-solid fa-circle-xmark" style="color:#ef4444"></i> 추천 어려움')+'</strong></div></div>'+
+ fbPhotoSection(row)+
  '</div>';
  } else {
  var sevMap={low:'낮음',mid:'보통',high:'높음'};
@@ -3637,6 +3738,7 @@ function showFbDetail(idx,type){
  '<div class="detail-section" style=""><div class="detail-sec-title"><i class="fa-solid fa-file-lines"></i> 상세 내용</div>'+
  '<div class="detail-row"><span>이슈 설명</span><strong>'+(row.issueDesc||'—')+'</strong></div>'+
  '<div class="detail-row"><span>원하는 해결</span><strong>'+(row.resolution||'—')+'</strong></div></div>'+
+ fbPhotoSection(row)+
  '</div>';
  }
  document.getElementById('detailModalBody').innerHTML=html;
@@ -3701,16 +3803,32 @@ function submitFeedback(e,type){
  data.issueTypes=chips.map(function(c){ var m=c.getAttribute('onclick').match(/'([^']+)'/); return m?m[1]:''; }).join(',');
  }
  data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
+ if(type==='issue'){
+  var iph=(typeof kzPhotoValues==='function')?kzPhotoValues('issue'):[];
+  if(iph.length) data.photos=iph;
+ }
  feedbackData[type].push(data);
- if(typeof kzCreateFeedback==='function'){ kzCreateFeedback(type, data); }
- form.reset();
- document.querySelectorAll('.scale-btn').forEach(function(b){ b.classList.remove('selected'); });
- document.querySelectorAll('.issue-chip').forEach(function(c){ c.classList.remove('selected'); });
- ['1','2','3','4'].forEach(function(n){ var h=document.getElementById('hidden_q'+n); if(h)h.value=''; });
- updateFeedbackStats();
- document.getElementById('modalTitle').textContent=t(type==='satisfaction'?'success_fb_sat_title':'success_fb_issue_title');
- document.getElementById('modalMsg').textContent=t(type==='satisfaction'?'success_fb_sat_msg':'success_fb_issue_msg');
- document.getElementById('modalBg').classList.add('show');
+
+ // 사진이 붙으면 전송에 시간이 걸리므로, 완료될 때까지 버튼을 잠그고 기다린다.
+ var sbtn=form.querySelector('button[type="submit"]');
+ if(sbtn) sbtn.disabled=true;
+ var done=function(){
+  if(sbtn) sbtn.disabled=false;
+  form.reset();
+  if(type==='issue' && typeof kzPhotoReset==='function') kzPhotoReset('issue');
+  document.querySelectorAll('.scale-btn').forEach(function(b){ b.classList.remove('selected'); });
+  document.querySelectorAll('.issue-chip').forEach(function(c){ c.classList.remove('selected'); });
+  ['1','2','3','4'].forEach(function(n){ var h=document.getElementById('hidden_q'+n); if(h)h.value=''; });
+  updateFeedbackStats();
+  document.getElementById('modalTitle').textContent=t(type==='satisfaction'?'success_fb_sat_title':'success_fb_issue_title');
+  document.getElementById('modalMsg').textContent=t(type==='satisfaction'?'success_fb_sat_msg':'success_fb_issue_msg');
+  document.getElementById('modalBg').classList.add('show');
+ };
+ if(typeof kzCreateFeedback==='function'){
+  Promise.resolve(kzCreateFeedback(type, data)).then(done, done);
+ } else {
+  done();
+ }
 }
 
 /* ═══ 고객 리뷰 (피드백 페이지) ═══
@@ -3817,6 +3935,7 @@ function rvRenderList(){
      +'<span><span class="rv-name">'+rvEsc(nm)+'</span><div class="rv-date">'+kzFmtDate(r.submittedAt)+'</div></span></div>'
    +(r.title?'<h4 class="rv-title">'+rvEsc(r.title)+'</h4>':'')
    +'<p class="rv-body">'+(r.body?rvEsc(r.body):'—')+'</p>'
+   +(typeof kzPhotoGridHtml==='function'?kzPhotoGridHtml(r.id, r.photos):'')
    +(r.improvement?'<div class="rv-imp"><b>'+(en?'Could be better':'개선 희망')+'</b> · '+rvEsc(r.improvement)+'</div>':'')
    +'</article>';
  }).join('');
@@ -3876,6 +3995,7 @@ function rvOpenModal(){
  rvBuildStarPicker('rvStarPick2', false);
  rvPaintStars();
  ['rvName','rvTitle','rvBody','rvImprove'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+ if(typeof kzPhotoReset==='function') kzPhotoReset('review');
  var rec=document.getElementById('rvRecommend'); if(rec) rec.value='yes';
  document.querySelectorAll('#satisfactionForm .scale-btn').forEach(function(b){ b.classList.remove('selected'); });
  ['1','2','3','4'].forEach(function(n){ var h=document.getElementById('hidden_q'+n); if(h) h.value=''; });
@@ -3910,6 +4030,8 @@ function rvSubmit(){
   var h=document.getElementById('hidden_q'+n);
   if(h && h.value) data['q'+n]=h.value;
  });
+ var photos=(typeof kzPhotoValues==='function')?kzPhotoValues('review'):[];
+ if(photos.length) data.photos=photos;
 
  var btn=document.getElementById('rvSubmitBtn');
  if(btn){ btn.disabled=true; }
@@ -3928,6 +4050,173 @@ function rvSubmit(){
   done();
  }
 }
+
+/* ═══ 사진 첨부 (리뷰 · 이슈 보고 공통) ═══
+   업로드 전에 브라우저에서 캔버스로 리사이즈·압축한 뒤 data URL 로 서버에 보낸다.
+    - 원본  : 긴 변 1280px 이하, 약 0.6MB 이하  → 목록에는 싣지 않고 필요할 때 1장씩 받는다
+    - 썸네일: 긴 변 400px 이하,  약 0.1MB 이하  → 목록·카드에 바로 표시
+   따로 파일 스토리지를 두지 않고 기존 피드백 레코드(jsonb)에 함께 저장한다. */
+var KZ_PHOTO_MAX = 3;                       // 1건당 최대 장수
+var KZ_PHOTO_SRC_MAX = 15 * 1024 * 1024;    // 원본 파일 크기 상한
+var KZ_PHOTO_FULL_EDGE = 1280, KZ_PHOTO_FULL_MAX = 640000;
+var KZ_PHOTO_THUMB_EDGE = 400, KZ_PHOTO_THUMB_MAX = 110000;
+
+var kzPhotoSets = { review: [], issue: [] };
+var KZ_PHOTO_EL = {
+  review: { input:'rvPhotoInput',    list:'rvPhotoList',    busy:'rvPhotoBusy' },
+  issue:  { input:'issuePhotoInput', list:'issuePhotoList', busy:'issuePhotoBusy' }
+};
+
+function kzPhotoEl(key, which){
+  var m=KZ_PHOTO_EL[key]; return m?document.getElementById(m[which]):null;
+}
+function kzPhotoValues(key){
+  return (kzPhotoSets[key]||[]).map(function(p){ return { t:p.t, f:p.f }; });
+}
+function kzPhotoReset(key){ kzPhotoSets[key]=[]; kzPhotoRender(key); }
+
+/** 긴 변을 edge 이하로 줄이고, 결과 길이가 maxLen 이하가 될 때까지 화질을 낮춘다. */
+function kzPhotoScale(img, edge, maxLen, q0){
+  var w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+  if(!w||!h) return '';
+  for(var pass=0; pass<4; pass++){
+    var lim=edge*Math.pow(0.75,pass);
+    var r=Math.min(1, lim/Math.max(w,h));
+    var cw=Math.max(1,Math.round(w*r)), ch=Math.max(1,Math.round(h*r));
+    var cv=document.createElement('canvas'); cv.width=cw; cv.height=ch;
+    var ctx=cv.getContext&&cv.getContext('2d'); if(!ctx) return '';
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,cw,ch);   // 투명 PNG 는 흰 배경으로
+    ctx.drawImage(img,0,0,cw,ch);
+    for(var q=q0; q>=0.4; q-=0.12){
+      var out=cv.toDataURL('image/jpeg', q);
+      if(out && out.length<=maxLen) return out;
+    }
+  }
+  return '';
+}
+
+/** 파일 1개 → { t:썸네일, f:원본 } */
+function kzPhotoProcess(file){
+  return new Promise(function(resolve,reject){
+    if(!file || !/^image\//.test(file.type||'')) return reject(new Error('type'));
+    if(file.size>KZ_PHOTO_SRC_MAX) return reject(new Error('size'));
+    var url=URL.createObjectURL(file);
+    var img=new Image();
+    img.onload=function(){
+      var full='', thumb='';
+      try{
+        full=kzPhotoScale(img, KZ_PHOTO_FULL_EDGE, KZ_PHOTO_FULL_MAX, 0.82);
+        thumb=kzPhotoScale(img, KZ_PHOTO_THUMB_EDGE, KZ_PHOTO_THUMB_MAX, 0.72);
+      }catch(e){}
+      URL.revokeObjectURL(url);
+      if(!full) return reject(new Error('encode'));
+      resolve({ t: thumb||full, f: full });
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); reject(new Error('decode')); };
+    img.src=url;
+  });
+}
+
+function kzPhotoPick(key){ var inp=kzPhotoEl(key,'input'); if(inp) inp.click(); }
+
+function kzPhotoAdd(key, files){
+  var list=kzPhotoSets[key]||(kzPhotoSets[key]=[]);
+  var arr=Array.prototype.slice.call(files||[]);
+  if(!arr.length) return;
+  var room=KZ_PHOTO_MAX-list.length;
+  if(room<=0){ alert(t('photo_max')); return; }
+  var over=arr.length>room;
+  arr=arr.slice(0,room);
+
+  var busy=kzPhotoEl(key,'busy'); if(busy) busy.classList.add('on');
+  var failed=0;
+  var seq=Promise.resolve();
+  arr.forEach(function(f){
+    seq=seq.then(function(){
+      return kzPhotoProcess(f).then(function(p){ list.push(p); }, function(err){
+        failed++;
+        if(err && err.message==='size') alert(t('photo_big'));
+        else if(err && err.message==='type') alert(t('photo_type'));
+      });
+    });
+  });
+  seq.then(function(){
+    if(busy) busy.classList.remove('on');
+    kzPhotoRender(key);
+    if(failed && failed===arr.length) alert(t('photo_fail'));
+    else if(over) alert(t('photo_max'));
+  });
+}
+
+function kzPhotoRemove(key, i){
+  var list=kzPhotoSets[key]||[];
+  list.splice(i,1);
+  kzPhotoRender(key);
+}
+
+function kzPhotoRender(key){
+  var wrap=kzPhotoEl(key,'list'); if(!wrap) return;
+  var list=kzPhotoSets[key]||[];
+  var html=list.map(function(p,i){
+    return '<div class="kz-ph-item">'
+      +'<img src="'+p.t+'" alt="">'
+      +'<button type="button" class="kz-ph-del" onclick="kzPhotoRemove(\''+key+'\','+i+')" aria-label="'+rvEsc(t('photo_remove'))+'">'
+        +'<i class="fa-solid fa-xmark"></i></button>'
+      +'</div>';
+  }).join('');
+  if(list.length<KZ_PHOTO_MAX){
+    html+='<button type="button" class="kz-ph-add" onclick="kzPhotoPick(\''+key+'\')">'
+      +'<i class="fa-solid fa-camera"></i><span>'+rvEsc(t('photo_add'))+'</span></button>';
+  }
+  wrap.innerHTML=html;
+}
+
+/* ── 원본 보기 ── */
+function kzPhotoShowView(src){
+  var bg=document.getElementById('kzLightbox'), im=document.getElementById('kzLightboxImg');
+  if(!bg||!im) return;
+  im.src=src||'';
+  bg.classList.add('show');
+}
+function kzPhotoCloseView(){
+  var bg=document.getElementById('kzLightbox'), im=document.getElementById('kzLightboxImg');
+  var ld=document.getElementById('kzLightboxLoad');
+  if(ld) ld.classList.remove('on');
+  if(bg) bg.classList.remove('show');
+  if(im) im.src='';
+}
+/** 썸네일을 먼저 띄우고, 서버에서 원본을 받아 교체한다. */
+function kzPhotoViewRemote(id, i, btn){
+  var thumb=(btn&&btn.querySelector('img'))?btn.querySelector('img').src:'';
+  kzPhotoShowView(thumb);
+  var ld=document.getElementById('kzLightboxLoad');
+  if(typeof kzLoadPhoto!=='function'){ return; }
+  if(ld) ld.classList.add('on');
+  kzLoadPhoto(id, i).then(function(src){
+    if(ld) ld.classList.remove('on');
+    var bg=document.getElementById('kzLightbox'), im=document.getElementById('kzLightboxImg');
+    if(src && im && bg && bg.classList.contains('show')) im.src=src;
+  }, function(){ if(ld) ld.classList.remove('on'); });
+}
+/** 리뷰 카드·관리자 상세에 붙일 썸네일 그리드 HTML
+    src 를 문자열로 이어 붙이므로, 서버 검증과 같은 규칙으로 여기서도 형식을 다시 확인한다. */
+var KZ_PHOTO_URL_RE=/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+function kzPhotoGridHtml(id, thumbs){
+  var safeId=String(id==null?'':id).replace(/[^A-Za-z0-9_-]/g,'');
+  var list=(thumbs||[]).filter(function(s){ return typeof s==='string' && KZ_PHOTO_URL_RE.test(s); });
+  if(!list.length || !safeId) return '';
+  return '<div class="rv-photos">'+list.map(function(src,i){
+    return '<button type="button" class="rv-photo" onclick="kzPhotoViewRemote(\''+safeId+'\','+i+',this)" aria-label="'+rvEsc(t('photo_open'))+'">'
+      +'<img src="'+src+'" alt="" loading="lazy"></button>';
+  }).join('')+'</div>';
+}
+
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') kzPhotoCloseView();
+});
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', function(){ kzPhotoRender('review'); kzPhotoRender('issue'); });
+} else { kzPhotoRender('review'); kzPhotoRender('issue'); }
 
 var co2AnimDone = false;
 
@@ -6613,6 +6902,16 @@ ChannelIO('boot', {
         }
         return j;
       })
+      .catch(function () { return null; });
+  };
+
+  // 첨부 사진 원본 1장. 목록 응답에는 썸네일만 실려 있고, 확대해서 볼 때만 받아온다.
+  // (권한이 없으면 서버가 404 를 주므로 세션 정리 로직(guard)은 태우지 않는다)
+  window.kzLoadPhoto = function (id, i) {
+    if (!alive()) return Promise.resolve(null);
+    return api('/feedback?photo=1&id=' + encodeURIComponent(id) + '&i=' + encodeURIComponent(i), { method: 'GET' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return (j && j.src) || null; })
       .catch(function () { return null; });
   };
 
