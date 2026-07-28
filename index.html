@@ -714,7 +714,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  <button type="button" class="nav-btn" onclick="goPage('story')" id="nb-story" data-k="nav_story">우리 이야기</button>
  <button type="button" class="nav-btn" onclick="goPage('faq')" id="nb-faq" data-k="nav_faq">FAQ</button>
  <button type="button" class="nav-btn" onclick="goPage('feedback')" id="nb-feedback" data-k="nav_feedback">피드백</button>
- 
+ </div>
+
+ <!-- 언어 선택은 메뉴 바깥(우측)에 둔다 — 메뉴만 화면 가운데 정렬하기 위함 -->
  <div class="lang-wrap">
  <button type="button" class="lang-btn" aria-label="언어 선택" aria-haspopup="listbox" onclick="toggleLang('desktop')" id="langBtn">
  <span id="langFlag"><i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i></span>
@@ -723,7 +725,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  <div class="lang-dropdown" id="langDropdown">
  <div class="lang-option" onclick="setLang('ko')"><i class="fa-solid fa-earth-asia" style="margin-right:6px;"></i>한국어</div>
  <div class="lang-option selected" onclick="setLang('en')"><i class="fa-solid fa-earth-americas" style="margin-right:6px;"></i>English</div>
- </div>
  </div>
  </div>
 
@@ -774,31 +775,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  <h1 data-k="hero_h1"><span style="white-space:nowrap;">아늑한 시작,</span><br><span style="white-space:nowrap;"><em>K-<span style="letter-spacing:0.02em;">ozy</span></em>와&nbsp;함께</span></h1>
  <p class="hero-sub" data-k="hero_sub">한국에서의 <span style="white-space:nowrap">새로운 시작,</span> <span style="white-space:nowrap">따뜻한 이불 한 채로</span> 편안하게. <span style="white-space:nowrap">다시 쓰이는 이불이</span> <span style="white-space:nowrap">누군가의 첫날 밤을</span> 포근하게 만듭니다.</p>
  <div class="hero-ctas">
- <button type="button" class="btn-primary" onclick="goPage('rental')" data-k="hero_cta1"><i class="fa-solid fa-bed" style="margin-right:8px;"></i>렌탈 신청하기 →<span class="btn-sub">세탁 완료된 이불, 바로 신청 | $40~</span></button>
+ <button type="button" class="btn-primary" onclick="goPage('rental')" data-k="hero_cta1">렌탈 신청하기 →</button>
  </div>
 
  </div>
  </section>
 
- <section class="qg-section" aria-label="빠른 안내">
-  <div class="qg-grid">
-   <button type="button" class="qg-card" onclick="window.open('https://instagram.com/beourkozy','_blank','noopener')">
-    <div class="qg-icon"><i class="fa-solid fa-book-open"></i></div>
-    <div class="qg-text"><h4 data-k="qg1_t">기숙사 입주 가이드</h4><p data-k="qg1_d">한국 생활 준비 팁을 웹매거진에서 확인하세요</p></div>
-    <i class="fa-solid fa-arrow-right qg-arrow"></i>
-   </button>
-   <button type="button" class="qg-card" onclick="goPage('faq')">
-    <div class="qg-icon"><i class="fa-solid fa-rotate-left"></i></div>
-    <div class="qg-text"><h4 data-k="qg2_t">반납 방법 안내</h4><p data-k="qg2_d">학기 종료 후 반납 절차를 미리 알아두세요</p></div>
-    <i class="fa-solid fa-arrow-right qg-arrow"></i>
-   </button>
-   <button type="button" class="qg-card" onclick="goPage('rental')">
-    <div class="qg-icon"><i class="fa-solid fa-tag"></i></div>
-    <div class="qg-text"><h4 data-k="qg3_t">요금 안내</h4><p data-k="qg3_d">렌탈 요금과 이불 구성을 신청 페이지에서 확인하세요</p></div>
-    <i class="fa-solid fa-arrow-right qg-arrow"></i>
-   </button>
-  </div>
- </section>
 
 <section class="section steps-section" id="how-it-works">
  <div class="section-label" data-k="steps_label">How It Works</div>
@@ -1486,8 +1468,6 @@ body.admin-subpage-mode > nav { display:none !important; }
 .rv-fields{ margin-top:24px; }
 .rv-fields .fg{ margin-bottom:16px; }
 .rv-fields .satisfaction-scale{ margin:8px 0 0; }
-.rv-terms{ font-size:0.76rem; color:var(--text-muted); line-height:1.7; text-align:center; margin:20px 0 0;
-  padding-top:16px; border-top:1px solid var(--border); }
 .rv-modal-foot{ display:flex; gap:10px; justify-content:space-between; align-items:center; margin-top:20px; }
 .rv-btn-ghost{ padding:12px 18px; background:none; border:1.5px solid var(--border); border-radius:11px;
   font-size:0.86rem; font-weight:700; color:var(--text-muted); cursor:pointer; font-family:inherit; }
@@ -1587,7 +1567,6 @@ body.admin-subpage-mode > nav { display:none !important; }
              onchange="kzPhotoAdd('review',this.files);this.value='';">
       <div class="kz-photo" id="rvPhotoList"></div>
       <div class="kz-ph-busy" id="rvPhotoBusy" data-k="photo_busy">사진을 준비하는 중…</div>
-      <div class="kz-ph-hint" data-k="photo_hint_public">최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 리뷰와 함께 공개됩니다.</div>
      </div>
 
      <div class="rv-detail-h" data-k="fbs_detail">세부 항목 평가 (5점 척도)</div>
@@ -1619,7 +1598,6 @@ body.admin-subpage-mode > nav { display:none !important; }
      </div>
     </div>
 
-    <p class="rv-terms" data-k="rv_terms">등록하신 리뷰는 이름 일부를 가린 채 K-ozy 사이트에 공개됩니다. 공개를 원하지 않으시면 이슈 보고 탭이나 이메일로 보내주세요.</p>
     <div class="rv-modal-foot">
      <button type="button" class="rv-btn-ghost" onclick="rvBack()" data-k="rv_back">← 이전</button>
      <button type="button" class="rv-btn-main" id="rvSubmitBtn" onclick="rvSubmit()" data-k="rv_submit">리뷰 등록</button>
@@ -2208,7 +2186,7 @@ const T = {
  nav_home:'홈', nav_story:'우리 이야기', nav_rental:'렌탈 신청', 
 hero_h1:'<span style="white-space:nowrap;">아늑한 시작,</span><br><span style="white-space:nowrap;"><em>K-<span style="letter-spacing:0.02em;">ozy</span></em>와&nbsp;함께</span>',
 hero_sub:'한국에서의 <span style="white-space:nowrap">새로운 시작,</span> <span style="white-space:nowrap">따뜻한 이불 한 채로</span> 편안하게. <span style="white-space:nowrap">다시 쓰이는 이불이</span> <span style="white-space:nowrap">누군가의 첫날 밤을</span> 포근하게 만듭니다.',
- hero_cta1:'<i class="fa-solid fa-bed" style="margin-right:8px;"></i>렌탈 신청하기 →<span class="btn-sub">세탁 완료된 이불, 바로 신청 | $40~</span>', hero_cta2:'<i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>이용 방법 보기<span class="btn-sub">신청부터 반납까지 4단계</span>',
+ hero_cta1:'렌탈 신청하기 →', hero_cta2:'<i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>이용 방법 보기<span class="btn-sub">신청부터 반납까지 4단계</span>',
 about_label:'About K-ozy', about_title:'따뜻한 연결, 지속 가능한 소비',
 about_sub:'단기 체류 후 버려지던 이불을 K-ozy가 직접 수거해 친환경 전문 세탁을 거친 뒤, 입국&nbsp;예정 국제학생에게 합리적인 가격으로 다시 빌려드립니다. 한&nbsp;장의 이불이 여러&nbsp;학기, 여러&nbsp;학생에게 이어집니다.',
  about_badge_p:'버려지던 이불에 새 생명을', about_badge_s:'Giving bedding a second life',
@@ -2306,12 +2284,10 @@ success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접�
  rv_prod:'K-ozy 침구 렌탈', rv_poor:'별로예요', rv_great:'최고예요',
  rv_title_lbl:'리뷰 제목', rv_title_ph:'예: 배송이 빨랐어요', rv_body_lbl:'리뷰 내용',
  rv_body_ph:'이용하시면서 좋았던 점을 자유롭게 적어주세요.',
- rv_terms:'등록하신 리뷰는 이름 일부를 가린 채 K-ozy 사이트에 공개됩니다. 공개를 원하지 않으시면 이슈 보고 탭이나 이메일로 보내주세요.',
  rv_back:'← 이전', rv_submit:'리뷰 등록',
  /* 사진 첨부 */
  photo_lbl:'사진 첨부 (선택)', photo_add:'사진 추가', photo_remove:'사진 삭제', photo_open:'사진 크게 보기',
  photo_busy:'사진을 준비하는 중…', photo_loading:'원본을 불러오는 중…',
- photo_hint_public:'최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 리뷰와 함께 공개됩니다.',
  photo_hint_private:'최대 3장 · JPG · PNG · WEBP · 업로드할 때 자동으로 크기를 줄입니다. 첨부한 사진은 운영팀만 확인합니다.',
  photo_max:'사진은 최대 3장까지 첨부할 수 있습니다.',
  photo_type:'이미지 파일만 첨부할 수 있습니다.',
@@ -2347,7 +2323,7 @@ hero_scroll:'아래로 스크롤',
  nav_home:'Home', nav_story:'Our Story', nav_rental:'Rent', 
 hero_h1:'A Cozy Start with <em>K-ozy</em>',
 hero_sub:'Starting fresh in Korea? We\'ve got your bedding covered. Freshly cleaned &amp; sanitized — delivered to your door in Seoul, cozy from day one.',
- hero_cta1:'<i class="fa-solid fa-bed" style="margin-right:8px;"></i>Rent Bedding →<span class="btn-sub">Sanitized sets from $40 · Delivered</span>', hero_cta2:'<i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>See How It Works<span class="btn-sub">4 steps from request to return</span>',
+ hero_cta1:'Rent Bedding →', hero_cta2:'<i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>See How It Works<span class="btn-sub">4 steps from request to return</span>',
 about_label:'About K-ozy', about_title:'Warm Connections, Sustainable Living',
  about_sub:'K-ozy collects bedding that would otherwise be thrown away after short stays, professionally cleans and sanitizes it, and rents it to international students arriving in Korea — starting from $40. Giving bedding a second life and helping students feel cozy from day one.',
  about_badge_p:'Giving bedding a second life', about_badge_s:'Sustainable Living',
@@ -2445,12 +2421,10 @@ success_r_title:'Application Received!', success_r_msg:'Your rental application 
  rv_prod:'K-ozy Bedding Rental', rv_poor:'Poor', rv_great:'Great',
  rv_title_lbl:'Review title', rv_title_ph:'e.g. Arrived on time', rv_body_lbl:'Review content',
  rv_body_ph:'Share what you liked about the service.',
- rv_terms:'Your review will be published on the K-ozy site with your name partially masked. If you prefer not to be published, use the Report an Issue tab or email us.',
  rv_back:'← Back', rv_submit:'Submit review',
  /* Photo attachments */
  photo_lbl:'Add photos (optional)', photo_add:'Add photo', photo_remove:'Remove photo', photo_open:'View larger',
  photo_busy:'Preparing photos…', photo_loading:'Loading full image…',
- photo_hint_public:'Up to 3 photos · JPG, PNG or WEBP · resized automatically on upload. Photos are published together with your review.',
  photo_hint_private:'Up to 3 photos · JPG, PNG or WEBP · resized automatically on upload. Only the K-ozy team can see them.',
  photo_max:'You can attach up to 3 photos.',
  photo_type:'Only image files can be attached.',
@@ -6666,6 +6640,113 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .feedback-hero h2{color:var(--navy);}
 .feedback-hero p{color:var(--text-muted);}
 </style>
+
+<style id="kozyHeroFullBleedV12">
+/* ═══ v12 — 홈 히어로: 사진 풀블리드 + 좌측 텍스트 오버레이 ═══
+   사진이 화면 맨 위(내비 뒤)까지 꽉 차고, 왼쪽에 흰 글씨 블록이 얹히는 형태.
+   텍스트 시작점은 내비 로고와 같은 5% 라인에 맞춘다. */
+.hero{ padding-top:0; padding-bottom:0; justify-content:center; }
+.hero-bg-img img{ object-position:center 45%; }
+
+/* 평면 검정(45%) 대신 그라데이션 — 왼쪽은 글자 대비 확보, 오른쪽은 사진을 살린다 */
+.hero-overlay{
+  background:
+    linear-gradient(90deg, rgba(10,14,25,0.70) 0%, rgba(10,14,25,0.50) 36%, rgba(10,14,25,0.24) 66%, rgba(10,14,25,0.10) 100%),
+    linear-gradient(180deg, rgba(10,14,25,0.38) 0%, rgba(10,14,25,0) 24%, rgba(10,14,25,0) 70%, rgba(10,14,25,0.34) 100%);
+}
+
+.hero-content{ width:100%; max-width:none; padding:0 5%; }
+.hero-content > *{ max-width:min(640px,52vw); }
+.hero h1{ font-size:clamp(2.3rem,5.4vw,4.5rem); line-height:1.14; letter-spacing:-2px; margin-bottom:22px;
+  text-shadow:0 2px 24px rgba(10,14,25,0.35); }
+.hero h1 em{ color:#FFFFFF; }
+.hero-sub{ max-width:min(46ch,48vw); margin-bottom:38px; color:rgba(255,255,255,0.92);
+  text-shadow:0 1px 16px rgba(10,14,25,0.35); }
+/* 한 줄짜리 버튼 — 보조 문구·아이콘 없이 라벨만 */
+.hero .btn-primary{ background:var(--blue-mid); color:#fff; min-width:0; flex-direction:row; align-items:center;
+  padding:17px 44px; font-size:1.02rem; box-shadow:0 10px 30px rgba(10,14,25,0.28); }
+.hero .btn-primary:hover{ background:#2453cf; }
+
+@media (min-width:641px){
+  .hero{ min-height:100vh; }
+  .hero-content{ margin-top:0; }
+}
+@media (max-width:640px){
+  .hero{ min-height:76vh; padding-top:130px; padding-bottom:80px; justify-content:center; }
+  .hero-content{ padding:0 6%; }
+  .hero-content > *{ max-width:100%; }
+  .hero-sub{ max-width:30ch; }
+  .hero-overlay{
+    background:
+      linear-gradient(180deg, rgba(10,14,25,0.55) 0%, rgba(10,14,25,0.35) 40%, rgba(10,14,25,0.55) 100%);
+  }
+}
+
+/* ── 내비게이션: 메뉴를 화면 가운데로, 글자는 조금 크게 ──
+   관리자 화면의 사이드바(nav.adm-nav)까지 걸리지 않도록 최상단 내비(body > nav)에만 적용한다. */
+body > nav{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:16px; }
+body > nav .nav-logo{ justify-self:start; }
+body > nav .nav-links{ justify-self:center; gap:8px; }
+body > nav > .lang-wrap{ justify-self:end; }
+body > nav .nav-btn{ font-size:1.12rem; font-weight:600; padding:10px 20px; }
+body > nav .lang-btn{ font-size:0.95rem; padding:10px 16px; }
+@media (max-width:1100px){
+  body > nav .nav-btn{ font-size:1.02rem; padding:9px 14px; }
+  body > nav .nav-links{ gap:4px; }
+}
+@media (max-width:900px){
+  body > nav .nav-btn{ font-size:0.94rem; padding:8px 11px; }
+  body > nav .nav-links{ gap:2px; }
+}
+/* 800px 이하에서는 메뉴가 햄버거로 접힌다(.nav-links display:none) — 로고 + 우측 그룹 2열로 */
+@media (max-width:800px){
+  body > nav{ grid-template-columns:auto 1fr; column-gap:8px; }
+  body > nav > .lang-wrap{ display:none; }   /* 이 구간은 햄버거 메뉴 안의 언어 선택을 쓴다 */
+  body > nav > .mobile-nav-right{ justify-self:end; }
+}
+
+/* ── 히어로 위에 얹힌 내비게이션 (홈 최상단에서만 투명) ── */
+body > nav{ transition:background 0.28s ease, border-color 0.28s ease, backdrop-filter 0.28s ease; }
+body.nav-over-hero > nav{ background:transparent; border-bottom-color:transparent; backdrop-filter:none; }
+body.nav-over-hero .nav-logo,
+body.nav-over-hero .nav-logo span{ color:#FFFFFF; text-shadow:0 2px 16px rgba(10,14,25,0.4); }
+body.nav-over-hero .nav-btn{ color:rgba(255,255,255,0.86); }
+body.nav-over-hero .nav-btn:hover{ color:#FFFFFF; background:rgba(255,255,255,0.16); }
+body.nav-over-hero .nav-btn.active-nav{ color:#FFFFFF; background:rgba(255,255,255,0.2); }
+body.nav-over-hero .lang-btn{ background:transparent; border-color:rgba(255,255,255,0.5); color:#FFFFFF; }
+body.nav-over-hero .lang-btn:hover{ border-color:#FFFFFF; }
+/* 햄버거 막대는 원래 흰색이라 흰 내비 위에서 보이지 않았다 — 기본은 진하게, 사진 위에서만 흰색 */
+.hamburger span{ background:var(--navy); }
+body.nav-over-hero .hamburger span{ background:#FFFFFF; }
+body.nav-over-hero .mobile-lang-quick{ background:transparent; border-color:rgba(255,255,255,0.5); color:#FFFFFF; }
+</style>
+
+<script>
+/* 홈 최상단에서만 내비를 투명하게 해서 히어로 사진이 화면 위까지 이어지게 한다.
+   스크롤하거나 다른 페이지로 이동하면 원래의 흰 내비로 돌아온다. */
+(function(){
+  function syncNavOverHero(){
+    var home=document.getElementById('page-home');
+    var onHome=!!(home && home.classList.contains('active'));
+    var atTop=(window.scrollY||document.documentElement.scrollTop||0) < 40;
+    document.body.classList.toggle('nav-over-hero', onHome && atTop);
+  }
+  window.addEventListener('scroll', syncNavOverHero, { passive:true });
+  window.addEventListener('resize', syncNavOverHero);
+  function start(){
+    // 페이지 전환(.page 의 active 클래스 변경)에도 반응한다
+    if(window.MutationObserver){
+      var obs=new MutationObserver(syncNavOverHero);
+      document.querySelectorAll('.page').forEach(function(p){
+        obs.observe(p, { attributes:true, attributeFilter:['class'] });
+      });
+    }
+    syncNavOverHero();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+</script>
 
 <!-- ═══════════════════════════════════════════════════════════
      채널톡(Channel Talk) JavaScript SDK — 옵션1. 직접 로드 (MPA)
