@@ -686,6 +686,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   text-align:center;
 }
 
+/* ── 푸터 사업자 정보 / 법적 고지 ── */
+.footer-grid{grid-template-columns:1.6fr 1fr 1fr 1fr;}
+.footer-legal{padding-top:22px;margin-top:20px;border-top:1px solid rgba(255,255,255,0.12);}
+.footer-biz{font-size:0.76rem;color:rgba(255,255,255,0.5);line-height:1.9;margin:0 0 2px;}
+.biz-item{display:inline;}
+.biz-item:not(:last-child)::after{content:'|';margin:0 8px;color:rgba(255,255,255,0.24);text-decoration:none;}
+.biz-link{color:rgba(255,255,255,0.72);text-decoration:underline;text-underline-offset:2px;transition:color 0.2s;}
+.biz-link:hover{color:#fff;}
+.footer-authmark{display:flex;align-items:center;gap:12px;margin-top:18px;}
+.footer-authmark a{display:inline-block;line-height:0;border-radius:4px;transition:opacity 0.2s;}
+.footer-authmark a:hover{opacity:0.82;}
+.footer-authmark img{display:block;height:52px;width:auto;border:0;}
+.footer-authmark .authmark-desc{font-size:0.74rem;color:rgba(255,255,255,0.45);line-height:1.6;}
+
+/* ── 이용약관 / 개인정보처리방침 본문 ── */
+.legal-body{max-width:860px;font-size:0.9rem;color:var(--text-muted);line-height:1.95;white-space:pre-line;}
+
+@media(max-width:900px){
+  .footer-grid{grid-template-columns:1fr;}
+}
+
 .story-press-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-pale),0 18px 40px rgba(15,23,42,.08);}
 .press-photo{position:relative;aspect-ratio:16/9;background:rgba(47,98,232,0.12);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--border);}
 .press-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s;}
@@ -1809,6 +1830,38 @@ body.admin-subpage-mode > nav { display:none !important; }
  </div>
 </div>
 
+<!-- ═══ 이용약관 ═══ -->
+<div class="page" id="page-terms" role="main">
+ <div class="faq-page">
+  <div class="faq-hero">
+   <div class="faq-hero-inner">
+    <div class="section-label" data-k="terms_label">Terms of Service</div>
+    <div class="section-title" data-k="terms_title">이용약관</div>
+    <p class="section-sub" data-k="terms_desc">K-ozy 서비스 이용에 관한 약관입니다.</p>
+   </div>
+  </div>
+  <div class="faq-wrap">
+   <div class="legal-body" data-k="legal_empty">내용을 준비하고 있습니다. 확정되는 대로 이곳에 게시할 예정입니다.</div>
+  </div>
+ </div>
+</div>
+
+<!-- ═══ 개인정보처리방침 ═══ -->
+<div class="page" id="page-privacy" role="main">
+ <div class="faq-page">
+  <div class="faq-hero">
+   <div class="faq-hero-inner">
+    <div class="section-label" data-k="privacy_label">Privacy Policy</div>
+    <div class="section-title" data-k="privacy_title">개인정보처리방침</div>
+    <p class="section-sub" data-k="privacy_desc">K-ozy가 이용자의 개인정보를 어떻게 수집·이용·보관하는지 안내합니다.</p>
+   </div>
+  </div>
+  <div class="faq-wrap">
+   <div class="legal-body" data-k="legal_empty">내용을 준비하고 있습니다. 확정되는 대로 이곳에 게시할 예정입니다.</div>
+  </div>
+ </div>
+</div>
+
 <div class="page" id="page-admin-login">
  <div class="admin-page">
  <div class="admin-login">
@@ -2679,6 +2732,50 @@ T.en.uni_hansung='Hansung University';
 T.en.uni_hanyang='Hanyang University (Seoul)';
 T.en.uni_hywu="Hanyang Women's University";
 T.en.uni_hongik='Hongik University (Seoul)';
+
+/* ── 푸터: 약관 컬럼 ── */
+T.ko.f_legal='약관';
+T.en.f_legal='Legal';
+T.ko.nav_terms='이용약관';
+T.en.nav_terms='Terms of Service';
+T.ko.nav_privacy='개인정보처리방침';
+T.en.nav_privacy='Privacy Policy';
+
+/* ── 푸터: 사업자 정보 (전자상거래법 고지) ── */
+T.ko.biz_name='상호명: 코지';
+T.en.biz_name='Business Name: K-ozy';
+T.ko.biz_owner='대표자: 서빛나';
+T.en.biz_owner='Owner: Bitna Suh';
+T.ko.biz_officer='개인정보책임자: 김지안';
+T.en.biz_officer='Privacy Officer: Jiahn Kim';
+T.ko.biz_reg='사업자등록번호: 139-77-00601';
+T.en.biz_reg='Business Registration Number: 139-77-00601';
+T.ko.biz_ecom='통신판매업신고번호: 2026-서울마포-1890';
+T.en.biz_ecom='E-commerce Registration Number: 2026-서울마포-1890';
+T.ko.biz_addr='주소: 서울특별시 마포구 서강로 121, 202-84호(2F)';
+T.en.biz_addr='Address: 121 Seogang-ro, Mapo-gu, Seoul, Republic of Korea';
+T.ko.biz_tel='연락처: 010-4096-2362';
+T.en.biz_tel='Tel: +82 10 4096 2362';
+T.ko.biz_host='호스팅제공자: Netlify, Inc.';
+T.en.biz_host='Hosting Provider: Netlify, Inc.';
+T.ko.authmark_desc='고객님의 안전거래를 위해 결제 시 IBK기업은행의 구매안전(에스크로) 서비스를 이용하실 수 있습니다.';
+T.en.authmark_desc='For your safety, purchase protection (escrow) by IBK Industrial Bank of Korea is available at checkout.';
+
+/* ── 이용약관 / 개인정보처리방침 페이지 ── */
+T.ko.terms_label='Terms of Service';
+T.en.terms_label='Terms of Service';
+T.ko.terms_title='이용약관';
+T.en.terms_title='Terms of Service';
+T.ko.terms_desc='K-ozy 서비스 이용에 관한 약관입니다.';
+T.en.terms_desc='Terms governing the use of the K-ozy service.';
+T.ko.privacy_label='Privacy Policy';
+T.en.privacy_label='Privacy Policy';
+T.ko.privacy_title='개인정보처리방침';
+T.en.privacy_title='Privacy Policy';
+T.ko.privacy_desc='K-ozy가 이용자의 개인정보를 어떻게 수집·이용·보관하는지 안내합니다.';
+T.en.privacy_desc='How K-ozy collects, uses, and stores your personal information.';
+T.ko.legal_empty='내용을 준비하고 있습니다. 확정되는 대로 이곳에 게시할 예정입니다.';
+T.en.legal_empty='This document is being prepared and will be published here once finalized.';
 
 function t(key){ return T[currentLang][key] || T['ko'][key] || key; }
 
@@ -4286,7 +4383,41 @@ if(typeof IntersectionObserver !== 'undefined'){
  <a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a>
  <a href="https://instagram.com/beourkozy" target="_blank" rel="noopener">Instagram @beourkozy</a>
  </div>
+ <div class="fcol">
+ <h4 data-k="f_legal">약관</h4>
+ <a onclick="goPage('terms')" data-k="nav_terms">이용약관</a>
+ <a onclick="goPage('privacy')" data-k="nav_privacy">개인정보처리방침</a>
  </div>
+ </div>
+
+ <!-- ═══ 사업자 정보 (전자상거래법 고지) ═══ -->
+ <div class="footer-legal">
+  <p class="footer-biz">
+   <span class="biz-item" data-k="biz_name">상호명: 코지</span>
+   <span class="biz-item" data-k="biz_owner">대표자: 서빛나</span>
+   <span class="biz-item" data-k="biz_officer">개인정보책임자: 김지안</span>
+   <span class="biz-item"><a class="biz-link" href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1397700601" target="_blank" rel="noopener noreferrer" data-k="biz_reg">사업자등록번호: 139-77-00601</a></span>
+   <span class="biz-item"><a class="biz-link" href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1397700601" target="_blank" rel="noopener noreferrer" data-k="biz_ecom">통신판매업신고번호: 2026-서울마포-1890</a></span>
+   <span class="biz-item" data-k="biz_addr">주소: 서울특별시 마포구 서강로 121, 202-84호(2F)</span>
+   <span class="biz-item" data-k="biz_tel">연락처: 010-4096-2362</span>
+  </p>
+  <p class="footer-biz">
+   <span class="biz-item" data-k="biz_host">호스팅제공자: Netlify, Inc.</span>
+  </p>
+
+  <!-- 기업은행 안심이체 인증마크 적용 시작 -->
+  <form name="AUTHMARK_FORM" method="POST" style="display:none;">
+   <input type="hidden" name="authmarkinfo">
+  </form>
+  <div class="footer-authmark">
+   <a href="javascript:onPopAuthMark('38610fcae1304b58ee7a7ce57b4dcdcd')" title="기업은행 안심이체 인증마크 확인">
+    <img src="https://kiup.ibk.co.kr/IBK/uib/ecb/img/KO/esc/sub/imgIbkMark.gif" alt="기업은행 안심이체 인증마크" border="0" loading="lazy">
+   </a>
+   <span class="authmark-desc" data-k="authmark_desc">고객님의 안전거래를 위해 결제 시 IBK기업은행의 구매안전(에스크로) 서비스를 이용하실 수 있습니다.</span>
+  </div>
+  <!-- 기업은행 안심이체 인증마크 적용 종료 -->
+ </div>
+
  <div class="footer-bottom">
  <span>© 2026 K-ozy · Enactus Sogang. All rights reserved.</span>
  <button type="button" class="admin-footer-link" onclick="goPage('admin-login')" aria-label="관리자 페이지 열기" title="관리자 페이지">
@@ -4299,6 +4430,19 @@ if(typeof IntersectionObserver !== 'undefined'){
   <span lang="en">Bedding rental for international students in Korea by Enactus Sogang, Seoul. Sanitized sets from $40.</span>
  </p>
 </footer>
+
+<!-- 기업은행 안심이체 인증마크 팝업 -->
+<script>
+function onPopAuthMark(key){
+ window.open('','AUTHMARK_POPUP','height=900, width=630, status=yes, toolbar=no, menubar=no, location=no');
+ var f = document.AUTHMARK_FORM;
+ if(!f) return;
+ f.authmarkinfo.value = key;
+ f.action = 'https://kiup.ibk.co.kr/uib/jsp/guest/esc/esc25/getAuthMark.jsp';
+ f.target = 'AUTHMARK_POPUP';
+ f.submit();
+}
+</script>
 
 <!-- ═══ Structured Data: LocalBusiness (GEO + 지역 검색) ═══ -->
 <script type="application/ld+json">
