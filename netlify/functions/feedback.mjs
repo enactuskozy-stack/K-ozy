@@ -1,9 +1,10 @@
 // netlify/functions/feedback.mjs
 // K-ozy 피드백(만족도/이슈) 저장소 — Netlify DB(Neon/Supabase).
 //
-//  GET    /.netlify/functions/feedback        → { satisfaction:[...], issue:[...] }  [관리자 전용]
-//  POST   /.netlify/functions/feedback        → 단건 생성 (고객, body 에 type 포함)   [공개]
-//  DELETE /.netlify/functions/feedback?id=ID  → 1건 삭제                              [관리자 전용]
+//  GET    /.netlify/functions/feedback              → { satisfaction:[...], issue:[...] }  [관리자 전용]
+//  GET    /.netlify/functions/feedback?photo=1&id=ID&i=N → { src } 첨부 사진 원본 1장
+//  POST   /.netlify/functions/feedback              → 단건 생성 (고객, body 에 type 포함)   [공개]
+//  DELETE /.netlify/functions/feedback?id=ID        → 1건 삭제                              [관리자 전용]
 //
 // 권한 판정은 전부 서버(netlify/shared/auth.mjs)에서 한다. orders.mjs 와 동일 정책.
 
@@ -18,12 +19,45 @@ const sql = CONN
   : null;
 
 const TYPES = ['satisfaction', 'issue'];
-const MAX_BODY_BYTES = 100_000;
-const MAX_ITEM_BYTES = 20_000;
+// 사진 첨부를 허용하면서 본문 상한을 올렸다. 브라우저가 업로드 전에 리사이즈/압축하므로
+// 정상 제출은 2MB 를 넘지 않는다(사진 3장 × 약 0.6MB + 썸네일).
+const MAX_BODY_BYTES = 3_500_000;
+const MAX_ITEM_BYTES = 3_000_000;
 const MAX_FIELDS = 60;
 const MAX_STRING = 2000;
 
+/* ── 첨부 사진 ──
+   photos: [{ t: 썸네일 data URL, f: 원본 data URL }] 형태로 jsonb 에 함께 저장한다.
+   목록 API 는 썸네일만 내려주고, 원본은 ?photo=1 로 1장씩 받아간다(응답 크기 방어). */
+const MAX_PHOTOS = 3;
+const MAX_PHOTO_BYTES = 900_000;   // 원본 data URL 길이 상한
+const MAX_THUMB_BYTES = 160_000;   // 썸네일 data URL 길이 상한
+const DATA_URL_RE = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+
 const asObj = (v) => (typeof v === 'string' ? JSON.parse(v) : v);
+
+const isDataUrl = (s, max) => typeof s === 'string' && s.length > 0 && s.length <= max && DATA_URL_RE.test(s);
+
+/** 클라이언트가 보낸 photos 를 검증한다. 형식이 어긋난 항목은 조용히 버린다. */
+function sanitizePhotos(raw) {
+  if (!Array.isArray(raw)) return [];
+  const out = [];
+  for (const p of raw) {
+    if (out.length >= MAX_PHOTOS) break;
+    const full = typeof p === 'string' ? p : (p && typeof p === 'object' ? p.f : '');
+    if (!isDataUrl(full, MAX_PHOTO_BYTES)) continue;
+    const thumb = p && typeof p === 'object' ? p.t : '';
+    out.push({ t: isDataUrl(thumb, MAX_THUMB_BYTES) ? thumb : full, f: full });
+  }
+  return out;
+}
+
+/** 목록 응답용 — 썸네일만 남기고 원본은 뺀다. */
+const photoThumbs = (d) =>
+  (Array.isArray(d && d.photos) ? d.photos : [])
+    .slice(0, MAX_PHOTOS)
+    .map((p) => (typeof p === 'string' ? p : (p && p.t) || ''))
+    .filter((s) => isDataUrl(s, MAX_PHOTO_BYTES));
 
 let _ready;
 function ensureTable() {
@@ -68,6 +102,7 @@ function sanitizeFeedback(input) {
   const out = {};
   let fields = 0;
   for (const [k, v] of Object.entries(input)) {
+    if (k === 'photos') continue;   // 사진은 아래에서 따로 검증한다(문자열 절단 대상 아님)
     if (++fields > MAX_FIELDS) return { error: 'too many fields' };
     if (typeof v === 'string') out[k] = v.slice(0, MAX_STRING);
     else if (v === null || typeof v === 'number' || typeof v === 'boolean') out[k] = v;
@@ -80,6 +115,9 @@ function sanitizeFeedback(input) {
   out.type = type;
   out.serverReceivedAt = new Date().toISOString();
 
+  const photos = sanitizePhotos(input.photos);
+  if (photos.length) out.photos = photos;
+
   if (JSON.stringify(out).length > MAX_ITEM_BYTES) return { error: 'payload too large' };
   return { value: out, id, type };
 }
@@ -91,6 +129,29 @@ export default async (req) => {
 
     if (method === 'GET') {
       const params = new URL(req.url).searchParams;
+
+      // 첨부 사진 원본 1장 (?photo=1&id=ID&i=N)
+      //  - 공개로 열람 가능한 건 '숨김이 아닌 리뷰'의 사진뿐이다.
+      //  - 이슈 보고 사진과 숨김 리뷰 사진은 관리자 세션에서만 내려간다.
+      //  - 존재 여부를 흘리지 않도록 권한 없는 요청도 404 로 답한다.
+      if (params.get('photo') === '1') {
+        const id = String(params.get('id') || '');
+        const i = Number(params.get('i'));
+        if (!id || id.length > 64 || !Number.isInteger(i) || i < 0 || i >= MAX_PHOTOS) {
+          return json(400, { error: 'bad request' });
+        }
+        await ensureTable();
+        const rows = await sql`SELECT type, data FROM feedback WHERE id = ${id} LIMIT 1`;
+        if (!rows.length) return json(404, { error: 'not found' });
+        const d = asObj(rows[0].data) || {};
+        if (!isAdminRequest(req) && (rows[0].type !== 'satisfaction' || d.hidden === true)) {
+          return json(404, { error: 'not found' });
+        }
+        const p = Array.isArray(d.photos) ? d.photos[i] : null;
+        const src = typeof p === 'string' ? p : (p && p.f) || '';
+        if (!isDataUrl(src, MAX_PHOTO_BYTES)) return json(404, { error: 'not found' });
+        return json(200, { src });
+      }
 
       // 공개 리뷰(?public=1) / 공개 집계(?summary=1)
       //  - 이름은 마스킹하고 이메일 등 개인정보는 내보내지 않는다.
@@ -131,6 +192,7 @@ export default async (req) => {
           improvement: String(d.improvement || '').slice(0, 2000),
           recommend: d.recommend || '',
           submittedAt: d.submittedAt || '',
+          photos: photoThumbs(d),   // 원본은 ?photo=1 로 따로 받아간다
         }));
         return json(200, { summary, reviews });
       }
@@ -141,7 +203,14 @@ export default async (req) => {
       const out = { satisfaction: [], issue: [] };
       for (const r of rows) {
         const t = TYPES.includes(r.type) ? r.type : 'issue';
-        out[t].push(asObj(r.data));
+        const d = asObj(r.data) || {};
+        // 관리자 목록도 썸네일만 내려준다(원본까지 실으면 응답이 수십 MB 가 된다).
+        // 원본은 상세 화면에서 ?photo=1 로 1장씩 받아간다.
+        out[t].push(
+          Array.isArray(d.photos)
+            ? { ...d, photos: photoThumbs(d).map((t2) => ({ t: t2 })) }
+            : d
+        );
       }
       return json(200, out);
     }
