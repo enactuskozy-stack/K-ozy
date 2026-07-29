@@ -236,7 +236,12 @@
 <!-- ═══ DNS Prefetch / Preconnect ═══ -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<!-- 히어로 배경(LCP 요소)이 올라오는 이미지 호스트 — 연결을 미리 열어둔다 -->
+<link rel="preconnect" href="https://i.postimg.cc" crossorigin>
+<link rel="dns-prefetch" href="https://i.postimg.cc">
+<link rel="preload" as="image" href="https://i.postimg.cc/VLMYpcky/hotel-bedding-hero-1.png" fetchpriority="high">
 
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>:root{--white:#FFFFFF;--off-white:#F7F9FC;--light-gray:#F1F5F9;--mid-gray:#CBD5E1;--text-muted:#64748B;--text-sub:#9CA3AF;--text-main:#334155;--navy:#1E293B;--navy-mid:#1E293B;
@@ -731,8 +736,40 @@ footer{position:relative;}
   .story-press-grid-wrap > div:last-child{grid-template-columns:1fr!important;}
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- ═══ 무거운 라이브러리는 관리자 화면에서만 쓰이므로 필요할 때 내려받는다 ═══
+     (예전에는 이 두 개를 head 에서 동기 로드해서 일반 방문자의 첫 화면까지 막고 있었다) -->
+<script>
+window.KZ_LIB_SRC = {
+  chart:    'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js',
+  html2pdf: 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+};
+(function(){
+  var cache = {};
+  /* 같은 라이브러리를 두 번 내려받지 않는다. 실패해도 reject 하지 않고 false 로 알린다. */
+  function loadScript(key){
+    if(cache[key]) return cache[key];
+    var src = window.KZ_LIB_SRC[key];
+    cache[key] = new Promise(function(resolve){
+      var s = document.createElement('script');
+      s.src = src; s.async = true;
+      s.onload  = function(){ resolve(true); };
+      s.onerror = function(){ cache[key] = null; resolve(false); };
+      document.head.appendChild(s);
+    });
+    return cache[key];
+  }
+  /* global 이 이미 있으면 즉시 통과. 로드 후에도 global 이 없으면 false →
+     호출부가 무한 재시도에 빠지지 않는다. */
+  function ensure(key, globalName){
+    if(typeof window[globalName] !== 'undefined') return Promise.resolve(true);
+    return loadScript(key).then(function(){ return typeof window[globalName] !== 'undefined'; });
+  }
+  window.kzEnsureChart    = function(){ return ensure('chart', 'Chart'); };
+  window.kzEnsureHtml2pdf = function(){ return ensure('html2pdf', 'html2pdf'); };
+  /* 관리자가 로그인 화면에 도달하면 미리 받아둔다(차트가 늦게 뜨는 것 방지). */
+  window.kzWarmAdminLibs  = function(){ loadScript('chart'); };
+})();
+</script>
 </head>
 <body>
 
@@ -799,7 +836,7 @@ footer{position:relative;}
 
  <section class="hero" id="main-content" aria-label="K-ozy 메인 히어로">
  <div class="hero-bg-img">
- <img src="https://i.postimg.cc/VLMYpcky/hotel-bedding-hero-1.png" alt="K-ozy 이불 렌탈" loading="eager">
+ <img src="https://i.postimg.cc/VLMYpcky/hotel-bedding-hero-1.png" alt="K-ozy 이불 렌탈" loading="eager" fetchpriority="high" decoding="async">
  </div>
  <div class="hero-overlay"></div>
  <div class="hero-content">
@@ -1089,7 +1126,7 @@ body.admin-subpage-mode > nav { display:none !important; }
  <div class="story-press-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:all 0.26s cubic-bezier(.22,.9,.3,1);height:100%;display:flex;flex-direction:column;">
  <!-- 📷 사진 삽입: 아래 img 태그에 src="사진주소" 를 넣으면 자동으로 표시됩니다 -->
  <div class="press-photo">
- <img class="press-photo-img" src="https://i.postimg.cc/Vv5734Fn/MVP-sajin-7.jpg" alt="소셜임팩트뉴스 기사 사진" onload="this.classList.add('loaded')" onerror="this.classList.remove('loaded')">
+ <img class="press-photo-img" loading="lazy" decoding="async" src="https://i.postimg.cc/Vv5734Fn/MVP-sajin-7.jpg" alt="소셜임팩트뉴스 기사 사진" onload="this.classList.add('loaded')" onerror="this.classList.remove('loaded')">
  <span class="press-photo-label" style="display:none;"><i class="fa-solid fa-image"></i>사진을 삽입하세요</span>
  </div>
  <div style="padding:24px 28px 12px;">
@@ -1111,7 +1148,7 @@ body.admin-subpage-mode > nav { display:none !important; }
  <div class="story-press-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:all 0.26s cubic-bezier(.22,.9,.3,1);height:100%;display:flex;flex-direction:column;">
  <!-- 📷 사진 삽입: 아래 img 태그에 src="사진주소" 를 넣으면 자동으로 표시됩니다 -->
  <div class="press-photo">
- <img class="press-photo-img" src="https://i.postimg.cc/qvnpPxbJ/Gemini-Generated-Image-j7xeeqj7xeeqj7xe.png" alt="이로운넷 기사 사진" onload="this.classList.add('loaded')" onerror="this.classList.remove('loaded')">
+ <img class="press-photo-img" loading="lazy" decoding="async" src="https://i.postimg.cc/qvnpPxbJ/Gemini-Generated-Image-j7xeeqj7xeeqj7xe.png" alt="이로운넷 기사 사진" onload="this.classList.add('loaded')" onerror="this.classList.remove('loaded')">
  <span class="press-photo-label" style="display:none;"><i class="fa-solid fa-image"></i>사진을 삽입하세요</span>
  </div>
  <div style="padding:24px 28px 12px;">
@@ -2907,6 +2944,8 @@ function goPage(name){
   name='admin-login'; page=document.getElementById('page-admin-login');
   if(!page) return;
  }
+ /* 관리자 영역에 들어서는 순간 차트 라이브러리를 백그라운드로 미리 받아둔다 */
+ if((name==='admin'||name==='admin-login') && typeof kzWarmAdminLibs==='function') kzWarmAdminLibs();
  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
  page.classList.add('active');
  document.body.classList.remove('admin-subpage-mode');   // 관리자 전용 페이지에서 빠져나온 경우 정리
@@ -3473,7 +3512,12 @@ function renderDashboardCharts() {
     admStatCard('이슈 보고', issues.length, '높음 <strong>'+issues.filter(function(x){return x.severity==='high';}).length+'</strong> · 보통 <strong>'+issues.filter(function(x){return x.severity==='medium';}).length+'</strong>', 'fa-triangle-exclamation') +
     admStatCard('CO₂ 절감 추정', ((r.length+50)*12)+'kg', '이불 1장당 약 <strong>12kg</strong> CO₂ 절감', 'fa-leaf');
 
-  if(typeof Chart === 'undefined') return;
+  /* Chart.js 는 지연 로드된다. 아직 없으면 받아온 뒤 이 함수를 다시 실행한다.
+     (통계 카드는 위에서 이미 그려졌으므로 차트만 뒤늦게 채워진다) */
+  if(typeof Chart === 'undefined'){
+    kzEnsureChart().then(function(ok){ if(ok) renderDashboardCharts(); });
+    return;
+  }
 
   // 기존 차트 파괴
   Object.keys(_admCharts).forEach(function(k){ try{ _admCharts[k].destroy(); }catch(e){} });
@@ -4826,10 +4870,6 @@ function closeReceiptModal() {
 // PDF 다운로드
 function downloadReceiptPDF() {
   if (!currentReceiptOrder) return;
-  if (typeof html2pdf === 'undefined') {
-    alert('PDF 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.');
-    return;
-  }
   var element = document.getElementById('receiptDocument');
   if (!element) return;
   var displayName = currentReceiptOrder.name ||
@@ -4852,11 +4892,20 @@ function downloadReceiptPDF() {
     btn.style.opacity = '0.6';
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>생성 중...';
   }
-  html2pdf().set(opt).from(element).save().then(function() {
+  function restore() {
     if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = origText; }
+  }
+  /* html2pdf 는 용량이 커서 이 버튼을 누른 시점에 처음 내려받는다. */
+  kzEnsureHtml2pdf().then(function(ok) {
+    if (!ok) {
+      restore();
+      alert('PDF 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.');
+      return;
+    }
+    return html2pdf().set(opt).from(element).save().then(restore);
   }).catch(function(err) {
     console.error('PDF 생성 오류:', err);
-    if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = origText; }
+    restore();
     alert('PDF 생성 중 오류가 발생했습니다.');
   });
 }
@@ -6415,7 +6464,10 @@ function rzSetRevMode(m){
   rzRenderDashCharts();
 }
 function rzRenderDashCharts(){
-  if(typeof Chart==='undefined') return;
+  if(typeof Chart==='undefined'){
+    kzEnsureChart().then(function(ok){ if(ok) rzRenderDashCharts(); });
+    return;
+  }
   var fontOpt={ family:"'Pretendard',-apple-system,sans-serif", size:11 };
   /* 분기별 */
   var qc=document.getElementById('chartQuarterRz');
@@ -6891,8 +6943,15 @@ body.nav-over-hero .mobile-lang-quick{ background:transparent; border-color:rgba
     var atTop=(window.scrollY||document.documentElement.scrollTop||0) < 40;
     document.body.classList.toggle('nav-over-hero', onHome && atTop);
   }
-  window.addEventListener('scroll', syncNavOverHero, { passive:true });
-  window.addEventListener('resize', syncNavOverHero);
+  /* 스크롤 이벤트는 초당 수십 번 들어오므로 프레임당 한 번으로 묶는다 */
+  var queued=false;
+  function onScroll(){
+    if(queued) return;
+    queued=true;
+    requestAnimationFrame(function(){ queued=false; syncNavOverHero(); });
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
   function start(){
     // 페이지 전환(.page 의 active 클래스 변경)에도 반응한다
     if(window.MutationObserver){
