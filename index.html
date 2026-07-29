@@ -6505,10 +6505,12 @@ function rzRenderDashCharts(){
     if(!smap[k]) smap[k]={qty:0,rev:0};
     smap[k].qty+=1; smap[k].rev+=(+o.amountKRW||0);
   });
-  var sn=Object.keys(smap);
-  /* 대여량 차트: 대여 이력이 있는 학교만 (이력이 생기면 자동으로 추가됨) */
-  var snQty=sn.filter(function(s){ return smap[s].qty>0; })
-              .sort(function(a,b){ return smap[b].qty-smap[a].qty; });
+  /* 두 차트 모두 '대여 이력이 있는 학교'만 그린다. 이력이 생기면 자동으로 추가된다.
+     기준은 매출이 아니라 대여 건수 — 무상/미입금 건이라도 이력은 이력이므로 목록에 남긴다.
+     정렬만 각 차트의 지표(건수 / 매출)에 맞춘다. */
+  var snRented=Object.keys(smap).filter(function(s){ return smap[s].qty>0; });
+  var snQty=snRented.slice().sort(function(a,b){ return smap[b].qty-smap[a].qty; });
+  var snRev=snRented.slice().sort(function(a,b){ return smap[b].rev-smap[a].rev; });
   var c1=document.getElementById('chartSchoolQtyRz');
   if(c1){
     rzDestroy('sq');
@@ -6523,7 +6525,7 @@ function rzRenderDashCharts(){
   if(c2){
     rzDestroy('sr');
     _rzCharts.sr=new Chart(c2,{ type:'bar',
-      data:{ labels:sn, datasets:[{ label:'누적 매출 (원)', data:sn.map(function(s){ return smap[s].rev; }), backgroundColor:'rgba(47, 98, 232, 0.6)', borderRadius:8, maxBarThickness:26 }] },
+      data:{ labels:snRev, datasets:[{ label:'누적 매출 (원)', data:snRev.map(function(s){ return smap[s].rev; }), backgroundColor:'rgba(47, 98, 232, 0.6)', borderRadius:8, maxBarThickness:26 }] },
       options:{ maintainAspectRatio:false, indexAxis:'y',
         plugins:{ legend:{ display:false } },
         scales:{ x:{ beginAtZero:true, ticks:{ font:fontOpt, callback:function(v){ return (v/10000)+'만'; } } }, y:{ ticks:{ font:fontOpt } } } }
