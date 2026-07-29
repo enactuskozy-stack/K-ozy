@@ -744,7 +744,7 @@ footer{position:relative;}
 <button type="button" class="nav-btn" onclick="goPage('rental')" id="nb-rental" data-k="nav_rental">렌탈 신청</button>
  <button type="button" class="nav-btn" onclick="goPage('story')" id="nb-story" data-k="nav_story">우리 이야기</button>
  <button type="button" class="nav-btn" onclick="goPage('faq')" id="nb-faq" data-k="nav_faq">FAQ</button>
- <button type="button" class="nav-btn" onclick="goPage('feedback')" id="nb-feedback" data-k="nav_feedback">피드백</button>
+ <button type="button" class="nav-btn" onclick="goPage('feedback')" id="nb-feedback" data-k="nav_feedback">리뷰</button>
  </div>
 
  <!-- 언어 선택은 메뉴 바깥(우측)에 둔다 — 메뉴만 화면 가운데 정렬하기 위함 -->
@@ -782,7 +782,7 @@ footer{position:relative;}
 <button type="button" class="nav-btn" onclick="goPage('rental');closeMobileMenu()" data-k="nav_rental">렌탈 신청</button>
  <button type="button" class="nav-btn" onclick="goPage('story');closeMobileMenu()" data-k="nav_story">우리 이야기</button>
  <button type="button" class="nav-btn" onclick="goPage('faq');closeMobileMenu()" data-k="nav_faq">FAQ</button>
- <button type="button" class="nav-btn" onclick="goPage('feedback');closeMobileMenu()" data-k="nav_feedback">피드백</button>
+ <button type="button" class="nav-btn" onclick="goPage('feedback');closeMobileMenu()" data-k="nav_feedback">리뷰</button>
  <div class="lang-wrap" style="margin-top:8px;border-top:1px solid var(--border);padding-top:12px;">
   <button type="button" class="lang-btn" onclick="toggleLang('mobile')" id="mobileLangBtn" aria-label="언어 선택">
    <span id="mobileLangFlag"><i class="fa-solid fa-earth-americas" style="font-size:0.9em;"></i></span> <span id="mobileLangText">English</span>
@@ -1266,7 +1266,7 @@ body.admin-subpage-mode > nav { display:none !important; }
               <div class="fg"><label data-k="fl_email">이메일 <span class="req">*</span></label><input type="email" name="email" required placeholder="example@email.com"></div>
             </div>
             <div class="fg"><label data-k="fl_phone_optional">전화번호</label><input type="tel" name="phone" placeholder="010-0000-0000"><div class="form-inline-note" data-k="phone_hint">한국 번호가 아직 없으면 비워두셔도 됩니다.</div></div>
-            <div class="fg"><label data-k="fl_insta">인스타그램 아이디 <span class="req">*</span></label><input type="text" name="instagram" required data-ph="insta_ph" placeholder="@username"><div class="form-inline-note" data-k="insta_hint">인스타그램이 없다면 평소 자주 사용하는 메신저의 ID를 알려주세요.</div></div>
+            <div class="fg"><label data-k="fl_insta">인스타그램 아이디 <span class="req">*</span></label><input type="text" name="instagram" required data-ph="insta_ph" placeholder="@username"><div class="form-inline-note" data-k="insta_hint">인스타그램을 사용하지 않는다면, 평소 자주 사용하는 메신저 이름과 아이디를 입력해 주세요. (예: Anna123 (KakaoTalk))</div></div>
             <div class="fg">
               <label data-k="fl_school">소속 학교 <span class="req">*</span></label>
               <select name="school" id="rentalSchoolSelect" required onchange="onRentalSchoolChange()">
@@ -1641,7 +1641,7 @@ body.admin-subpage-mode > nav { display:none !important; }
 <div class="page" id="page-feedback" role="main">
  <div class="feedback-page">
  <div class="feedback-hero">
- <div class="section-label" data-k="fb_label">Feedback</div>
+ <div class="section-label" data-k="fb_label">Reviews</div>
  <h2 data-k="fb_h2">고객 리뷰 &amp; 이슈 보고</h2>
  <p data-k="fb_desc">K-ozy를 이용한 학생들의 후기를 확인하고, 직접 리뷰를 남겨보세요.</p>
  </div>
@@ -2284,7 +2284,7 @@ sp1b:'버려지는 마음과 필요한 마음을 잇는 가장 따뜻한 방법,
  
  fs_info:'신청자 정보', fs_pkg:'이불 구성 선택', fs_rental:'렌탈 정보', fs_addr:'배송 주소', fs_extra:'추가 정보',
  
-fl_name:'이름', fl_lname:'성 / Last Name', fl_fname:'이름 / First Name', fl_nation:'국적', fl_email:'이메일', fl_phone:'전화번호', fl_phone_optional:'전화번호', fl_school:'소속 학교', school_opt_default:'학교를 선택하세요', school_opt_other:'기타', fl_insta:'인스타그램 아이디 <span class="req">*</span>', insta_ph:'@username', insta_hint:'인스타그램이 없다면 평소 자주 사용하는 메신저의 ID를 알려주세요.',
+fl_name:'이름', fl_lname:'성 / Last Name', fl_fname:'이름 / First Name', fl_nation:'국적', fl_email:'이메일', fl_phone:'전화번호', fl_phone_optional:'전화번호', fl_school:'소속 학교', school_opt_default:'학교를 선택하세요', school_opt_other:'기타', fl_insta:'인스타그램 아이디 <span class="req">*</span>', insta_ph:'@username', insta_hint:'인스타그램을 사용하지 않는다면, 평소 자주 사용하는 메신저 이름과 아이디를 입력해 주세요. (예: Anna123 (KakaoTalk))',
  fl_dur:'대여 기간', fl_start:'렌탈 시작일', fl_end:'반납 예정일', end_hint:'소속 학교를 선택하면 해당 학교 기숙사 퇴사일이 고정 반납일로 자동 적용됩니다.',
  fl_addr1:'도로명 주소', fl_building:'건물명', fl_room:'방 호수', fl_addr2:'상세 주소 (동/층 등)',
 fl_notes:'요청사항', fl_postal:'우편번호', fl_addr_search:'주소 입력 안내',
@@ -2323,8 +2323,8 @@ notes_ph:'특별한 요청사항이 있으시면 자유롭게 작성해 주세�
 nation_hint:'대표 국가명 기준 드롭다운 추천이 표시됩니다.', phone_hint:'한국 번호가 아직 없으면 비워두셔도 됩니다.', addr_search_hint:'현재 도로명 주소 자동 검색 대신 우편번호와 도로명 주소를 함께 입력받고 있습니다.', 
 success_r_title:'렌탈 신청 완료!', success_r_msg:'렌탈 신청서가 접수되었습니다.\n아래 계좌로 입금 후 담당자가 연락드립니다.',
  
- nav_feedback:'피드백',
- fb_label:'Feedback', fb_h2:'고객 리뷰 & 이슈 보고', fb_desc:'K-ozy를 이용한 학생들의 후기를 확인하고, 직접 리뷰를 남겨보세요.',
+ nav_feedback:'리뷰',
+ fb_label:'Reviews', fb_h2:'고객 리뷰 & 이슈 보고', fb_desc:'K-ozy를 이용한 학생들의 후기를 확인하고, 직접 리뷰를 남겨보세요.',
  fbt_sat:'<i class="fa-solid fa-star"></i> 고객 리뷰', fbt_issue:'<i class="fa-solid fa-wrench"></i> 이슈 보고',
  fbs_who:'기본 정보', 
  fbs_overall:'전반적인 만족도', fbs_star_lbl:'별점으로 평가해 주세요',
@@ -2385,7 +2385,7 @@ hero_scroll:'아래로 스크롤',
  en: {
  nav_home:'Home', nav_story:'Our Story', nav_rental:'Rent', 
 hero_h1:'A Cozy Start with <em>K-ozy</em>',
-hero_sub:'Starting fresh in Korea? We\'ve got your bedding covered. Freshly cleaned &amp; sanitized — delivered to your door in Seoul, cozy from day one.',
+hero_sub:'Starting fresh in Korea? We\'ve got your bedding covered. Freshly cleaned &amp; sanitized — delivered to your door in Seoul, so you can stay cozy from day one.',
  hero_cta1:'Rent Bedding →', hero_cta2:'<i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>See How It Works<span class="btn-sub">4 steps from request to return</span>',
 about_label:'About K-ozy', about_title:'Warm Connections, Sustainable Living',
  about_sub:'K-ozy collects bedding that would otherwise be thrown away after short stays, professionally cleans and sanitizes it, and rents it to international students arriving in Korea — starting from $40. Giving bedding a second life and helping students feel cozy from day one.',
@@ -2421,7 +2421,7 @@ story_label:'Our Story', story_title:'From Discarded Bedding to Cozy Connections
  
  fs_info:'Applicant Information', fs_pkg:'Choose Your Package', fs_rental:'Rental Details', fs_addr:'Delivery Address', fs_extra:'Additional Info',
  
-fl_name:'Name', fl_lname:'Last Name', fl_fname:'First Name', fl_nation:'Nationality', fl_email:'Email', fl_phone:'Phone Number', fl_phone_optional:'Phone Number', fl_school:'University', school_opt_default:'Select your university', school_opt_other:'Other', fl_insta:'Instagram ID <span class="req">*</span>', insta_ph:'@username', insta_hint:'If you don\'t have Instagram, please share the ID of a messenger app you use often.',
+fl_name:'Name', fl_lname:'Last Name', fl_fname:'First Name', fl_nation:'Nationality', fl_email:'Email', fl_phone:'Phone Number', fl_phone_optional:'Phone Number', fl_school:'University', school_opt_default:'Select your university', school_opt_other:'Other', fl_insta:'Instagram ID <span class="req">*</span>', insta_ph:'@username', insta_hint:'If you don\'t use Instagram, please enter the name of the messaging app you use often and your ID (e.g. Anna123 (KakaoTalk)).',
  fl_dur:'Rental Period', fl_start:'Rental Start Date', fl_end:'Return Date', end_hint:'When you select your school, its dormitory move-out date is automatically applied as the fixed return date.',
  fl_addr1:'Street Address', fl_building:'Building Name', fl_room:'Room Number', fl_addr2:'Additional Address (Floor/Unit)',
 fl_notes:'Special Requests', fl_postal:'Postal Code', fl_addr_search:'Address Input',
@@ -2460,8 +2460,8 @@ notes_ph:'Any special requests? Feel free to write here.', desc_ph:'Please descr
 nation_hint:'Suggested country names will appear as you type.', phone_hint:'You can leave this blank if you do not have a Korean number yet.', addr_search_hint:'Road-name auto search is not connected yet, so please enter postal code and address together.', 
 success_r_title:'Application Received!', success_r_msg:'Your rental application has been submitted.\nPlease transfer to the account below and our team will be in touch.',
  
- nav_feedback:'Feedback',
- fb_label:'Feedback', fb_h2:'Customer Reviews & Issues', fb_desc:'See what other students say about K-ozy, and share your own experience.',
+ nav_feedback:'Reviews',
+ fb_label:'Reviews', fb_h2:'Customer Reviews & Issues', fb_desc:'See what other students say about K-ozy, and share your own experience.',
  fbt_sat:'<i class="fa-solid fa-star"></i> Customer Reviews', fbt_issue:'<i class="fa-solid fa-wrench"></i> Report Issue',
  fbs_who:'Basic Info', 
  fbs_overall:'Overall Satisfaction', fbs_star_lbl:'Rate your experience with stars',
@@ -4386,7 +4386,7 @@ if(typeof IntersectionObserver !== 'undefined'){
 <a onclick="goPage('rental')" data-k="nav_rental">이불 렌탈 신청</a>
 <a onclick="goPage('story')" data-k="nav_story">우리 이야기</a>
  <a onclick="goPage('faq')" data-k="nav_faq">FAQ</a>
-<a onclick="goPage('feedback')" data-k="nav_feedback">피드백</a>
+<a onclick="goPage('feedback')" data-k="nav_feedback">리뷰</a>
  </div>
  <div class="fcol">
  <h4 data-k="f_contact">문의</h4>
@@ -4395,8 +4395,8 @@ if(typeof IntersectionObserver !== 'undefined'){
  </div>
  <div class="fcol">
  <h4 data-k="f_legal">약관</h4>
- <a onclick="goPage('terms')" data-k="nav_terms">이용약관</a>
- <a onclick="goPage('privacy')" data-k="nav_privacy">개인정보처리방침</a>
+ <a class="f-legal-link" onclick="goPage('terms')" data-k="nav_terms">이용약관</a>
+ <a class="f-legal-link" onclick="goPage('privacy')" data-k="nav_privacy">개인정보처리방침</a>
  </div>
  </div>
 
@@ -6454,11 +6454,14 @@ function rzRenderDashCharts(){
     smap[k].qty+=1; smap[k].rev+=(+o.amountKRW||0);
   });
   var sn=Object.keys(smap);
+  /* 대여량 차트: 대여 이력이 있는 학교만 (이력이 생기면 자동으로 추가됨) */
+  var snQty=sn.filter(function(s){ return smap[s].qty>0; })
+              .sort(function(a,b){ return smap[b].qty-smap[a].qty; });
   var c1=document.getElementById('chartSchoolQtyRz');
   if(c1){
     rzDestroy('sq');
     _rzCharts.sq=new Chart(c1,{ type:'bar',
-      data:{ labels:sn, datasets:[{ label:'대여량 (건)', data:sn.map(function(s){ return smap[s].qty; }), backgroundColor:'#4F6FE8', borderRadius:8, maxBarThickness:26 }] },
+      data:{ labels:snQty, datasets:[{ label:'대여량 (건)', data:snQty.map(function(s){ return smap[s].qty; }), backgroundColor:'#4F6FE8', borderRadius:8, maxBarThickness:26 }] },
       options:{ maintainAspectRatio:false, indexAxis:'y',
         plugins:{ legend:{ display:false } },
         scales:{ x:{ beginAtZero:true, ticks:{ font:fontOpt, precision:0 } }, y:{ ticks:{ font:fontOpt } } } }
@@ -6657,6 +6660,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .fcol a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1.5px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform var(--tb-dur) var(--tb-ease);}
 .fcol a:hover::after{transform:scaleX(1);transform-origin:left;}
 .footer-logo span{color:var(--accent);}
+/* 약관 · 개인정보처리방침: 볼드 + 밑줄 고정 */
+.fcol a.f-legal-link{font-weight:700;color:rgba(255,255,255,0.92);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+.fcol a.f-legal-link:hover{color:#fff;}
+.fcol a.f-legal-link::after{display:none;}
 
 /* ── 스크롤 리빌 ── */
 .rvB{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s var(--tb-ease);transition-delay:var(--rvd,0s);}
