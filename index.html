@@ -216,7 +216,21 @@
 }
 </script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- ═══ 외부 리소스 연결 힌트 — 실제 요청보다 먼저 와야 의미가 있다 ═══ -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<!-- 히어로 배경(LCP 요소)이 올라오는 이미지 호스트 -->
+<link rel="preconnect" href="https://i.postimg.cc" crossorigin>
+<link rel="dns-prefetch" href="https://i.postimg.cc">
+<link rel="preload" as="image" href="https://i.postimg.cc/VLMYpcky/hotel-bedding-hero-1.png" fetchpriority="high">
+
+<!-- ═══ 아이콘 CSS — 첫 화면 렌더를 막지 않도록 비동기로 받는다 ═══
+     홈·렌탈·스토리·FAQ·약관 첫 화면에는 아이콘이 하나도 없고,
+     리뷰 페이지의 탭 아이콘 2개만 글자 라벨보다 살짝 늦게 나타난다. -->
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 <!-- ═══ GEO 메타태그 (지역 검색 최적화) ═══ -->
 <meta name="geo.region" content="KR-11">
 <meta name="geo.placename" content="Seoul, South Korea">
@@ -233,17 +247,7 @@
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 
-<!-- ═══ DNS Prefetch / Preconnect ═══ -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-<!-- 히어로 배경(LCP 요소)이 올라오는 이미지 호스트 — 연결을 미리 열어둔다 -->
-<link rel="preconnect" href="https://i.postimg.cc" crossorigin>
-<link rel="dns-prefetch" href="https://i.postimg.cc">
-<link rel="preload" as="image" href="https://i.postimg.cc/VLMYpcky/hotel-bedding-hero-1.png" fetchpriority="high">
-
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>:root{--white:#FFFFFF;--off-white:#F7F9FC;--light-gray:#F1F5F9;--mid-gray:#CBD5E1;--text-muted:#64748B;--text-sub:#9CA3AF;--text-main:#334155;--navy:#1E293B;--navy-mid:#1E293B;
 /* 포인트 컬러: 스카이블루 단일 계열. -solid는 불투명(텍스트/숫자/중요정보용), 기존 토큰은 옅은 배경/보더용으로 유지 */
 --blue-solid:#2F62E8;--blue-solid-dark:#1E4FCC;
