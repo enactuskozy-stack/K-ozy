@@ -720,6 +720,64 @@ footer{position:relative;}
 /* ── 이용약관 / 개인정보처리방침 본문 ── */
 .legal-body{max-width:860px;font-size:0.9rem;color:var(--text-muted);line-height:1.95;white-space:pre-line;}
 
+/* ── 법적 고지 문서(개인정보처리방침 등) 구조화 본문 ──
+   .legal-body 의 pre-line 을 풀고 조·표·목차를 갖춘 문서 레이아웃을 쓴다.
+   한국어/영어 본문은 <html lang> 값으로 전환한다(applyTranslations 가 lang 을 갱신). */
+.legal-doc{max-width:920px;white-space:normal;font-size:0.92rem;line-height:1.9;}
+.legal-doc .lg-en{display:none;}
+html[lang="en"] .legal-doc .lg-ko{display:none;}
+html[lang="en"] .legal-doc .lg-en{display:block;}
+.legal-doc .lg-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
+.legal-doc .lg-chip{display:inline-flex;align-items:center;gap:6px;background:var(--blue-pale);color:var(--blue-solid);
+  border:1px solid var(--border);border-radius:12px;padding:5px 13px;font-size:0.78rem;font-weight:700;}
+.legal-doc .lg-intro{background:var(--off-white);border:1px solid var(--border);border-radius:16px;
+  padding:22px 24px;margin-bottom:30px;font-size:0.89rem;}
+.legal-doc .lg-intro p{margin-bottom:0;}
+.legal-doc .lg-toc{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:38px;}
+.legal-doc .lg-toc h4{font-size:0.74rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-muted);margin:0 0 12px;}
+.legal-doc .lg-toc ol{list-style:none;margin:0;padding:0;counter-reset:lgtoc;
+  display:grid;grid-template-columns:1fr 1fr;gap:2px 24px;}
+.legal-doc .lg-toc li{counter-increment:lgtoc;margin:0;}
+.legal-doc .lg-toc button{background:none;border:none;padding:4px 0;font-family:inherit;font-size:0.86rem;
+  color:var(--text-muted);cursor:pointer;text-align:left;width:100%;transition:color 0.2s;}
+.legal-doc .lg-toc button::before{content:counter(lgtoc) ". ";color:var(--blue-solid);font-weight:700;}
+.legal-doc .lg-toc button:hover{color:var(--blue-solid);text-decoration:underline;}
+.legal-doc section{margin-bottom:38px;scroll-margin-top:90px;}
+.legal-doc h3{font-size:1.06rem;font-weight:800;color:var(--navy);letter-spacing:-0.3px;
+  margin:0 0 14px;padding-bottom:10px;border-bottom:1.5px solid var(--border);}
+.legal-doc h4{font-size:0.9rem;font-weight:700;color:var(--navy);margin:22px 0 8px;}
+.legal-doc p{margin:0 0 12px;}
+.legal-doc ul,.legal-doc ol.lg-num{margin:0 0 14px;padding-left:1.15em;}
+.legal-doc li{margin-bottom:6px;}
+.legal-doc li > ul{margin:6px 0 0;}
+.legal-doc strong{color:var(--navy);font-weight:700;}
+.legal-doc .lg-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 16px;
+  border:1px solid var(--border);border-radius:12px;}
+.legal-doc table{width:100%;border-collapse:collapse;min-width:560px;font-size:0.84rem;background:var(--white);}
+.legal-doc th,.legal-doc td{padding:11px 14px;text-align:left;vertical-align:top;
+  border-bottom:1px solid var(--border);border-right:1px solid var(--border);line-height:1.7;}
+.legal-doc th:last-child,.legal-doc td:last-child{border-right:none;}
+.legal-doc tbody tr:last-child th,.legal-doc tbody tr:last-child td{border-bottom:none;}
+.legal-doc thead th{background:var(--blue-pale);color:var(--navy);font-weight:700;white-space:nowrap;}
+.legal-doc tbody th{background:var(--off-white);color:var(--navy);font-weight:700;white-space:nowrap;}
+.legal-doc .lg-note{background:var(--blue-pale);border-radius:12px;padding:14px 18px;font-size:0.85rem;
+  color:var(--navy-mid);line-height:1.75;margin:0 0 14px;}
+.legal-doc .lg-contact{border:1px solid var(--border);border-radius:16px;padding:20px 24px;background:var(--white);}
+.legal-doc .lg-contact dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0;font-size:0.87rem;}
+.legal-doc .lg-contact dt{color:var(--text-muted);font-weight:600;white-space:nowrap;}
+.legal-doc .lg-contact dd{margin:0;color:var(--navy);font-weight:600;}
+.legal-doc a{color:var(--blue-solid);text-decoration:underline;text-underline-offset:2px;}
+/* 동의 체크박스 안의 약관 링크 */
+.chk-link{color:var(--blue-solid);font-weight:600;text-decoration:underline;text-underline-offset:2px;cursor:pointer;}
+.chk-link:hover{color:var(--navy);}
+@media(max-width:700px){
+  .legal-doc{font-size:0.88rem;}
+  .legal-doc .lg-toc ol{grid-template-columns:1fr;}
+  .legal-doc .lg-contact dl{grid-template-columns:1fr;gap:2px;}
+  .legal-doc .lg-contact dd{margin-bottom:8px;}
+}
+
 @media(max-width:900px){
   .footer-grid{grid-template-columns:1fr;}
   /* 좁은 화면에서는 오른쪽 정렬을 풀고 자연스럽게 다음 줄로 */
@@ -1405,10 +1463,10 @@ body.admin-subpage-mode > nav { display:none !important; }
             <div class="fsec" data-k="fs_extra">추가 정보</div>
             <div class="fg"><label data-k="fl_notes">요청사항 및 특이사항</label><textarea name="notes" data-ph="notes_ph"></textarea></div>
 
-            <div class="privacy-notice" data-k="privacy_r"><i class="fa-solid fa-shield-halved"></i><span>수집된 개인정보(이름, 연락처, 주소)는 렌탈 서비스 제공 목적으로만 사용되며 서비스 종료 후 즉시 파기됩니다.</span></div>
+            <div class="privacy-notice" data-k="privacy_r"><i class="fa-solid fa-shield-halved"></i><span>수집된 개인정보(이름, 연락처, 주소 등)는 렌탈 서비스 제공 목적으로만 사용되며, 목적 달성 후에는 전자상거래법 등 관계 법령에서 정한 보존 기간이 지나면 지체 없이 파기됩니다. 자세한 내용은 개인정보처리방침을 확인해 주세요.</span></div>
             <div class="chk-wrap">
-              <label class="chk-item"><input type="checkbox" required><span data-k="chk_r1">[필수] 개인정보 수집 및 이용에 동의합니다.</span></label>
-              <label class="chk-item"><input type="checkbox" required><span data-k="chk_r2">[필수] 서비스 이용약관에 동의합니다.</span></label>
+              <label class="chk-item"><input type="checkbox" required><span data-k="chk_r1">[필수] <a class="chk-link" onclick="kzOpenLegal(event,'privacy')">개인정보 수집 및 이용</a>에 동의합니다.</span></label>
+              <label class="chk-item"><input type="checkbox" required><span data-k="chk_r2">[필수] <a class="chk-link" onclick="kzOpenLegal(event,'terms')">서비스 이용약관</a>에 동의합니다.</span></label>
             </div>
             <button type="submit" class="submit-btn" data-k="r_submit">렌탈 신청서 제출하기 →</button>
           </form>
@@ -1908,7 +1966,654 @@ body.admin-subpage-mode > nav { display:none !important; }
    </div>
   </div>
   <div class="faq-wrap">
-   <div class="legal-body" data-k="legal_empty">내용을 준비하고 있습니다. 확정되는 대로 이곳에 게시할 예정입니다.</div>
+   <div class="legal-body legal-doc">
+
+    <!-- ═══════════ 한국어 본문 ═══════════ -->
+    <div class="lg-ko">
+     <div class="lg-meta">
+      <span class="lg-chip">버전 v1.0</span>
+      <span class="lg-chip">시행일 2026년 7월 31일</span>
+     </div>
+
+     <div class="lg-intro">
+      <p>코지(K-ozy, 이하 “회사”)는 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 다음과 같이 개인정보처리방침을 수립·공개합니다. 회사는 별도의 회원가입 절차 없이, 이불 렌탈 신청·리뷰 작성·이슈 보고·고객 상담 과정에서 필요한 최소한의 개인정보만을 처리합니다.</p>
+     </div>
+
+     <div class="lg-toc">
+      <h4>목차</h4>
+      <ol>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-1')">개인정보의 처리 목적</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-2')">처리하는 개인정보의 항목</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-3')">만 14세 미만 아동의 개인정보 처리</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-4')">개인정보의 처리 및 보유 기간</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-5')">개인정보의 파기 절차 및 방법</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-6')">개인정보의 제3자 제공</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-7')">개인정보 처리업무의 위탁</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-8')">개인정보의 국외 수집·이전</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-9')">정보주체의 권리·의무 및 행사 방법</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-10')">쿠키 등 자동 수집 장치의 운영 및 거부</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-11')">개인정보의 안전성 확보 조치</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-12')">개인정보 보호책임자 및 고충처리 부서</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-13')">권익침해 구제 방법</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-ko-14')">처리방침의 변경 및 변경 이력</button></li>
+      </ol>
+     </div>
+
+     <section id="pp-ko-1">
+      <h3>제1조 (개인정보의 처리 목적)</h3>
+      <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행합니다.</p>
+      <ol class="lg-num">
+       <li><strong>침구 렌탈 서비스 제공 및 계약의 이행</strong>
+        <ul>
+         <li>신청 내용 및 신청자 확인, 대여 가능 여부·재고 확인, 주문번호 부여</li>
+         <li>침구의 배송·수거 및 반납 관리, 배송지 확인</li>
+         <li>렌탈 요금의 결제 확인 및 정산, 연체·분실·훼손에 따른 비용 정산</li>
+         <li>예약 확정, 대여 시작, 반납 예정, 반납 완료 등 계약 이행에 관한 안내 메일 발송</li>
+        </ul>
+       </li>
+       <li><strong>고객 상담 및 민원 처리</strong>
+        <ul>
+         <li>문의 및 이슈 보고 접수, 사실 확인을 위한 연락, 처리 경과 및 결과 통지</li>
+        </ul>
+       </li>
+       <li><strong>서비스 개선 및 리뷰 운영</strong>
+        <ul>
+         <li>만족도 조사, 통계 작성 및 서비스 품질 개선</li>
+         <li>이용자가 작성한 리뷰의 홈페이지 게시(이름은 마스킹 처리)</li>
+        </ul>
+       </li>
+       <li><strong>서비스 운영 및 보안</strong>
+        <ul>
+         <li>부정 이용 및 비정상 요청 차단(요청 횟수 제한), 운영자 페이지 접근 통제</li>
+        </ul>
+       </li>
+       <li><strong>법령상 의무의 이행</strong>
+        <ul>
+         <li>「전자상거래 등에서의 소비자보호에 관한 법률」 등 관계 법령에 따른 거래기록의 보존</li>
+        </ul>
+       </li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-2">
+      <h3>제2조 (처리하는 개인정보의 항목)</h3>
+      <p>회사는 회원가입 절차 없이 서비스별 신청 양식과 상담 채널을 통해 아래 항목을 수집·처리합니다.</p>
+
+      <h4>1. 이불 렌탈 신청 (수집 방법: 홈페이지 렌탈 신청 폼)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>구분</th><th>수집 항목</th></tr></thead>
+        <tbody>
+         <tr><th>필수</th><td>성(Last name)·이름(First name), 국적, 이메일 주소, 인스타그램 아이디(인스타그램을 사용하지 않는 경우 대체 메신저의 이름과 아이디), 소속 학교, 배송지 정보(우편번호·도로명 주소·건물명), 대여 정보(구성, 대여 기간, 렌탈 시작일, 반납 예정일)</td></tr>
+         <tr><th>선택</th><td>전화번호, 요청사항 및 특이사항</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>2. 고객 리뷰 (수집 방법: 홈페이지 리뷰 작성 화면)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>구분</th><th>수집 항목</th></tr></thead>
+        <tbody>
+         <tr><th>필수</th><td>이름, 별점, 리뷰 내용, 세부 항목 평가(이불 품질·배송/수거·가격 만족도·응대)</td></tr>
+         <tr><th>선택</th><td>리뷰 제목, 개선이 필요한 점, 추천 의향, 첨부 사진(최대 3장)</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>3. 이슈 보고 (수집 방법: 홈페이지 이슈 보고 폼)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>구분</th><th>수집 항목</th></tr></thead>
+        <tbody>
+         <tr><th>필수</th><td>이름, 이메일 주소, 이슈 유형, 심각도, 발생 일시, 이슈 상세 내용</td></tr>
+         <tr><th>선택</th><td>원하는 해결 방법, 첨부 사진(최대 3장)</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>4. 고객 상담 (수집 방법: 상담 채널(채널톡), 이메일, 인스타그램 메시지)</h4>
+      <p>이용자가 상담 과정에서 직접 입력·제공한 이름, 이메일 주소, 연락처 및 상담 내용</p>
+
+      <h4>5. 서비스 이용 과정에서 자동으로 생성·수집되는 정보</h4>
+      <p>IP 주소, 접속 일시, 브라우저·운영체제 정보(User-Agent), 쿠키, 서비스 이용 기록(주문 처리 상태, 안내 메일 발송 이력)</p>
+
+      <h4>6. 결제 정보에 관한 사항</h4>
+      <p>렌탈 요금 결제는 PayPal을 통해 이루어지며, <strong>카드번호·계좌번호 등 결제수단 정보는 회사가 수집·보관하지 않고 결제 서비스 제공자가 직접 처리</strong>합니다. 회사는 결제 확인에 필요한 결제 여부, 결제 금액, 결제 일시만 확인·기록합니다. 계좌이체(무통장 입금) 방식으로 결제하는 경우에는 입금자명, 입금 일시, 입금 금액을 확인·기록합니다.</p>
+
+      <div class="lg-note">회사는 사상·신념, 건강, 유전정보, 범죄경력 등 민감정보와 주민등록번호·여권번호 등 고유식별정보를 수집하지 않습니다. 요청사항·리뷰·이슈 상세 내용 등 자유 입력란과 첨부 사진에 이러한 정보가 포함되지 않도록 유의하여 주시기 바랍니다.</div>
+     </section>
+
+     <section id="pp-ko-3">
+      <h3>제3조 (만 14세 미만 아동의 개인정보 처리)</h3>
+      <ol class="lg-num">
+       <li>회사의 서비스는 국내 대학(원)에 재학·방문 중인 <strong>만 14세 이상</strong>의 이용자를 대상으로 하며, 회사는 만 14세 미만 아동의 개인정보를 수집하지 않습니다.</li>
+       <li>따라서 회사는 만 14세 미만 아동의 법정대리인 동의를 받기 위한 별도의 절차를 운영하지 않습니다.</li>
+       <li>만 14세 미만 아동의 개인정보가 법정대리인의 동의 없이 수집된 사실이 확인된 경우, 회사는 해당 개인정보를 지체 없이 파기하고 관련 신청을 취소합니다.</li>
+       <li>법정대리인은 아동의 개인정보에 대한 열람·정정·삭제·처리정지를 제12조의 연락처를 통해 요구할 수 있으며, 회사는 이에 지체 없이 조치합니다.</li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-4">
+      <h3>제4조 (개인정보의 처리 및 보유 기간)</h3>
+      <p>회사는 법령에 따른 개인정보 보유·이용 기간 또는 정보주체로부터 개인정보를 수집할 때 동의받은 보유·이용 기간 내에서 개인정보를 처리·보유하며, 처리 목적이 달성되면 지체 없이 파기합니다.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>구분</th><th>보유·이용 기간</th><th>근거</th></tr></thead>
+        <tbody>
+         <tr><td>렌탈 신청·계약 이행 및 결제 관련 기록<br>(성명, 연락처, 배송지, 대여·결제 내역)</td><td>계약 종료(반납 완료)일부터 5년</td><td>전자상거래법 — 계약 또는 청약철회 등에 관한 기록, 대금결제 및 재화 등의 공급에 관한 기록</td></tr>
+         <tr><td>소비자의 불만 또는 분쟁 처리에 관한 기록<br>(이슈 보고, 상담 이력)</td><td>처리 완료일부터 3년</td><td>전자상거래법</td></tr>
+         <tr><td>고객 리뷰 및 첨부 사진</td><td>게시일부터 3년 또는 정보주체의 삭제 요청 시까지</td><td>정보주체의 동의(게시 요청)</td></tr>
+         <tr><td>표시·광고에 관한 기록</td><td>6개월</td><td>전자상거래법</td></tr>
+         <tr><td>서비스 이용 과정에서 자동 생성되는 접속기록</td><td>3개월</td><td>통신비밀보호법</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>법령에 따라 보존 의무가 있는 정보는 해당 기간 동안 다른 개인정보와 분리하여 보관하며, 보존 목적 외의 용도로는 이용하지 않습니다.</p>
+     </section>
+
+     <section id="pp-ko-5">
+      <h3>제5조 (개인정보의 파기 절차 및 방법)</h3>
+      <p>회사는 개인정보 보유 기간의 경과, 처리 목적의 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</p>
+      <ol class="lg-num">
+       <li><strong>파기 절차</strong> — 파기 사유가 발생한 개인정보를 선정하고, 개인정보 보호책임자의 확인·승인을 받아 파기합니다.</li>
+       <li><strong>파기 기한</strong> — 보유 기간이 경과하거나 처리 목적이 달성된 날부터 5일 이내에 파기하며, 정보주체가 동의를 철회하거나 삭제를 요구한 경우에는 지체 없이 파기합니다.</li>
+       <li><strong>파기 방법</strong>
+        <ul>
+         <li>전자적 파일 형태의 정보: 데이터베이스 레코드를 삭제하고, 복구·재생할 수 없도록 백업본까지 순차적으로 영구 삭제합니다.</li>
+         <li>종이 문서에 기록·저장된 정보: 분쇄기로 분쇄하거나 소각하여 파기합니다.</li>
+        </ul>
+       </li>
+       <li>다른 법령에 따라 계속 보존해야 하는 경우에는 해당 개인정보를 별도의 데이터베이스로 옮기거나 보관 장소를 달리하여 분리 보존합니다.</li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-6">
+      <h3>제6조 (개인정보의 제3자 제공)</h3>
+      <ol class="lg-num">
+       <li>회사는 정보주체의 개인정보를 제1조에서 명시한 범위 내에서만 처리하며, <strong>현재 개인정보를 제3자에게 제공하고 있지 않습니다.</strong></li>
+       <li>다만 다음의 경우에는 「개인정보 보호법」 제17조 및 제18조에 따라 예외적으로 제공할 수 있습니다.
+        <ul>
+         <li>정보주체로부터 별도의 동의를 받은 경우</li>
+         <li>법률에 특별한 규정이 있는 경우</li>
+         <li>수사기관이 법령에 정해진 절차와 방법(영장 등)에 따라 요구하는 경우</li>
+        </ul>
+       </li>
+       <li>제3자 제공이 새로 발생하는 경우 제공받는 자, 제공 목적, 제공 항목, 보유·이용 기간을 본 개인정보처리방침에 명시하고 사전에 동의를 받겠습니다.</li>
+      </ol>
+      <div class="lg-note">이용자가 작성한 <strong>리뷰</strong>는 제3자 제공이 아니라 이용자의 게시 요청에 따라 홈페이지에 공개되는 것입니다. 공개 시 이름은 마스킹 처리되며(예: 홍*동, Sophia M.), 이메일·주소·연락처 등 그 밖의 개인정보는 공개되지 않습니다. <strong>이슈 보고</strong>의 내용과 첨부 사진은 공개되지 않으며 K-ozy 운영팀만 열람합니다.</div>
+     </section>
+
+     <section id="pp-ko-7">
+      <h3>제7조 (개인정보 처리업무의 위탁)</h3>
+      <p>회사는 원활한 서비스 제공을 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>수탁자</th><th>위탁 업무의 내용</th><th>보유·이용 기간</th></tr></thead>
+        <tbody>
+         <tr><td>Netlify, Inc.</td><td>웹사이트 호스팅, 서버 및 데이터베이스 운영·보관</td><td>위탁계약 종료 시 또는 제4조의 보유 기간 종료 시까지</td></tr>
+         <tr><td>주식회사 채널코퍼레이션(채널톡)</td><td>고객 상담 채널 운영</td><td>위탁계약 종료 시 또는 제4조의 보유 기간 종료 시까지</td></tr>
+         <tr><td>PayPal (PayPal Pte. Ltd. 및 그 계열사)</td><td>렌탈 요금 결제 처리</td><td>위탁계약 종료 시 또는 관계 법령에서 정한 기간까지</td></tr>
+         <tr><td>Google LLC (Gmail)</td><td>안내 메일 발송 및 문의 메일 수신</td><td>위탁계약 종료 시 또는 제4조의 보유 기간 종료 시까지</td></tr>
+         <tr><td>배송·수거 위탁 운송업체(택배사)</td><td>침구의 배송 및 수거</td><td>배송·수거 완료 시까지</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>회사는 위탁계약 체결 시 「개인정보 보호법」 제26조에 따라 위탁업무 수행 목적 외 개인정보 처리 금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다. 위탁 업무의 내용이나 수탁자가 변경될 경우에는 지체 없이 본 개인정보처리방침을 통하여 공개하겠습니다.</p>
+     </section>
+
+     <section id="pp-ko-8">
+      <h3>제8조 (개인정보의 국외 수집·이전)</h3>
+      <p>회사의 서비스는 한국에 오기 전 또는 체류 중인 외국인 유학생을 주된 이용자로 하므로, 이용자가 해외에서 접속하여 개인정보를 입력하는 경우 개인정보가 국외에서 수집될 수 있습니다. 또한 회사는 서비스 제공을 위하여 아래와 같이 개인정보를 국외로 이전(처리위탁)하고 있습니다.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>이전받는 자</th><th>이전 국가</th><th>이전 일시 및 방법</th><th>이전 항목</th><th>이전받는 자의 이용 목적 및 보유 기간</th></tr></thead>
+        <tbody>
+         <tr>
+          <td>Netlify, Inc.<br>(privacy@netlify.com)</td>
+          <td>미국</td>
+          <td>서비스 이용 시점에 정보통신망을 통한 전송</td>
+          <td>제2조의 렌탈 신청·리뷰·이슈 보고 정보 및 자동 생성 정보</td>
+          <td>웹사이트 호스팅, 데이터베이스 운영·보관<br>위탁계약 종료 또는 제4조의 보유 기간 종료 시까지</td>
+         </tr>
+         <tr>
+          <td>PayPal (PayPal Pte. Ltd. 및 그 계열사)<br>(PayPal 고객센터)</td>
+          <td>미국, 싱가포르 등</td>
+          <td>이용자가 결제를 진행하는 시점에 정보통신망을 통한 전송</td>
+          <td>결제에 필요한 정보(이름, 이메일 주소, 결제 금액·일시)</td>
+          <td>렌탈 요금 결제 처리<br>관계 법령 및 PayPal 개인정보처리방침에서 정한 기간</td>
+         </tr>
+         <tr>
+          <td>Google LLC<br>(Gmail 고객지원)</td>
+          <td>미국</td>
+          <td>안내 메일 발송·수신 시점에 정보통신망을 통한 전송</td>
+          <td>이름, 이메일 주소, 주문번호 및 대여 정보</td>
+          <td>이메일 송·수신<br>위탁계약 종료 또는 제4조의 보유 기간 종료 시까지</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>정보주체는 「개인정보 보호법」 제28조의8 제5항에 따라 개인정보의 국외 이전을 거부할 수 있습니다. 다만 위 국외 이전은 홈페이지를 통한 신청 접수, 결제, 안내 메일 발송에 필수적이므로, 거부하시는 경우 온라인 신청 및 결제 서비스 이용이 제한될 수 있습니다. 국외 이전을 거부하고자 하는 경우 제12조의 연락처로 알려주시면 대체 절차(이메일·오프라인 접수 등)를 안내드립니다.</p>
+      <p>해외 체류 중 서비스를 이용하시는 경우, 이용자의 개인정보는 서비스 제공을 위해 대한민국에 소재한 회사와 위 수탁자의 서버로 전송되어 처리됩니다.</p>
+     </section>
+
+     <section id="pp-ko-9">
+      <h3>제9조 (정보주체와 법정대리인의 권리·의무 및 그 행사 방법)</h3>
+      <ol class="lg-num">
+       <li>정보주체는 회사에 대해 언제든지 <strong>개인정보 열람, 정정, 삭제, 처리정지 요구 및 동의 철회</strong>를 할 수 있습니다.</li>
+       <li>권리 행사는 이메일(enactuskozy@gmail.com), 전화(010-4096-2362) 또는 서면으로 하실 수 있으며, 회사는 이에 대해 지체 없이(요구를 받은 날부터 10일 이내) 조치하겠습니다.</li>
+       <li>권리 행사는 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 「개인정보 처리 방법에 관한 고시」 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.</li>
+       <li>개인정보 열람 및 처리정지 요구는 「개인정보 보호법」 제35조 제4항, 제37조 제2항에 의하여 정보주체의 권리가 제한될 수 있습니다.</li>
+       <li>개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다(제4조의 법령상 보존 대상 정보).</li>
+       <li>회사는 권리 행사를 요구한 자가 본인이거나 정당한 대리인인지를 확인하며, 이를 위해 필요한 최소한의 정보를 요청할 수 있습니다.</li>
+       <li>회사는 이용자의 개인정보를 이용하여 자동화된 결정(프로파일링 포함)을 하지 않습니다.</li>
+       <li>정보주체는 개인정보를 정확하고 최신의 상태로 입력할 의무가 있으며, 타인의 개인정보를 도용하거나 허위 정보를 입력하는 경우 서비스 이용이 제한되거나 관계 법령에 따라 처벌받을 수 있습니다.</li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-10">
+      <h3>제10조 (개인정보 자동 수집 장치의 설치·운영 및 그 거부에 관한 사항)</h3>
+      <ol class="lg-num">
+       <li>회사는 이용 편의를 제공하기 위하여 쿠키(cookie) 및 브라우저 저장소(로컬 스토리지)를 사용합니다. 쿠키는 웹사이트가 이용자의 브라우저에 보내는 소량의 정보로, 이용자의 컴퓨터·모바일 기기에 저장됩니다.</li>
+       <li><strong>사용 목적</strong>
+        <div class="lg-table-wrap">
+         <table>
+          <thead><tr><th>이름</th><th>종류</th><th>목적 및 보관 기간</th></tr></thead>
+          <tbody>
+           <tr><td>kozy_lang</td><td>로컬 스토리지</td><td>이용자가 선택한 표시 언어(한국어/영어)를 다음 방문 시에도 유지 · 이용자가 삭제할 때까지</td></tr>
+           <tr><td>kozy_admin</td><td>쿠키(HttpOnly)</td><td>운영자 전용 페이지의 로그인 세션 유지 · 최대 8시간(일반 이용자에게는 발급되지 않습니다)</td></tr>
+           <tr><td>상담 채널(채널톡) 쿠키</td><td>쿠키</td><td>상담의 연속성 유지 및 중복 응대 방지 · 해당 서비스 제공자의 정책에 따른 기간</td></tr>
+          </tbody>
+         </table>
+        </div>
+       </li>
+       <li>회사는 <strong>광고·마케팅 목적의 행태정보를 수집하는 쿠키나 제3자 광고·분석 추적 도구를 사용하지 않습니다.</strong></li>
+       <li><strong>쿠키 설치·운영의 거부 방법</strong> — 이용자는 웹 브라우저 설정을 통해 쿠키 저장을 거부하거나 저장된 쿠키를 삭제할 수 있습니다.
+        <ul>
+         <li>Chrome: 설정 &gt; 개인정보 보호 및 보안 &gt; 서드 파티 쿠키</li>
+         <li>Edge: 설정 &gt; 쿠키 및 사이트 권한 &gt; 쿠키 및 사이트 데이터 관리 및 삭제</li>
+         <li>Safari: 환경설정(설정) &gt; 개인정보 보호 &gt; 쿠키 및 웹 사이트 데이터</li>
+        </ul>
+       </li>
+       <li>다만 쿠키 저장을 거부하는 경우 언어 설정 유지, 상담 기능 등 일부 서비스 이용에 불편이 있을 수 있습니다.</li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-11">
+      <h3>제11조 (개인정보의 안전성 확보 조치)</h3>
+      <p>회사는 「개인정보 보호법」 제29조에 따라 다음과 같은 안전성 확보 조치를 취하고 있습니다.</p>
+      <ol class="lg-num">
+       <li><strong>관리적 조치</strong>
+        <ul>
+         <li>내부관리계획의 수립·시행 및 정기적인 점검</li>
+         <li>개인정보를 취급하는 운영진의 최소화 및 담당자 지정, 정기적인 개인정보 보호 교육 실시</li>
+        </ul>
+       </li>
+       <li><strong>기술적 조치</strong>
+        <ul>
+         <li><strong>접근 권한 관리</strong> — 신청·리뷰·이슈 데이터의 조회·수정·삭제는 서버에서 권한을 검증한 운영자에게만 허용하며, 인증 수단이 설정되지 않은 경우 운영자 기능을 전면 차단합니다.</li>
+         <li><strong>인증정보 보호</strong> — 운영자 비밀번호는 scrypt·SHA-256 해시로 보관하여 평문으로 저장하지 않으며, 비교 과정에서 정보가 유출되지 않도록 상수시간 비교를 사용합니다.</li>
+         <li><strong>세션 보호</strong> — 운영자 세션 토큰은 전자서명(HMAC)과 만료 시각을 포함하고, 스크립트로 읽을 수 없는 HttpOnly·SameSite=Strict·Secure 쿠키로만 전달됩니다.</li>
+         <li><strong>전송 구간 암호화</strong> — 웹사이트 전 구간에 HTTPS(TLS)와 HSTS를 적용하고, 데이터베이스 연결에도 SSL을 사용합니다.</li>
+         <li><strong>침해 시도 대응</strong> — IP 기준 요청 횟수 제한(로그인·신청·피드백), 상태 변경 요청에 대한 출처(Origin) 검증, 업로드 파일의 형식·용량 검증, 보안 헤더(X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy) 적용</li>
+         <li><strong>접속 정보의 최소 처리</strong> — 요청 횟수 제한에 사용하는 IP 주소는 데이터베이스에 저장하지 않고, 일정 시간이 지나면 자동으로 삭제되는 메모리에서만 처리합니다.</li>
+         <li><strong>접속 정보의 분리 보관</strong> — 데이터베이스 접속 정보는 서버 환경변수로만 관리하며 브라우저에 노출되지 않습니다.</li>
+        </ul>
+       </li>
+       <li><strong>물리적 조치</strong> — 개인정보가 포함된 서류 및 보조저장매체는 잠금장치가 있는 안전한 장소에 보관합니다.</li>
+      </ol>
+     </section>
+
+     <section id="pp-ko-12">
+      <h3>제12조 (개인정보 보호책임자 및 고충처리 부서)</h3>
+      <p>회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
+      <div class="lg-contact">
+       <dl>
+        <dt>개인정보 보호책임자</dt><dd>김지안 (K-ozy 운영팀)</dd>
+        <dt>고충처리 부서</dt><dd>K-ozy 운영팀</dd>
+        <dt>이메일</dt><dd><a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a></dd>
+        <dt>전화</dt><dd>010-4096-2362</dd>
+        <dt>주소</dt><dd>서울특별시 마포구 서강로 121, 202-84호(2F)</dd>
+       </dl>
+      </div>
+      <p style="margin-top:14px;">정보주체는 서비스를 이용하면서 발생한 모든 개인정보 보호 관련 문의, 불만 처리, 피해 구제 등에 관한 사항을 개인정보 보호책임자 및 고충처리 부서로 문의하실 수 있으며, 회사는 지체 없이 답변 및 처리해 드리겠습니다.</p>
+     </section>
+
+     <section id="pp-ko-13">
+      <h3>제13조 (권익침해 구제 방법)</h3>
+      <p>정보주체는 개인정보 침해로 인한 구제를 받기 위하여 아래 기관에 분쟁 해결이나 상담 등을 신청할 수 있습니다.</p>
+      <ul>
+       <li>개인정보분쟁조정위원회: 1833-6972 (<a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a>)</li>
+       <li>개인정보침해신고센터: (국번없이) 118 (<a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a>)</li>
+       <li>대검찰청 사이버수사과: (국번없이) 1301 (<a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a>)</li>
+       <li>경찰청 사이버수사국: (국번없이) 182 (<a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a>)</li>
+      </ul>
+      <p>또한 「개인정보 보호법」 제35조(개인정보의 열람), 제36조(개인정보의 정정·삭제), 제37조(개인정보의 처리정지 등)의 규정에 의한 요구에 대하여 공공기관의 장이 행한 처분 또는 부작위로 인하여 권리 또는 이익의 침해를 받은 자는 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다. (중앙행정심판위원회: 국번없이 110, <a href="https://www.simpan.go.kr" target="_blank" rel="noopener noreferrer">www.simpan.go.kr</a>)</p>
+     </section>
+
+     <section id="pp-ko-14">
+      <h3>제14조 (개인정보처리방침의 변경 및 변경 이력)</h3>
+      <p>이 개인정보처리방침은 <strong>2026년 7월 31일</strong>부터 적용됩니다. 법령·정책 또는 보안 기술의 변경에 따라 내용의 추가·삭제 및 수정이 있을 경우에는 변경 사항의 시행 7일 전부터 홈페이지 본 페이지를 통하여 공지합니다. 다만, 수집하는 개인정보의 항목, 이용 목적, 제3자 제공 등 정보주체의 권리에 중대한 영향을 미치는 변경의 경우에는 최소 30일 전에 공지합니다.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>버전</th><th>공고일</th><th>시행일</th><th>주요 변경 내용</th></tr></thead>
+        <tbody>
+         <tr><td>v1.0</td><td>2026년 7월 31일</td><td>2026년 7월 31일</td><td>개인정보처리방침 제정 및 최초 공개</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>개정 전의 개인정보처리방침은 제12조의 연락처로 요청하시면 확인하실 수 있습니다.</p>
+     </section>
+    </div>
+
+    <!-- ═══════════ English ═══════════ -->
+    <div class="lg-en">
+     <div class="lg-meta">
+      <span class="lg-chip">Version 1.0</span>
+      <span class="lg-chip">Effective 31 July 2026</span>
+     </div>
+
+     <div class="lg-intro">
+      <p>K-ozy (“the Company”) establishes and discloses this Privacy Policy in accordance with Article 30 of the Personal Information Protection Act (PIPA) of the Republic of Korea, in order to protect the personal data of data subjects and to handle related complaints promptly. K-ozy has no membership sign-up: we process only the minimum personal data needed for bedding rental applications, reviews, issue reports and customer support.</p>
+      <p style="margin-top:10px;font-size:0.84rem;">This English text is provided for your convenience. In the event of any discrepancy, the Korean version prevails.</p>
+     </div>
+
+     <div class="lg-toc">
+      <h4>Contents</h4>
+      <ol>
+       <li><button type="button" onclick="kzLegalJump('pp-en-1')">Purposes of processing</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-2')">Personal data we process</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-3')">Children under 14</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-4')">Retention periods</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-5')">Destruction procedure and method</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-6')">Provision to third parties</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-7')">Outsourcing of processing</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-8')">Collection and transfer overseas</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-9')">Your rights and how to exercise them</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-10')">Cookies and automatic collection</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-11')">Security measures</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-12')">Privacy Officer and complaints</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-13')">Remedies for infringement</button></li>
+       <li><button type="button" onclick="kzLegalJump('pp-en-14')">Changes to this policy</button></li>
+      </ol>
+     </div>
+
+     <section id="pp-en-1">
+      <h3>1. Purposes of processing personal data</h3>
+      <p>We process personal data for the purposes below. Data is not used for any other purpose, and if the purpose changes we will take the necessary measures, including obtaining separate consent under Article 18 of PIPA.</p>
+      <ol class="lg-num">
+       <li><strong>Providing the bedding rental service and performing the contract</strong>
+        <ul>
+         <li>Verifying applications and applicants, checking availability and stock, issuing order numbers</li>
+         <li>Delivery, pickup and return management, confirming the delivery address</li>
+         <li>Confirming and settling rental fees, including charges for late return, loss or damage</li>
+         <li>Sending service emails (reservation confirmed, rental started, return reminder, return completed)</li>
+        </ul>
+       </li>
+       <li><strong>Customer support and complaint handling</strong> — receiving enquiries and issue reports, contacting you to verify the facts, notifying you of progress and outcome</li>
+       <li><strong>Service improvement and reviews</strong> — satisfaction surveys, statistics and quality improvement, publishing your review on the website (your name is masked)</li>
+       <li><strong>Service operation and security</strong> — preventing abuse and blocking abnormal requests (rate limiting), controlling access to the administrator pages</li>
+       <li><strong>Compliance with legal obligations</strong> — retaining transaction records as required by the Act on Consumer Protection in Electronic Commerce and other applicable laws</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-2">
+      <h3>2. Categories of personal data we process</h3>
+
+      <h4>2.1 Bedding rental application (collected via the rental form on this website)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Type</th><th>Items</th></tr></thead>
+        <tbody>
+         <tr><th>Required</th><td>Last name and first name, nationality, email address, Instagram ID (or the name and ID of another messenger you use), university, delivery address (postal code, street address, building name), rental details (package, rental period, start date, expected return date)</td></tr>
+         <tr><th>Optional</th><td>Phone number, requests and special notes</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>2.2 Customer reviews (collected via the review form)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Type</th><th>Items</th></tr></thead>
+        <tbody>
+         <tr><th>Required</th><td>Name, star rating, review text, detailed ratings (bedding quality, delivery &amp; pickup, value for money, communication)</td></tr>
+         <tr><th>Optional</th><td>Review title, suggestions for improvement, recommendation intent, attached photos (up to 3)</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>2.3 Issue reports (collected via the issue report form)</h4>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Type</th><th>Items</th></tr></thead>
+        <tbody>
+         <tr><th>Required</th><td>Name, email address, issue type, severity, date of occurrence, description of the issue</td></tr>
+         <tr><th>Optional</th><td>Preferred resolution, attached photos (up to 3)</td></tr>
+        </tbody>
+       </table>
+      </div>
+
+      <h4>2.4 Customer support (chat widget, email, Instagram messages)</h4>
+      <p>The name, email address, contact details and message content you provide during the conversation.</p>
+
+      <h4>2.5 Data generated automatically while using the service</h4>
+      <p>IP address, access date and time, browser and operating system information (User-Agent), cookies, and service usage records (order processing status, history of service emails sent).</p>
+
+      <h4>2.6 Payment information</h4>
+      <p>Rental fees are paid through PayPal. <strong>We do not collect or store payment instrument details such as card or bank account numbers</strong> — these are handled directly by the payment service provider. We only record whether payment was made, the amount and the date. If you pay by bank transfer, we record the depositor's name, the date and the amount.</p>
+
+      <div class="lg-note">We do not collect sensitive data (beliefs, health, genetic data, criminal records) or unique identifiers such as resident registration or passport numbers. Please do not include such information in free-text fields (requests, review text, issue descriptions) or in attached photos.</div>
+     </section>
+
+     <section id="pp-en-3">
+      <h3>3. Personal data of children under 14</h3>
+      <ol class="lg-num">
+       <li>Our service is intended for users <strong>aged 14 or older</strong> who are studying at or visiting universities in Korea. We do not knowingly collect personal data from children under the age of 14.</li>
+       <li>Accordingly, we do not operate a separate procedure for obtaining the consent of a legal guardian.</li>
+       <li>If we learn that personal data of a child under 14 has been collected without the consent of a legal guardian, we will destroy that data without delay and cancel the related application.</li>
+       <li>A legal guardian may request access to, correction, deletion of, or suspension of the processing of a child's personal data using the contact details in Section 12, and we will act on such requests without delay.</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-4">
+      <h3>4. Processing and retention periods</h3>
+      <p>We process and retain personal data within the retention period required by law or agreed with you at the time of collection, and destroy it without delay once the purpose has been achieved.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Category</th><th>Retention period</th><th>Basis</th></tr></thead>
+        <tbody>
+         <tr><td>Rental application, contract performance and payment records (name, contact details, delivery address, rental and payment history)</td><td>5 years from the end of the contract (completed return)</td><td>E-Commerce Act — records on contracts and withdrawal of offers; records on payment and supply of goods</td></tr>
+         <tr><td>Records on consumer complaints or dispute resolution (issue reports, support history)</td><td>3 years from completion of handling</td><td>E-Commerce Act</td></tr>
+         <tr><td>Customer reviews and attached photos</td><td>3 years from posting, or until you request deletion</td><td>Your consent (request to publish)</td></tr>
+         <tr><td>Records on labelling and advertising</td><td>6 months</td><td>E-Commerce Act</td></tr>
+         <tr><td>Access logs generated automatically</td><td>3 months</td><td>Protection of Communications Secrets Act</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Data we are legally required to retain is kept separately from other personal data during that period and is not used for any purpose other than retention.</p>
+     </section>
+
+     <section id="pp-en-5">
+      <h3>5. Procedure and method of destruction</h3>
+      <ol class="lg-num">
+       <li><strong>Procedure</strong> — We identify the personal data for which grounds for destruction have arisen and destroy it with the approval of the Privacy Officer.</li>
+       <li><strong>Timing</strong> — Within 5 days from the expiry of the retention period or the achievement of the purpose; without delay where you withdraw consent or request deletion.</li>
+       <li><strong>Method</strong>
+        <ul>
+         <li>Electronic files: database records are deleted and backups are permanently erased in sequence so that they cannot be recovered or reproduced.</li>
+         <li>Paper documents: shredded or incinerated.</li>
+        </ul>
+       </li>
+       <li>Where data must be retained under other laws, it is moved to a separate database or stored in a different location.</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-6">
+      <h3>6. Provision of personal data to third parties</h3>
+      <ol class="lg-num">
+       <li>We process personal data only within the scope set out in Section 1 and <strong>currently do not provide personal data to any third party.</strong></li>
+       <li>Exceptionally, we may provide data under Articles 17 and 18 of PIPA where: you have given separate consent; there is a specific provision of law; or an investigative agency requests it following the procedures and methods prescribed by law (e.g. a warrant).</li>
+       <li>If any provision to third parties becomes necessary, we will state the recipient, purpose, items and retention period in this policy and obtain your consent in advance.</li>
+      </ol>
+      <div class="lg-note">Publishing your <strong>review</strong> is not a provision to a third party — it is publication at your request. When published, your name is masked (e.g. Hong*dong, Sophia M.) and no other personal data such as your email, address or phone number is shown. The content and photos of <strong>issue reports</strong> are never published and can be viewed only by the K-ozy operations team.</div>
+     </section>
+
+     <section id="pp-en-7">
+      <h3>7. Outsourcing of personal data processing</h3>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Processor</th><th>Outsourced work</th><th>Retention period</th></tr></thead>
+        <tbody>
+         <tr><td>Netlify, Inc.</td><td>Website hosting, server and database operation and storage</td><td>Until the contract ends or the retention period in Section 4 expires</td></tr>
+         <tr><td>Channel Corporation (Channel Talk)</td><td>Operation of the customer support chat channel</td><td>Until the contract ends or the retention period in Section 4 expires</td></tr>
+         <tr><td>PayPal (PayPal Pte. Ltd. and its affiliates)</td><td>Processing of rental fee payments</td><td>Until the contract ends or the period required by law expires</td></tr>
+         <tr><td>Google LLC (Gmail)</td><td>Sending service emails and receiving enquiries</td><td>Until the contract ends or the retention period in Section 4 expires</td></tr>
+         <tr><td>Courier companies engaged for delivery and pickup</td><td>Delivery and collection of bedding</td><td>Until delivery and collection are completed</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>In accordance with Article 26 of PIPA, our outsourcing contracts set out the prohibition on processing personal data beyond the purpose of the outsourced work, technical and administrative safeguards, restrictions on sub-processing, supervision of the processor and liability for damages; and we supervise whether processors handle personal data safely. Any change to the outsourced work or to the processors will be disclosed through this policy without delay.</p>
+     </section>
+
+     <section id="pp-en-8">
+      <h3>8. Collection and transfer of personal data overseas</h3>
+      <p>Our users are mainly international students who apply before arriving in or while staying in Korea, so personal data may be collected from outside Korea. We also transfer personal data overseas (for processing) as set out below.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Recipient</th><th>Country</th><th>Time and method of transfer</th><th>Items transferred</th><th>Purpose and retention</th></tr></thead>
+        <tbody>
+         <tr>
+          <td>Netlify, Inc.<br>(privacy@netlify.com)</td>
+          <td>United States</td>
+          <td>Transmitted over the network when you use the service</td>
+          <td>Rental application, review and issue report data and automatically generated data (Section 2)</td>
+          <td>Website hosting, database operation and storage<br>Until the contract ends or the Section 4 retention period expires</td>
+         </tr>
+         <tr>
+          <td>PayPal (PayPal Pte. Ltd. and affiliates)<br>(PayPal customer support)</td>
+          <td>United States, Singapore and others</td>
+          <td>Transmitted over the network when you make a payment</td>
+          <td>Data required for payment (name, email address, amount and date of payment)</td>
+          <td>Processing of rental fee payments<br>Period set by applicable law and PayPal's privacy policy</td>
+         </tr>
+         <tr>
+          <td>Google LLC<br>(Gmail support)</td>
+          <td>United States</td>
+          <td>Transmitted over the network when service emails are sent or received</td>
+          <td>Name, email address, order number and rental details</td>
+          <td>Sending and receiving email<br>Until the contract ends or the Section 4 retention period expires</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Under Article 28-8(5) of PIPA you may refuse the overseas transfer of your personal data. However, these transfers are essential for online applications, payment and service emails, so refusal may restrict your use of those online services. If you wish to refuse, please contact us using the details in Section 12 and we will explain alternative routes (such as applying by email).</p>
+      <p>If you use the service while abroad, your personal data is transmitted to and processed on the servers of the Company in the Republic of Korea and of the processors listed above.</p>
+     </section>
+
+     <section id="pp-en-9">
+      <h3>9. Rights of data subjects and legal guardians, and how to exercise them</h3>
+      <ol class="lg-num">
+       <li>You may at any time request <strong>access to, correction or deletion of, or suspension of the processing of</strong> your personal data, and withdraw your consent.</li>
+       <li>Requests can be made by email (enactuskozy@gmail.com), by phone (010-4096-2362) or in writing, and we will act on them without delay — within 10 days of receipt.</li>
+       <li>You may exercise these rights through a representative such as a legal guardian or an authorised agent, in which case a letter of authority must be submitted.</li>
+       <li>Your right of access and to suspension of processing may be restricted under Articles 35(4) and 37(2) of PIPA.</li>
+       <li>You cannot request deletion of personal data that other laws specifically require us to collect and retain (see the statutory retention items in Section 4).</li>
+       <li>We verify that the person making the request is the data subject or a duly authorised representative, and may ask for the minimum information necessary to do so.</li>
+       <li>We do not make automated decisions (including profiling) using your personal data.</li>
+       <li>You are responsible for keeping the data you enter accurate and up to date. Using another person's data or entering false information may lead to restriction of the service or to penalties under applicable law.</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-10">
+      <h3>10. Cookies and other automatic collection devices — installation, operation and refusal</h3>
+      <ol class="lg-num">
+       <li>We use cookies and browser storage (local storage) to make the service more convenient. A cookie is a small piece of data that a website sends to your browser and that is stored on your device.</li>
+       <li><strong>What we use and why</strong>
+        <div class="lg-table-wrap">
+         <table>
+          <thead><tr><th>Name</th><th>Type</th><th>Purpose and duration</th></tr></thead>
+          <tbody>
+           <tr><td>kozy_lang</td><td>Local storage</td><td>Remembers your display language (Korean/English) for your next visit · until you delete it</td></tr>
+           <tr><td>kozy_admin</td><td>Cookie (HttpOnly)</td><td>Keeps the login session for administrator-only pages · up to 8 hours (never issued to regular visitors)</td></tr>
+           <tr><td>Channel Talk cookies</td><td>Cookie</td><td>Maintains continuity of your support conversation · period set by that provider</td></tr>
+          </tbody>
+         </table>
+        </div>
+       </li>
+       <li>We <strong>do not use advertising cookies, behavioural tracking or third-party analytics tools.</strong></li>
+       <li><strong>How to refuse cookies</strong> — you can refuse or delete cookies in your browser settings:
+        <ul>
+         <li>Chrome: Settings &gt; Privacy and security &gt; Third-party cookies</li>
+         <li>Edge: Settings &gt; Cookies and site permissions &gt; Manage and delete cookies and site data</li>
+         <li>Safari: Settings (Preferences) &gt; Privacy &gt; Cookies and website data</li>
+        </ul>
+       </li>
+       <li>If you refuse cookies, some features — such as remembering your language or using the support chat — may not work properly.</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-11">
+      <h3>11. Measures to ensure the security of personal data</h3>
+      <p>In accordance with Article 29 of PIPA we take the following measures.</p>
+      <ol class="lg-num">
+       <li><strong>Administrative</strong> — establishing and implementing an internal management plan with regular checks; minimising the number of team members who handle personal data, designating those responsible, and providing regular privacy training.</li>
+       <li><strong>Technical</strong>
+        <ul>
+         <li><strong>Access control</strong> — reading, editing or deleting application, review and issue data is permitted only to administrators verified on the server; if no authentication method is configured, administrator functions are blocked entirely.</li>
+         <li><strong>Protection of credentials</strong> — administrator passwords are stored as scrypt/SHA-256 hashes, never in plain text, and comparisons are constant-time.</li>
+         <li><strong>Session protection</strong> — administrator session tokens carry an HMAC signature and an expiry time and are sent only in HttpOnly, SameSite=Strict, Secure cookies that scripts cannot read.</li>
+         <li><strong>Encryption in transit</strong> — HTTPS (TLS) and HSTS across the whole site, and SSL for database connections.</li>
+         <li><strong>Defence against abuse</strong> — per-IP rate limiting (login, applications, feedback), Origin verification for state-changing requests, validation of the format and size of uploaded files, and security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy).</li>
+         <li><strong>Minimal handling of access data</strong> — IP addresses used for rate limiting are not written to the database and are held only in memory, from which they are cleared automatically.</li>
+         <li><strong>Separation of credentials</strong> — database connection details exist only as server environment variables and are never exposed to the browser.</li>
+        </ul>
+       </li>
+       <li><strong>Physical</strong> — documents and storage media containing personal data are kept in a secure place with a lock.</li>
+      </ol>
+     </section>
+
+     <section id="pp-en-12">
+      <h3>12. Privacy Officer and complaint handling</h3>
+      <div class="lg-contact">
+       <dl>
+        <dt>Privacy Officer</dt><dd>Kim Jian (K-ozy operations team)</dd>
+        <dt>Complaints handled by</dt><dd>K-ozy operations team</dd>
+        <dt>Email</dt><dd><a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a></dd>
+        <dt>Phone</dt><dd>010-4096-2362</dd>
+        <dt>Address</dt><dd>121 Seogang-ro, Mapo-gu, Seoul, Republic of Korea (Room 202-84, 2F)</dd>
+       </dl>
+      </div>
+      <p style="margin-top:14px;">You may contact the Privacy Officer with any question, complaint or request for remedy arising from your use of the service, and we will respond without delay.</p>
+     </section>
+
+     <section id="pp-en-13">
+      <h3>13. Remedies for infringement of rights</h3>
+      <p>You may apply to the following bodies for dispute resolution or advice regarding infringement of your personal data rights.</p>
+      <ul>
+       <li>Personal Information Dispute Mediation Committee: 1833-6972 (<a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a>)</li>
+       <li>Privacy Infringement Report Centre: 118 (<a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a>)</li>
+       <li>Supreme Prosecutors' Office, Cyber Investigation Division: 1301 (<a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a>)</li>
+       <li>National Police Agency, Cyber Bureau: 182 (<a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a>)</li>
+      </ul>
+      <p>In addition, a person whose rights or interests are infringed by a disposition or omission of the head of a public institution in response to a request under Articles 35 (access), 36 (correction and deletion) or 37 (suspension of processing) of PIPA may file an administrative appeal under the Administrative Appeals Act. (Central Administrative Appeals Commission: 110, <a href="https://www.simpan.go.kr" target="_blank" rel="noopener noreferrer">www.simpan.go.kr</a>)</p>
+     </section>
+
+     <section id="pp-en-14">
+      <h3>14. Changes to this Privacy Policy and revision history</h3>
+      <p>This Privacy Policy takes effect on <strong>31 July 2026</strong>. If content is added, deleted or amended because of changes in law, policy or security technology, we will announce the change on this page at least 7 days before it takes effect. Where the change materially affects your rights — such as the items collected, the purposes of use or provision to third parties — we will announce it at least 30 days in advance.</p>
+      <div class="lg-table-wrap">
+       <table>
+        <thead><tr><th>Version</th><th>Announced</th><th>Effective</th><th>Summary of changes</th></tr></thead>
+        <tbody>
+         <tr><td>v1.0</td><td>31 July 2026</td><td>31 July 2026</td><td>Privacy Policy established and published for the first time</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Previous versions of this policy are available on request using the contact details in Section 12.</p>
+     </section>
+    </div>
+
+   </div>
   </div>
  </div>
 </div>
@@ -2340,9 +3045,9 @@ return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>
 
  
  addr_note:'<i class="fa-solid fa-box"></i> 정확한 배송을 위해 건물명과 방 호수를 반드시 입력해 주세요.',
- privacy_r:'<i class="fa-solid fa-shield-halved"></i><span>수집된 개인정보(이름, 연락처, 주소)는 렌탈 서비스 제공 목적으로만 사용되며 서비스 종료 후 즉시 파기됩니다.</span>',
+ privacy_r:'<i class="fa-solid fa-shield-halved"></i><span>수집된 개인정보(이름, 연락처, 주소 등)는 렌탈 서비스 제공 목적으로만 사용되며, 목적 달성 후에는 전자상거래법 등 관계 법령에서 정한 보존 기간이 지나면 지체 없이 파기됩니다. 자세한 내용은 개인정보처리방침을 확인해 주세요.</span>',
 
- chk_r1:'[필수] 개인정보 수집 및 이용에 동의합니다.', chk_r2:'[필수] 서비스 이용약관에 동의합니다.',
+ chk_r1:'[필수] <a class="chk-link" onclick="kzOpenLegal(event,\'privacy\')">개인정보 수집 및 이용</a>에 동의합니다.', chk_r2:'[필수] <a class="chk-link" onclick="kzOpenLegal(event,\'terms\')">서비스 이용약관</a>에 동의합니다.',
  
  r_submit:'렌탈 신청서 제출하기 →', 
 sb_r_h:'K-ozy 이불 렌탈', sb_r_p:'위생 세탁을 완료한 이불을 합리적인 가격에 빌려드립니다. 한국 도착 전에 미리 신청하세요!',
@@ -2477,9 +3182,9 @@ return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>
 
  
  addr_note:'<i class="fa-solid fa-box"></i> Please enter the building name and room number for accurate delivery.',
- privacy_r:'<i class="fa-solid fa-shield-halved"></i><span>Your personal information (name, contact, address) will only be used for service delivery and will be deleted upon service completion.</span>',
+ privacy_r:'<i class="fa-solid fa-shield-halved"></i><span>Your personal data (name, contact details, address and so on) is used only to provide the rental service, and is destroyed without delay once the purpose is achieved and any retention period required by law has passed. See our Privacy Policy for details.</span>',
  
- chk_r1:'[Required] I agree to the collection and use of personal information.', chk_r2:'[Required] I agree to the Terms of Service.',
+ chk_r1:'[Required] I agree to the <a class="chk-link" onclick="kzOpenLegal(event,\'privacy\')">collection and use of my personal data</a>.', chk_r2:'[Required] I agree to the <a class="chk-link" onclick="kzOpenLegal(event,\'terms\')">Terms of Service</a>.',
  
  r_submit:'Submit Rental Application →', 
  sb_r_h:'K-ozy Bedding Rental', sb_r_p:'Professionally cleaned bedding at an affordable price. Apply before you arrive in Korea!',
@@ -2936,6 +3641,22 @@ function kzInitHistory(){
    else goPage(target);
   } finally { _kzNavLock = false; }
  }
+}
+
+/* 동의 체크박스 라벨 안의 약관 링크.
+   라벨 안에서 링크를 누르면 체크 상태까지 함께 바뀌므로 기본 동작을 막고 해당 문서로만 이동한다. */
+function kzOpenLegal(e, page){
+ if(e){ e.preventDefault(); e.stopPropagation(); }
+ goPage(page);
+}
+
+/* 개인정보처리방침·이용약관 목차 → 해당 조항으로 스크롤.
+   앵커(<a href="#...">) 를 쓰면 해시가 히스토리에 쌓여 뒤로가기가 홈으로 튀므로 스크롤만 한다. */
+function kzLegalJump(id){
+ var el = document.getElementById(id);
+ if(!el) return;
+ try{ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+ catch(e){ el.scrollIntoView(); }
 }
 
 function goPage(name){
