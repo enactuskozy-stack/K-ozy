@@ -27,9 +27,18 @@
 
 do $$
 declare
-  r    record;
-  actual text;
+  r        record;
+  actual   text;
+  coldef   text;
+  isident  text;
+  hint     text;
 begin
+  hint := E'  K-ozy 가 쓰는 테이블이 아닐 가능성이 큽니다. 다음 중 하나를 하세요.\n'
+          '   1) 안 쓰는 테이블이면  →  drop table public.%1$I cascade;  실행 후 이 파일을 다시 실행\n'
+          '   2) 쓰는 테이블이면    →  alter table public.%1$I rename to %1$I_old;  로 비켜 둔 뒤 다시 실행\n'
+          '  (기존 데이터는 이 마이그레이션이 건드리지 않습니다)';
+
+  /* ── (1) 문자열 키를 쓰는 테이블 ── */
   for r in
     select * from (values
       ('customers',       'id',          'text'),
@@ -54,22 +63,49 @@ begin
      where table_schema = 'public' and table_name = r.tbl and column_name = r.col;
 
     if actual is null then
-      raise exception
-        E'이미 있는 "%" 테이블에 "%" 컬럼이 없습니다.\n'
-        '  K-ozy 가 쓰는 테이블이 아닐 가능성이 큽니다. 다음 중 하나를 하세요.\n'
-        '   1) 안 쓰는 테이블이면  →  drop table public.% cascade;  실행 후 이 파일을 다시 실행\n'
-        '   2) 쓰는 테이블이면    →  alter table public.% rename to %_old;  로 비켜 둔 뒤 다시 실행\n'
-        '  (기존 데이터는 이 마이그레이션이 건드리지 않습니다)',
-        r.tbl, r.col, r.tbl, r.tbl, r.tbl;
+      raise exception E'이미 있는 "%" 테이블에 "%" 컬럼이 없습니다.\n%',
+        r.tbl, r.col, format(hint, r.tbl);
     end if;
 
     if actual <> r.typ then
+      raise exception E'이미 있는 "%" 테이블의 "%" 컬럼 타입이 %(기대값: %)입니다.\n%',
+        r.tbl, r.col, actual, r.typ, format(hint, r.tbl);
+    end if;
+  end loop;
+
+  /* ── (2) 자동 증가 id 를 쓰는 테이블 ──
+     id 가 있어도 시퀀스(bigserial)나 identity 가 아니면 INSERT 때 id 가 NULL 이 되어
+     "null value in column id violates not-null constraint" 로 실패한다. */
+  for r in
+    select * from (values ('email_log'), ('payments'), ('feedback_photos')) as t(tbl)
+  loop
+    if not exists (
+      select 1 from information_schema.tables
+       where table_schema = 'public' and table_name = r.tbl
+    ) then
+      continue;
+    end if;
+
+    select data_type, column_default, is_identity
+      into actual, coldef, isident
+      from information_schema.columns
+     where table_schema = 'public' and table_name = r.tbl and column_name = 'id';
+
+    if actual is null then
+      raise exception E'이미 있는 "%" 테이블에 "id" 컬럼이 없습니다.\n%',
+        r.tbl, format(hint, r.tbl);
+    end if;
+
+    if actual not in ('bigint', 'integer', 'smallint') then
+      raise exception E'이미 있는 "%" 테이블의 "id" 컬럼 타입이 %(기대값: bigint 자동 증가)입니다.\n%',
+        r.tbl, actual, format(hint, r.tbl);
+    end if;
+
+    if coldef is null and coalesce(isident, 'NO') <> 'YES' then
       raise exception
-        E'이미 있는 "%" 테이블의 "%" 컬럼 타입이 %(기대값: %)입니다.\n'
-        '  K-ozy 가 쓰는 테이블이 아닐 가능성이 큽니다. 다음 중 하나를 하세요.\n'
-        '   1) 안 쓰는 테이블이면  →  drop table public.% cascade;  실행 후 이 파일을 다시 실행\n'
-        '   2) 쓰는 테이블이면    →  alter table public.% rename to %_old;  로 비켜 둔 뒤 다시 실행',
-        r.tbl, r.col, actual, r.typ, r.tbl, r.tbl, r.tbl;
+        E'이미 있는 "%" 테이블의 "id" 에 자동 증가(시퀀스)가 없습니다.\n'
+        '  이대로 두면 이 테이블에 INSERT 할 때 id 가 비어서 실패합니다.\n%',
+        r.tbl, format(hint, r.tbl);
     end if;
   end loop;
 end $$;
