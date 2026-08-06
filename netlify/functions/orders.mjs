@@ -46,6 +46,8 @@ const ADMIN_ONLY_FIELDS = [
   'internalNote',
 ];
 
+// 예전 버전이 jsonb 컬럼에 "JSON 문자열"을 넣어 둔 행이 남아 있을 수 있어 방어적으로 되돌린다.
+// (신규 저장은 sql.json() 을 쓰므로 항상 객체다 — 아래 upsertAdmin/insertPublic 주석 참고)
 const asObj = (v) => (typeof v === 'string' ? JSON.parse(v) : v);
 
 let _ready;
@@ -101,7 +103,11 @@ function sanitizePublicOrder(input) {
 
   out.id = id;
   out.status = 'new'; // 접수 상태는 서버가 고정
-  out.channel = 'W'; // 웹 접수만 공개 생성 가능(부스 접수는 관리자 입력)
+  // 접수 채널: B = 현장 부스(이벤트 팝업), W = 웹. 그 외 값은 W 로 정규화한다.
+  // 채널은 집계·주문번호 접두사에만 쓰이고 권한이나 금액에는 관여하지 않으므로
+  // 고객이 보낸 값을 인정한다. (예전에는 무조건 'W' 로 덮어써서 부스 접수가
+  //  전부 웹 접수로 집계되고 주문번호도 W- 로 나갔다)
+  out.channel = String(out.channel || '').trim().toUpperCase() === 'B' ? 'B' : 'W';
   out.serverReceivedAt = new Date().toISOString();
 
   if (JSON.stringify(out).length > MAX_ORDER_BYTES) return { error: 'order too large' };
@@ -115,14 +121,18 @@ function normalizeAdminOrder(o) {
   if (!id || id === 'undefined' || id === 'null' || id.length > 64) return null;
   const payload = JSON.stringify(o);
   if (payload.length > MAX_ORDER_BYTES) return null;
-  return { id, o, payload };
+  return { id, o };
 }
 
+// ⚠ 반드시 sql.json(객체) 로 넘긴다.
+// `${JSON.stringify(o)}::jsonb` 로 쓰면 postgres.js 가 그 문자열을 한 번 더 JSON 으로
+// 감싸서, DB 에는 객체가 아니라 "JSON 문자열"이 저장된다(jsonb_typeof = 'string').
+// 그러면 data->>'kind' 같은 조회도, jsonb_set 도, GIN 인덱스도 전부 무용지물이 된다.
 async function upsertAdmin(item) {
-  const { id, o, payload } = item;
+  const { id, o } = item;
   await sql`
     INSERT INTO orders (id, order_no, status, rent_status, data, updated_at)
-    VALUES (${id}, ${o.orderNo || null}, ${o.status || null}, ${o.rentStatus || null}, ${payload}::jsonb, now())
+    VALUES (${id}, ${o.orderNo || null}, ${o.status || null}, ${o.rentStatus || null}, ${sql.json(o)}, now())
     ON CONFLICT (id) DO UPDATE SET
       order_no    = EXCLUDED.order_no,
       status      = EXCLUDED.status,
@@ -133,10 +143,9 @@ async function upsertAdmin(item) {
 
 /** 공개 생성은 INSERT 전용 — 기존 주문을 덮어쓸 수 없다. */
 async function insertPublic(o) {
-  const payload = JSON.stringify(o);
   const rows = await sql`
     INSERT INTO orders (id, order_no, status, rent_status, data)
-    VALUES (${o.id}, ${null}, ${'new'}, ${null}, ${payload}::jsonb)
+    VALUES (${o.id}, ${null}, ${'new'}, ${null}, ${sql.json(o)})
     ON CONFLICT (id) DO NOTHING
     RETURNING id`;
   return rows.length > 0;
