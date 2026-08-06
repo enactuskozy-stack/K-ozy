@@ -10,6 +10,45 @@
 --      그대로 옮긴 조회 뷰
 -- ═══════════════════════════════════════════════════════════════════════════
 
+/* ══════════ 0. 이 파일이 의존하는 유니크 인덱스 보장 ══════════
+   아래 팬아웃·백필은 `on conflict (...)` 를 쓰는데, 대상 컬럼에 유니크 인덱스가 없으면
+     ERROR: there is no unique or exclusion constraint matching the ON CONFLICT specification
+   로 실패한다. ② 를 건너뛰었거나 예전 버전으로 실행했거나, 같은 이름의 테이블이 이미
+   있어서 인덱스만 빠진 경우가 있으므로 여기서 직접 확인하고 없으면 만든다.            */
+
+do $$
+declare
+  r record;
+  n integer;
+begin
+  for r in
+    select * from (values
+      ('email_log',       'email_log_fingerprint_uq',   'fingerprint'),
+      ('feedback_photos', 'feedback_photos_fid_idx_uq', 'feedback_id, idx')
+    ) as t(tbl, idxname, cols)
+  loop
+    if not exists (
+      select 1 from information_schema.tables
+       where table_schema = 'public' and table_name = r.tbl
+    ) then
+      raise exception E'"%" 테이블이 없습니다. ② (20260806000200_kozy_admin_domain.sql) 를 먼저 실행하세요.', r.tbl;
+    end if;
+
+    -- 이름과 무관하게, 해당 컬럼 구성의 유니크 인덱스가 이미 있는지 본다
+    select count(*) into n
+      from pg_index i
+     where i.indrelid = format('public.%I', r.tbl)::regclass
+       and i.indisunique
+       and pg_get_indexdef(i.indexrelid) like '%(' || r.cols || ')';
+
+    if n = 0 then
+      execute format('create unique index if not exists %I on public.%I (%s)', r.idxname, r.tbl, r.cols);
+      raise notice '% 에 유니크 인덱스 %(%) 를 새로 만들었습니다.', r.tbl, r.idxname, r.cols;
+    end if;
+  end loop;
+end $$;
+
+
 /* ══════════ 1. admin_store → 정규화 테이블 팬아웃 ══════════ */
 
 create or replace function kz_flag_is_public(p_key text) returns boolean
