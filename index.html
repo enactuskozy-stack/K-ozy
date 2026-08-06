@@ -720,6 +720,19 @@ footer{position:relative;}
 /* ── 이용약관 / 개인정보처리방침 본문 ── */
 .legal-body{max-width:860px;font-size:0.9rem;color:var(--text-muted);line-height:1.95;white-space:pre-line;}
 
+/* 조문으로 구성된 법적 고지 본문(약관 등)은 pre-line 대신 일반 마크업으로 조판한다. */
+.legal-doc{white-space:normal;}
+.legal-doc h3{font-size:1.02rem;font-weight:800;color:var(--navy);line-height:1.5;letter-spacing:-0.3px;margin:34px 0 10px;}
+.legal-doc h3:first-child{margin-top:0;}
+.legal-doc p{margin:0 0 9px;}
+.legal-doc ol{margin:2px 0 12px;padding-left:26px;}
+.legal-doc ol li{margin-bottom:4px;}
+.legal-doc ol.legal-sub{list-style:decimal;}
+.legal-doc .legal-addendum{margin-top:38px;padding-top:20px;border-top:1px solid var(--border);}
+/* 언어에 따라 한 쪽 본문만 노출 (applyTranslations 가 <html lang> 을 갱신한다) */
+html[lang="en"] .legal-ko{display:none;}
+html[lang="ko"] .legal-en{display:none;}
+
 @media(max-width:900px){
   .footer-grid{grid-template-columns:1fr;}
   /* 좁은 화면에서는 오른쪽 정렬을 풀고 자연스럽게 다음 줄로 */
@@ -1892,7 +1905,357 @@ body.admin-subpage-mode > nav { display:none !important; }
    </div>
   </div>
   <div class="faq-wrap">
-   <div class="legal-body" data-k="legal_empty">내용을 준비하고 있습니다. 확정되는 대로 이곳에 게시할 예정입니다.</div>
+
+   <!-- ─── 한국어 본문 ─── -->
+   <div class="legal-body legal-doc legal-ko">
+    <h3>제1조(목적)</h3>
+    <p>이 약관은 K-ozy가 운영하는 공식 웹사이트에서 제공하는 침구 대여 및 국제학생 정착 지원 서비스의 이용과 관련하여, K-ozy와 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 한다.</p>
+
+    <h3>제2조(정의)</h3>
+    <p>① “K-ozy”란 국제학생에게 침구 대여 및 정착 지원 서비스를 제공하는 서비스를 말한다.</p>
+    <p>② “웹사이트”란 K-ozy가 침구 대여 신청, 서비스 안내, 결제, 문의 응대 등을 위하여 운영하는 온라인 공간을 말한다.</p>
+    <p>③ “이용자”란 K-ozy 웹사이트에 접속하여 본 약관에 따라 K-ozy가 제공하는 서비스를 이용하는 자를 말한다.</p>
+    <p>④ “대여상품”이란 K-ozy가 이용자에게 일정 기간 대여하는 침구류 및 이에 부속되는 물품을 말한다.</p>
+    <p>⑤ “서비스”란 침구 대여, 대여 신청 및 결제, 수령 및 반납 안내, 정착 관련 정보 제공, 기타 K-ozy가 정하는 국제학생 지원 서비스를 말한다.</p>
+
+    <h3>제3조(약관의 명시와 개정)</h3>
+    <p>① K-ozy는 본 약관의 내용, 상호, 대표자 성명, 사업장 주소, 연락처, 전자우편주소, 사업자등록번호, 통신판매업 신고번호, 개인정보관리책임자 등을 이용자가 쉽게 확인할 수 있도록 웹사이트 하단 또는 별도 연결화면에 게시한다.</p>
+    <p>② K-ozy는 이용자가 약관에 동의하기 전에 대여상품의 수령 및 반납 방법, 결제 방식, 취소 및 환불 조건, 이용자의 책임 등 중요한 내용을 확인할 수 있도록 안내한다.</p>
+    <p>③ K-ozy는 관련 법령을 위반하지 않는 범위에서 본 약관을 개정할 수 있다.</p>
+    <p>④ 약관을 개정할 경우 K-ozy는 적용일자 및 개정사유를 명시하여 적용일자 7일 전부터 웹사이트에 공지한다. 다만 이용자에게 불리한 내용으로 변경되는 경우에는 최소 30일 이상의 사전 유예기간을 두고 공지한다.</p>
+
+    <h3>제4조(서비스의 제공 및 변경)</h3>
+    <p>① K-ozy는 다음 각 호의 서비스를 제공한다.</p>
+    <ol class="legal-sub">
+     <li>침구류 대여상품에 대한 정보 제공</li>
+     <li>침구 대여 신청 및 결제</li>
+     <li>대여상품의 수령 및 반납 안내</li>
+     <li>국제학생의 초기 정착에 필요한 정보 제공</li>
+     <li>기타 K-ozy가 정하는 서비스</li>
+    </ol>
+    <p>② K-ozy는 대여상품의 재고 부족, 세탁 및 관리 상태, 운영 일정, 제휴기관 사정 등에 따라 제공하는 대여상품 또는 서비스의 내용을 변경할 수 있다.</p>
+    <p>③ 서비스 내용이 변경되는 경우 K-ozy는 변경 사유와 제공 가능 일정을 웹사이트 또는 이용자에게 통지 가능한 연락수단을 통해 안내한다.</p>
+
+    <h3>제5조(서비스의 중단)</h3>
+    <p>① K-ozy는 웹사이트 점검, 시스템 오류, 통신 장애, 결제 시스템 문제, 운영상 필요 등의 사유가 발생한 경우 서비스 제공을 일시적으로 중단할 수 있다.</p>
+    <p>② K-ozy는 서비스 중단이 발생하는 경우 가능한 한 사전에 웹사이트 또는 개별 연락수단을 통해 이용자에게 안내한다.</p>
+    <p>③ 다만 K-ozy의 고의 또는 중대한 과실 없이 발생한 시스템 장애, 천재지변, 외부 결제 시스템 오류 등으로 인한 손해에 대해서는 책임을 지지 않을 수 있다.</p>
+
+    <h3>제6조(이용자에 대한 통지)</h3>
+    <p>① K-ozy가 이용자에게 통지하는 경우 이용자가 제공한 전자우편, 휴대전화, SNS 계정, 메신저, 웹사이트 공지 등의 방법으로 할 수 있다.</p>
+    <p>② 불특정 다수 이용자에 대한 통지는 웹사이트 공지사항 또는 서비스 화면에 게시함으로써 개별 통지를 갈음할 수 있다.</p>
+    <p>③ 다만 대여 신청, 결제, 수령, 반납, 환불 등 이용자의 거래에 중대한 영향을 미치는 사항은 가능한 한 개별적으로 통지한다.</p>
+
+    <h3>제7조(대여 신청 및 개인정보 제공 동의)</h3>
+    <p>① 이용자는 K-ozy 웹사이트에서 다음 또는 이와 유사한 방법으로 대여를 신청할 수 있다.</p>
+    <ol class="legal-sub">
+     <li>대여상품의 선택</li>
+     <li>이용자 성명, 연락처, 이메일, 소속 대학, 수령 장소 등 필요한 정보 입력</li>
+     <li>대여 기간, 수령 및 반납 방법, 비용 부담, 환불 조건 등 중요 내용 확인</li>
+     <li>본 약관 및 개인정보처리방침에 대한 동의</li>
+     <li>대여 신청 및 신청 내용 확인</li>
+     <li>결제방법 선택</li>
+    </ol>
+    <p>② K-ozy가 서비스 제공을 위해 제3자에게 이용자의 개인정보를 제공할 필요가 있는 경우, 제공받는 자, 이용 목적, 제공 항목, 보유 및 이용 기간을 이용자에게 알리고 동의를 받는다.</p>
+    <p>③ K-ozy가 결제, 세탁, 수령 및 반납 관리 등 서비스 제공을 위하여 개인정보 처리 업무를 위탁하는 경우, 개인정보처리방침을 통해 관련 내용을 고지한다.</p>
+
+    <h3>제8조(대여계약의 성립)</h3>
+    <p>① K-ozy는 이용자의 대여 신청에 대하여 다음 각 호에 해당하는 경우 승낙하지 않을 수 있다.</p>
+    <ol class="legal-sub">
+     <li>신청 내용에 허위, 누락, 오류가 있는 경우</li>
+     <li>대여상품의 재고가 부족한 경우</li>
+     <li>결제가 정상적으로 완료되지 않은 경우</li>
+     <li>서비스 운영상 대여 신청을 승낙하기 어려운 경우</li>
+    </ol>
+    <p>② 대여계약은 K-ozy의 신청 확인 또는 결제 완료 안내가 이용자에게 도달한 시점에 성립한 것으로 본다.</p>
+    <p>③ K-ozy의 승낙 의사표시에는 대여 신청 내용, 결제 여부, 수령 및 반납 방법, 변경 및 취소에 관한 안내가 포함될 수 있다.</p>
+
+    <h3>제9조(지급방법)</h3>
+    <p>K-ozy 서비스 이용에 대한 대금 지급은 다음 각 호의 방법 중 K-ozy가 제공하는 방법으로 할 수 있다.</p>
+    <ol class="legal-sub">
+     <li>신용카드, 체크카드 등 카드 결제</li>
+     <li>계좌이체 또는 온라인 무통장입금</li>
+     <li>기타 K-ozy가 인정하는 전자적 지급 방법</li>
+    </ol>
+    <p>K-ozy는 이용자의 지급방법에 대하여 법령에서 허용되지 않는 별도의 수수료를 임의로 추가하여 징수하지 않는다.</p>
+
+    <h3>제10조(대여 신청 확인, 변경 및 취소)</h3>
+    <p>① K-ozy는 이용자의 대여 신청이 있는 경우 이용자에게 신청 확인 안내를 제공한다.</p>
+    <p>② 이용자는 신청 내용에 오류가 있거나 변경이 필요한 경우 K-ozy가 정한 방법에 따라 변경 또는 취소를 요청할 수 있다.</p>
+    <p>③ K-ozy는 대여상품 수령 전 이용자의 변경 또는 취소 요청이 있는 경우, 운영 가능 범위 내에서 지체 없이 처리한다.</p>
+    <p>④ 이미 결제가 완료된 경우 취소 및 환불은 본 약관의 환불 규정에 따른다.</p>
+
+    <h3>제11조(대여상품의 제공, 수령 및 반납)</h3>
+    <p>① K-ozy는 이용자가 신청한 대여상품을 약정된 수령일 또는 수령 기간에 맞추어 제공하기 위해 필요한 준비, 세탁, 포장 및 운영 조치를 취한다.</p>
+    <p>② 이용자는 K-ozy가 안내한 방법에 따라 대여상품을 수령하여야 하며, 수령 시 본인 확인 또는 신청 내용 확인이 요구될 수 있다.</p>
+    <p>③ 이용자는 대여 기간 종료 시 K-ozy가 안내한 일정과 방법에 따라 대여상품을 반납하여야 한다.</p>
+    <p>④ 이용자가 정해진 기한 내에 대여상품을 반납하지 않거나 대여상품을 훼손·분실한 경우, K-ozy는 이용자에게 연체료 또는 손해배상을 청구할 수 있다.</p>
+    <p>⑤ 대여상품의 수령 및 반납 일정, 장소, 방법은 운영 상황에 따라 변경될 수 있으며, 변경 시 K-ozy는 이용자에게 안내한다.</p>
+
+    <h3>제12조(환급)</h3>
+    <p>① K-ozy는 이용자가 신청한 대여상품을 재고 부족, 운영 일정 변경, 기타 사유로 제공할 수 없는 경우 지체 없이 그 사유를 이용자에게 통지한다.</p>
+    <p>② K-ozy가 사전에 대금을 받은 경우, 대여상품을 제공할 수 없게 된 날부터 3영업일 이내에 환급하거나 환급에 필요한 조치를 취한다.</p>
+    <p>③ 환급은 원칙적으로 이용자가 결제한 수단을 통해 진행하되, 결제수단의 특성상 동일한 방식으로 환급이 어려운 경우 이용자와 협의하여 다른 방법으로 환급할 수 있다.</p>
+
+    <h3>제13조(취소 및 환불)</h3>
+    <p>① 이용자는 대여상품 수령 전 K-ozy가 정한 기간 내에 대여 신청을 취소할 수 있다.</p>
+    <p>② 대여상품 수령 이후에는 단순 변심에 의한 취소 또는 환불이 제한될 수 있다.</p>
+    <p>③ 다음 각 호에 해당하는 경우 환불 또는 교환이 제한될 수 있다.</p>
+    <ol class="legal-sub">
+     <li>이용자의 책임 있는 사유로 대여상품이 훼손 또는 분실된 경우</li>
+     <li>이용자의 사용으로 대여상품의 가치가 현저히 감소한 경우</li>
+     <li>대여 기간이 이미 시작되었거나 상당 부분 경과한 경우</li>
+     <li>위생상 재대여가 어려운 상태로 반환된 경우</li>
+    </ol>
+    <p>④ 다만 대여상품의 내용이 표시·광고 내용과 다르거나 K-ozy의 책임 있는 사유로 정상적인 이용이 어려운 경우, 이용자는 K-ozy에 교환, 재제공 또는 환불을 요청할 수 있다.</p>
+    <p>⑤ 구체적인 취소 및 환불 기준은 웹사이트의 환불 및 취소 안내에 따른다.</p>
+
+    <h3>제14조(대여상품의 관리 및 이용자 책임)</h3>
+    <p>① 이용자는 대여기간 동안 대여상품을 선량한 관리자의 주의로 사용하여야 한다.</p>
+    <p>② 이용자는 대여상품을 제3자에게 임의로 양도, 재대여, 판매하거나 K-ozy의 동의 없이 다른 목적으로 사용할 수 없다.</p>
+    <p>③ 이용자의 고의 또는 과실로 대여상품이 훼손, 오염, 분실된 경우 이용자는 그에 대한 손해를 배상하여야 할 수 있다.</p>
+    <p>④ 대여상품의 일반적인 사용에 따른 자연스러운 마모는 이용자의 책임으로 보지 않는다.</p>
+
+    <h3>제15조(개인정보보호)</h3>
+    <p>① K-ozy는 서비스 제공을 위하여 필요한 범위에서 최소한의 개인정보를 수집한다.</p>
+    <p>② K-ozy는 이용자의 개인정보를 수집·이용하는 경우 그 목적을 고지하고 동의를 받는다.</p>
+    <p>③ K-ozy는 수집된 개인정보를 목적 외의 용도로 이용하지 않으며, 새로운 이용 목적이 발생하거나 제3자에게 제공할 필요가 있는 경우 관련 법령에 따라 이용자에게 알리고 동의를 받는다.</p>
+    <p>④ 이용자는 언제든지 자신의 개인정보에 대해 열람, 정정, 삭제 또는 처리정지를 요청할 수 있으며, K-ozy는 관련 법령에 따라 필요한 조치를 취한다.</p>
+    <p>⑤ K-ozy는 개인정보 보호를 위해 개인정보를 취급하는 인원을 최소한으로 제한하고, 개인정보의 분실, 도난, 유출, 변조 등을 방지하기 위해 필요한 조치를 취한다.</p>
+    <p>⑥ 개인정보의 구체적인 처리 기준은 K-ozy 개인정보처리방침에 따른다.</p>
+
+    <h3>제16조(K-ozy의 의무)</h3>
+    <p>① K-ozy는 법령과 본 약관이 금지하거나 공서양속에 반하는 행위를 하지 않으며, 안정적으로 서비스를 제공하기 위해 노력한다.</p>
+    <p>② K-ozy는 이용자가 안전하게 서비스를 이용할 수 있도록 개인정보 보호와 서비스 보안을 위해 필요한 조치를 취한다.</p>
+    <p>③ K-ozy는 대여상품 및 서비스에 대하여 허위 또는 과장된 표시·광고를 하지 않는다.</p>
+    <p>④ K-ozy는 이용자가 원하지 않는 영리 목적의 광고성 전자우편 또는 메시지를 발송하지 않는다.</p>
+
+    <h3>제17조(이용자의 의무)</h3>
+    <p>이용자는 다음 각 호의 행위를 하여서는 안 된다.</p>
+    <ol class="legal-sub">
+     <li>신청 또는 변경 시 허위 내용을 등록하는 행위</li>
+     <li>타인의 정보를 도용하는 행위</li>
+     <li>K-ozy 웹사이트에 게시된 정보를 무단으로 변경하는 행위</li>
+     <li>K-ozy가 정한 정보 이외의 정보 또는 프로그램 등을 송신하거나 게시하는 행위</li>
+     <li>K-ozy 또는 제3자의 저작권 등 지식재산권을 침해하는 행위</li>
+     <li>K-ozy 또는 제3자의 명예를 훼손하거나 업무를 방해하는 행위</li>
+     <li>대여상품을 고의로 훼손, 분실하거나 반환하지 않는 행위</li>
+     <li>법령 또는 본 약관이 금지하는 행위</li>
+    </ol>
+
+    <h3>제18조(연결 웹사이트와의 관계)</h3>
+    <p>① K-ozy 웹사이트가 제휴사, 결제사, SNS, 외부 정보 제공 사이트 등 다른 웹사이트와 연결되는 경우, K-ozy는 해당 외부 웹사이트가 독자적으로 제공하는 서비스 또는 정보에 대해 책임을 지지 않을 수 있다.</p>
+    <p>② 다만 K-ozy가 직접 제공하거나 관리하는 서비스에 대해서는 본 약관 및 관련 법령에 따른 책임을 부담한다.</p>
+
+    <h3>제19조(저작권의 귀속 및 이용제한)</h3>
+    <p>① K-ozy가 작성한 웹사이트 콘텐츠, 이미지, 문구, 서비스 자료 등에 대한 저작권 및 지식재산권은 K-ozy에 귀속된다.</p>
+    <p>② 이용자는 K-ozy의 사전 동의 없이 웹사이트에서 얻은 정보를 복제, 송신, 출판, 배포, 방송하거나 영리 목적으로 이용할 수 없다.</p>
+    <p>③ K-ozy가 이용자가 제공한 후기, 이미지, 의견 등을 활용하는 경우에는 필요한 범위에서 이용자의 동의를 받는다.</p>
+
+    <h3>제20조(분쟁해결)</h3>
+    <p>① K-ozy는 이용자가 제기하는 정당한 의견이나 불만을 신속하게 처리하기 위해 노력한다.</p>
+    <p>② 이용자의 문의나 불만사항에 대한 처리가 지연되는 경우 K-ozy는 그 사유와 처리 일정을 이용자에게 안내한다.</p>
+    <p>③ K-ozy와 이용자 간 전자상거래 또는 서비스 이용과 관련하여 분쟁이 발생한 경우, 관계 법령에 따른 분쟁조정기관의 조정 절차를 이용할 수 있다.</p>
+
+    <h3>제21조(재판권 및 준거법)</h3>
+    <p>① K-ozy와 이용자 간에 발생한 전자상거래 또는 서비스 이용 관련 분쟁에 관한 소송은 관련 법령에 따른 관할 법원에 제기한다.</p>
+    <p>② K-ozy와 이용자 간에 제기된 소송에는 대한민국 법을 적용한다.</p>
+
+    <div class="legal-addendum">
+     <h3>부칙</h3>
+     <p>본 약관은 2026년 8월 6일부터 시행한다.</p>
+    </div>
+   </div>
+
+   <!-- ─── English ─── -->
+   <div class="legal-body legal-doc legal-en">
+    <h3>Article 1. Purpose</h3>
+    <p>These Terms of Service set forth the rights, obligations, and responsibilities between K-ozy and users in relation to the bedding rental and international student settlement support services provided through the official K-ozy website.</p>
+
+    <h3>Article 2. Definitions</h3>
+    <ol class="legal-sub">
+     <li>“K-ozy” refers to the service that provides bedding rental and settlement support services for international students.</li>
+     <li>“Website” refers to the online platform operated by K-ozy for bedding rental applications, service information, payment, and customer inquiries.</li>
+     <li>“User” refers to any person who accesses the K-ozy website and uses the services provided by K-ozy in accordance with these Terms.</li>
+     <li>“Rental Product” refers to bedding items and related goods rented to users by K-ozy for a fixed period of time.</li>
+     <li>“Service” refers to bedding rental, rental application and payment, pick-up and return guidance, settlement-related information, and any other international student support services provided by K-ozy.</li>
+    </ol>
+
+    <h3>Article 3. Display and Amendment of Terms</h3>
+    <ol class="legal-sub">
+     <li>K-ozy shall make these Terms, business name, representative’s name, business address, contact information, email address, business registration number, e-commerce registration number, and privacy officer information easily accessible to users through the website footer or a separate linked page.</li>
+     <li>Before users agree to these Terms, K-ozy shall provide information on important matters, including the method of receiving and returning Rental Products, payment methods, cancellation and refund conditions, and user responsibilities.</li>
+     <li>K-ozy may amend these Terms within the scope permitted by applicable laws and regulations.</li>
+     <li>If these Terms are amended, K-ozy shall announce the effective date and reason for amendment on the website at least seven days before the effective date. If the amendment is unfavorable to users, K-ozy shall provide notice at least thirty days in advance.</li>
+    </ol>
+
+    <h3>Article 4. Provision and Modification of Services</h3>
+    <p>1. K-ozy provides the following services:</p>
+    <ol class="legal-sub">
+     <li>Information on bedding Rental Products;</li>
+     <li>Bedding rental application and payment;</li>
+     <li>Guidance on receiving and returning Rental Products;</li>
+     <li>Information necessary for the initial settlement of international students;</li>
+     <li>Other services designated by K-ozy.</li>
+    </ol>
+    <p>2. K-ozy may modify the content of Rental Products or services due to inventory shortages, laundry and maintenance conditions, operational schedules, partner-related circumstances, or other relevant reasons.</p>
+    <p>3. If the service content is modified, K-ozy shall notify users of the reason for modification and the expected availability through the website or other contact methods provided by the user.</p>
+
+    <h3>Article 5. Suspension of Services</h3>
+    <ol class="legal-sub">
+     <li>K-ozy may temporarily suspend the provision of services due to website maintenance, system errors, communication failures, payment system issues, or other operational needs.</li>
+     <li>If service suspension occurs, K-ozy shall notify users in advance through the website or individual contact methods where possible.</li>
+     <li>K-ozy may not be held liable for damages caused by system failures, natural disasters, external payment system errors, or other events not caused by K-ozy’s intentional misconduct or gross negligence.</li>
+    </ol>
+
+    <h3>Article 6. Notice to Users</h3>
+    <ol class="legal-sub">
+     <li>K-ozy may notify users through email, mobile phone, SNS account, messenger, website notice, or other contact methods provided by the user.</li>
+     <li>Notices to unspecified users may be made by posting on the website notice board or service page.</li>
+     <li>However, matters that significantly affect a user’s transaction, such as rental application, payment, receipt, return, or refund, shall be notified individually where possible.</li>
+    </ol>
+
+    <h3>Article 7. Rental Application and Consent to Personal Information Use</h3>
+    <p>1. Users may apply for rental services through the K-ozy website by the following or similar methods:</p>
+    <ol class="legal-sub">
+     <li>Selecting Rental Products;</li>
+     <li>Entering necessary information such as name, contact information, email address, university, and receiving location;</li>
+     <li>Confirming important information such as rental period, receiving and return methods, costs, and refund conditions;</li>
+     <li>Agreeing to these Terms and the Privacy Policy;</li>
+     <li>Submitting and confirming the rental application;</li>
+     <li>Selecting a payment method.</li>
+    </ol>
+    <p>2. If K-ozy needs to provide a user’s personal information to a third party for service provision, K-ozy shall inform the user of the recipient, purpose of use, items provided, and retention and use period, and obtain the user’s consent.</p>
+    <p>3. If K-ozy entrusts the processing of personal information to a third party for payment, laundry, receiving and return management, or other service-related operations, K-ozy shall disclose such matters through the Privacy Policy.</p>
+
+    <h3>Article 8. Formation of Rental Contract</h3>
+    <p>1. K-ozy may refuse to accept a user’s rental application in any of the following cases:</p>
+    <ol class="legal-sub">
+     <li>The application contains false, missing, or incorrect information;</li>
+     <li>Rental Products are out of stock;</li>
+     <li>Payment has not been completed properly;</li>
+     <li>K-ozy determines that accepting the rental application is difficult due to service operation circumstances.</li>
+    </ol>
+    <p>2. The rental contract is deemed to be formed when K-ozy’s application confirmation or payment completion notice reaches the user.</p>
+    <p>3. K-ozy’s acceptance notice may include information on the rental application, payment status, receiving and return methods, and procedures for changes or cancellation.</p>
+
+    <h3>Article 9. Payment Methods</h3>
+    <p>Payment for K-ozy services may be made through the methods provided by K-ozy, including the following:</p>
+    <ol class="legal-sub">
+     <li>Credit card or debit card payment;</li>
+     <li>Bank transfer or online deposit;</li>
+     <li>Other electronic payment methods recognized by K-ozy.</li>
+    </ol>
+    <p>K-ozy shall not arbitrarily charge any additional fees for a user’s selected payment method unless permitted by applicable laws.</p>
+
+    <h3>Article 10. Confirmation, Change, and Cancellation of Rental Application</h3>
+    <ol class="legal-sub">
+     <li>K-ozy shall provide confirmation to users when a rental application is submitted.</li>
+     <li>If there is an error in the application or a change is required, users may request a change or cancellation through the method designated by K-ozy.</li>
+     <li>If a user requests a change or cancellation before receiving the Rental Product, K-ozy shall process the request without delay within the scope of operational feasibility.</li>
+     <li>If payment has already been completed, cancellation and refund shall follow the refund provisions of these Terms.</li>
+    </ol>
+
+    <h3>Article 11. Provision, Receipt, and Return of Rental Products</h3>
+    <ol class="legal-sub">
+     <li>K-ozy shall take necessary measures, including preparation, laundry, packaging, and operation, to provide the Rental Product according to the agreed receiving date or period.</li>
+     <li>Users shall receive the Rental Product according to the method designated by K-ozy, and identity verification or application confirmation may be required at the time of receipt.</li>
+     <li>Users shall return the Rental Product according to the schedule and method designated by K-ozy at the end of the rental period.</li>
+     <li>If a user fails to return the Rental Product within the designated period or damages or loses the Rental Product, K-ozy may charge the user late fees or compensation for damages.</li>
+     <li>The schedule, location, and method of receiving and returning Rental Products may be changed depending on operational circumstances, and K-ozy shall notify users of such changes.</li>
+    </ol>
+
+    <h3>Article 12. Refund</h3>
+    <ol class="legal-sub">
+     <li>If K-ozy is unable to provide the Rental Product due to inventory shortage, operational schedule changes, or other reasons, K-ozy shall notify the user of the reason without delay.</li>
+     <li>If K-ozy has received payment in advance, K-ozy shall issue a refund or take necessary refund measures within three business days from the date on which the Rental Product becomes unavailable.</li>
+     <li>Refunds shall, in principle, be made through the original payment method. However, if a refund through the original payment method is difficult due to the nature of the payment method, K-ozy may process the refund through another method after consultation with the user.</li>
+    </ol>
+
+    <h3>Article 13. Cancellation and Refund Policy</h3>
+    <p>1. Users may cancel their rental application within the period designated by K-ozy before receiving the Rental Product.</p>
+    <p>2. After receiving the Rental Product, cancellation or refund due to simple change of mind may be restricted.</p>
+    <p>3. Refunds or exchanges may be restricted in any of the following cases:</p>
+    <ol class="legal-sub">
+     <li>The Rental Product is damaged or lost due to reasons attributable to the user;</li>
+     <li>The value of the Rental Product has significantly decreased due to the user’s use;</li>
+     <li>The rental period has already started or a significant portion of the rental period has passed;</li>
+     <li>The Rental Product is returned in a condition that makes re-rental difficult for hygiene reasons.</li>
+    </ol>
+    <p>4. However, if the Rental Product is different from the displayed or advertised content, or if normal use is difficult due to reasons attributable to K-ozy, the user may request exchange, re-provision, or refund from K-ozy.</p>
+    <p>5. Specific cancellation and refund standards shall follow the Refund and Cancellation Policy posted on the website.</p>
+
+    <h3>Article 14. Management of Rental Products and User Responsibility</h3>
+    <ol class="legal-sub">
+     <li>Users shall use the Rental Product with the care of a good manager during the rental period.</li>
+     <li>Users shall not transfer, re-rent, sell, or use the Rental Product for any purpose other than its intended use without K-ozy’s consent.</li>
+     <li>If the Rental Product is damaged, contaminated, or lost due to the user’s intentional misconduct or negligence, the user may be required to compensate for the damage.</li>
+     <li>Natural wear and tear caused by ordinary use of the Rental Product shall not be deemed the user’s responsibility.</li>
+    </ol>
+
+    <h3>Article 15. Protection of Personal Information</h3>
+    <ol class="legal-sub">
+     <li>K-ozy collects the minimum amount of personal information necessary to provide the service.</li>
+     <li>When collecting and using a user’s personal information, K-ozy shall notify the user of the purpose and obtain consent.</li>
+     <li>K-ozy shall not use collected personal information for purposes other than those stated, and if a new purpose of use arises or personal information needs to be provided to a third party, K-ozy shall notify the user and obtain consent in accordance with applicable laws.</li>
+     <li>Users may request access, correction, deletion, or suspension of processing of their personal information at any time, and K-ozy shall take necessary measures in accordance with applicable laws.</li>
+     <li>K-ozy shall limit the number of persons handling personal information to the minimum necessary and take necessary measures to prevent loss, theft, leakage, alteration, or damage of personal information.</li>
+     <li>Specific standards for the processing of personal information shall be governed by K-ozy’s Privacy Policy.</li>
+    </ol>
+
+    <h3>Article 16. Obligations of K-ozy</h3>
+    <ol class="legal-sub">
+     <li>K-ozy shall not engage in acts prohibited by laws, regulations, or these Terms, or acts contrary to public order and morals, and shall make efforts to provide stable services.</li>
+     <li>K-ozy shall take necessary measures to protect personal information and ensure service security so that users can safely use the service.</li>
+     <li>K-ozy shall not make false or exaggerated representations or advertisements regarding Rental Products or services.</li>
+     <li>K-ozy shall not send commercial advertising emails or messages that users do not wish to receive.</li>
+    </ol>
+
+    <h3>Article 17. Obligations of Users</h3>
+    <p>Users shall not engage in any of the following acts:</p>
+    <ol class="legal-sub">
+     <li>Registering false information when applying for or changing service information;</li>
+     <li>Using another person’s information without authorization;</li>
+     <li>Modifying information posted on the K-ozy website without authorization;</li>
+     <li>Transmitting or posting information or programs other than those designated by K-ozy;</li>
+     <li>Infringing the intellectual property rights of K-ozy or any third party;</li>
+     <li>Damaging the reputation or interfering with the business of K-ozy or any third party;</li>
+     <li>Intentionally damaging, losing, or failing to return Rental Products;</li>
+     <li>Engaging in any act prohibited by laws, regulations, or these Terms.</li>
+    </ol>
+
+    <h3>Article 18. Relationship with Linked Websites</h3>
+    <ol class="legal-sub">
+     <li>If the K-ozy website is linked to websites operated by partners, payment service providers, SNS platforms, or external information providers, K-ozy may not be responsible for services or information independently provided by such external websites.</li>
+     <li>However, K-ozy shall be responsible for services directly provided or managed by K-ozy in accordance with these Terms and applicable laws.</li>
+    </ol>
+
+    <h3>Article 19. Ownership and Restriction of Copyright</h3>
+    <ol class="legal-sub">
+     <li>Copyrights and other intellectual property rights to website content, images, texts, service materials, and other materials created by K-ozy belong to K-ozy.</li>
+     <li>Users shall not reproduce, transmit, publish, distribute, broadcast, or commercially use information obtained from the K-ozy website without prior consent from K-ozy.</li>
+     <li>If K-ozy uses reviews, images, opinions, or other materials provided by users, K-ozy shall obtain the user’s consent to the extent necessary.</li>
+    </ol>
+
+    <h3>Article 20. Dispute Resolution</h3>
+    <ol class="legal-sub">
+     <li>K-ozy shall make efforts to promptly process legitimate opinions or complaints submitted by users.</li>
+     <li>If processing a user’s inquiry or complaint is delayed, K-ozy shall notify the user of the reason for the delay and the expected processing schedule.</li>
+     <li>If a dispute arises between K-ozy and a user in relation to e-commerce or service use, the parties may use the mediation procedures of a dispute resolution organization in accordance with applicable laws.</li>
+    </ol>
+
+    <h3>Article 21. Jurisdiction and Governing Law</h3>
+    <ol class="legal-sub">
+     <li>Any lawsuit related to e-commerce or service use between K-ozy and a user shall be filed with the competent court under applicable laws.</li>
+     <li>The laws of the Republic of Korea shall govern any lawsuit between K-ozy and a user.</li>
+    </ol>
+
+    <div class="legal-addendum">
+     <h3>Addendum</h3>
+     <p>These Terms shall take effect on August 6, 2026.</p>
+    </div>
+   </div>
+
   </div>
  </div>
 </div>
