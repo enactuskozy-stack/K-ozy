@@ -2927,7 +2927,9 @@ dur_other_desc: 'Details sent via email',
    주문·피드백은 서버 DB(Netlify Functions)에서만 읽고 쓰며,
    여기 있는 값은 화면 렌더용 메모리 사본이다(새로고침하면 서버에서 다시 받는다). */
 var orders = {
- rental: []
+ rental: [],
+ sim: [],       // 이벤트 팝업 — 유심 신청
+ amenity: []    // 이벤트 팝업 — 세면용품 구매
 };
 var feedbackData = {
  satisfaction: [],
@@ -3247,7 +3249,10 @@ var KZ_SUBPAGE_OPENERS = {
  'orders-admin':'openOrdersAdminPage',
  'schools-admin':'openSchoolsAdminPage',
  'emails-admin':'openEmailsAdminPage',
- 'inventory-admin':'openInventoryAdminPage'
+ 'inventory-admin':'openInventoryAdminPage',
+ 'sim-admin':'openSimAdminPage',
+ 'amenity-admin':'openAmenityAdminPage',
+ 'event-admin':'openEventAdminPage'
 };
 var _kzNavLock = false;   // popstate 복원 중에는 새 엔트리를 쌓지 않는다
 
@@ -3743,8 +3748,20 @@ function adminLogin(){
    alert(en
     ? 'Admin login is not configured on the server (KOZY_ADMIN_PASSWORD_HASH).'
     : '서버에 관리자 비밀번호가 설정되어 있지 않습니다. (환경변수 KOZY_ADMIN_PASSWORD_HASH)');
+  } else if(res.status===404){
+   /* 함수가 배포되지 않은 상태. 이 경우를 '비밀번호 오류'로 안내하면
+      멀쩡한 비밀번호를 계속 다시 입력하게 되므로 따로 구분한다. */
+   alert(en
+    ? 'The login function is not deployed (/.netlify/functions/admin-auth returned 404).'
+    : '로그인 함수가 배포되어 있지 않습니다.\n(/.netlify/functions/admin-auth 가 404 를 반환했습니다)');
+  } else if(res.status>=500){
+   alert(en
+    ? 'The login server returned an error ('+res.status+'). Check the function logs.'
+    : '로그인 서버가 오류를 반환했습니다. ('+res.status+')\nNetlify 함수 로그를 확인해 주세요.');
   } else if(res.status===0){
-   alert(en?'Cannot reach the server.':'서버에 연결할 수 없습니다.');
+   alert(en
+    ? 'Cannot reach the server. If you opened this file directly (file://), serve it over http instead.'
+    : '서버에 연결할 수 없습니다.\n파일을 더블클릭해서 여셨다면(file://) 로컬 서버나 배포 주소로 열어 주세요.');
   } else {
    alert(en?'Incorrect password.':'비밀번호가 올바르지 않습니다.');
   }
@@ -5890,10 +5907,15 @@ function kzApplyStore(data){
   else { kzStore.schools=kozySchools||[]; seedSchools=(kzStore.schools.length>0); }
   if(data.flags && typeof data.flags==='object' && !Array.isArray(data.flags)) kzStore.flags=data.flags;
 
-  kozyCustomers = kzStore.customers;
-  kozySchools   = kzStore.schools;
-  kozyEmails    = kzStore.emails;
-  kozyInventory = kzStore.inventory;
+  // 서버 응답에 해당 키가 없으면 kzStore 값은 null 로 남는다(= "아직 못 받음" 표시).
+  // 그 null 을 화면 변수에 그대로 넣으면 kozyCustomers.forEach 같은 호출이 터지면서
+  // 관리자 렌더링이 통째로 중단된다. 신규 DB(빈 테이블)에서 정확히 이 상황이 된다.
+  // → 화면 변수에는 항상 배열만 넣는다. (kzStore 쪽 null 은 그대로 두어 rzLoad 의
+  //    기본값 폴백 동작은 유지한다)
+  kozyCustomers = kzStore.customers || [];
+  kozySchools   = kzStore.schools   || [];
+  kozyEmails    = kzStore.emails    || [];
+  kozyInventory = kzStore.inventory || [];
 
   // 서버에 학교 목록이 아직 없으면 기본 시드를 한 번 올려둔다
   if(seedSchools){ _kzStoreDirty.schools=true; kzStoreFlush(); }
@@ -6346,7 +6368,11 @@ function rzInjectNav(){
     var wrap=document.createElement('div');
     wrap.setAttribute('data-rz-ops','1');
     wrap.innerHTML =
-      '<div class="adm-nav-section">운영</div>'
+      '<div class="adm-nav-section">현장 이벤트</div>'
+      +'<button class="adm-nav-item'+(act==='sim'?' active':'')+'" onclick="openSimAdminPage()"><i class="fa-solid fa-sim-card adm-nav-icon"></i><span>유심 신청</span><span class="adm-nav-badge" data-evt-sim style="display:none"></span></button>'
+      +'<button class="adm-nav-item'+(act==='amenity'?' active':'')+'" onclick="openAmenityAdminPage()"><i class="fa-solid fa-pump-soap adm-nav-icon"></i><span>세면용품</span><span class="adm-nav-badge" data-evt-amn style="display:none"></span></button>'
+      +'<button class="adm-nav-item'+(act==='event'?' active':'')+'" onclick="openEventAdminPage()"><i class="fa-solid fa-bullhorn adm-nav-icon"></i><span>팝업 설정</span><span class="adm-nav-badge" data-evt-live style="display:none;background:#16A34A;">ON</span></button>'
+      +'<div class="adm-nav-section">운영</div>'
       +'<button class="adm-nav-item'+(act==='orders'?' active':'')+'" onclick="openOrdersAdminPage()"><i class="fa-solid fa-arrow-right-arrow-left adm-nav-icon"></i><span>주문 / 반납</span><span class="adm-nav-badge" data-rz-due style="display:none"></span></button>'
       /* 고객 관리 탭 삭제됨 */
       +'<button class="adm-nav-item'+(act==='schools'?' active':'')+'" onclick="openSchoolsAdminPage()"><i class="fa-solid fa-school adm-nav-icon"></i><span>학교 / 반납일</span></button>'
@@ -7462,7 +7488,13 @@ ChannelIO('boot', {
 
   /* 메모리에 있는 데이터를 비운다(로그아웃·세션 만료 시). */
   function clearMemory() {
-    safe(function () { if (window.orders) window.orders.rental = []; });
+    safe(function () {
+      if (window.orders) {
+        window.orders.rental = [];
+        window.orders.sim = [];
+        window.orders.amenity = [];
+      }
+    });
     safe(function () {
       if (window.feedbackData) {
         window.feedbackData.satisfaction = [];
@@ -7635,7 +7667,12 @@ ChannelIO('boot', {
     var p3 = window.kzStoreLoad();
     return Promise.all([p1, p2, p3]).then(function (res) {
       var ok = false;
-      if (Array.isArray(res[0])) { window.orders.rental = res[0]; ok = true; }
+      if (Array.isArray(res[0])) {
+        // 이불(기존) / 유심 / 세면용품 을 kind 로 갈라서 각 탭에 넣는다
+        if (typeof window.kzSplitOrders === 'function') window.kzSplitOrders(res[0]);
+        else window.orders.rental = res[0];
+        ok = true;
+      }
       if (res[1]) {
         if (Array.isArray(res[1].satisfaction)) window.feedbackData.satisfaction = res[1].satisfaction;
         if (Array.isArray(res[1].issue)) window.feedbackData.issue = res[1].issue;
@@ -7659,6 +7696,7 @@ ChannelIO('boot', {
       try { if (typeof invRenderInventory === 'function') invRenderInventory(); } catch (e) {}
       try { if (typeof rzRefreshDueBadge === 'function') rzRefreshDueBadge(); } catch (e) {}
       try { if (typeof rzFillSchoolSelects === 'function') rzFillSchoolSelects(); } catch (e) {}
+      try { if (typeof kzEvtOnEnterAdmin === 'function') kzEvtOnEnterAdmin(); } catch (e) {}
     });
   };
 
@@ -7671,5 +7709,1064 @@ ChannelIO('boot', {
 })();
 
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     현장 이벤트 팝업 (하루짜리 오프라인 행사용)
+     · 관리자 → "팝업 설정" 탭에서 ON/OFF
+     · 이불 렌탈 / 유심 / 세면용품 중복 선택 → 선택한 항목의 정보만 입력
+     · 제출 시 항목별로 주문 레코드를 각각 생성 (kind: bedding / sim / amenity)
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style id="kozyEventCss">
+/* ── 공개 팝업 ── */
+#kzEvtBg{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.6);z-index:900;align-items:flex-start;justify-content:center;backdrop-filter:blur(5px);padding:24px 16px;overflow-y:auto;}
+#kzEvtBg.show{display:flex;}
+.kzevt-modal{background:var(--white);border-radius:20px;width:100%;max-width:640px;box-shadow:0 24px 70px rgba(15,23,42,0.35);animation:popIn .34s cubic-bezier(.34,1.56,.64,1) both;overflow:hidden;text-align:left;margin:auto;}
+.kzevt-head{position:relative;padding:26px 28px 22px;background:var(--navy);color:#fff;}
+.kzevt-head .kzevt-badge{display:inline-flex;align-items:center;gap:6px;font-size:0.68rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.16);padding:5px 11px;border-radius:8px;margin-bottom:11px;}
+.kzevt-head h3{font-size:1.4rem;font-weight:800;letter-spacing:-0.6px;margin:0 0 6px;color:#fff;line-height:1.3;}
+.kzevt-head p{font-size:0.85rem;color:rgba(255,255,255,0.72);line-height:1.6;margin:0;max-width:44ch;}
+.kzevt-x{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:10px;border:none;background:rgba(255,255,255,0.12);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;}
+.kzevt-x:hover{background:rgba(255,255,255,0.25);}
+.kzevt-body{padding:26px 28px 8px;max-height:calc(100vh - 260px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.kzevt-step{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-solid);margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+.kzevt-step:not(:first-child){margin-top:30px;padding-top:24px;border-top:1px solid var(--border);}
+.kzevt-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:560px){.kzevt-picks{grid-template-columns:1fr;}}
+.kzevt-pick{position:relative;border:1.5px solid var(--border);border-radius:14px;padding:16px 14px 14px;cursor:pointer;transition:all .18s;background:var(--white);text-align:center;display:block;}
+.kzevt-pick:hover{border-color:var(--blue);}
+.kzevt-pick input{position:absolute;opacity:0;pointer-events:none;}
+.kzevt-pick .ic{font-size:1.35rem;color:var(--text-sub);margin-bottom:9px;transition:color .18s;}
+.kzevt-pick .tt{font-size:0.88rem;font-weight:700;color:var(--navy);line-height:1.3;}
+.kzevt-pick .ss{font-size:0.72rem;color:var(--text-muted);margin-top:3px;line-height:1.4;}
+.kzevt-pick .ck{position:absolute;top:9px;right:9px;width:19px;height:19px;border-radius:6px;border:1.5px solid var(--mid-gray);display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:transparent;transition:all .18s;}
+.kzevt-pick.on{border-color:var(--blue);background:var(--blue-pale);box-shadow:0 4px 16px rgba(47,98,232,0.16);}
+.kzevt-pick.on .ic{color:var(--blue-solid);}
+.kzevt-pick.on .ck{background:var(--blue);border-color:var(--blue);color:#fff;}
+.kzevt-sec{display:none;}
+.kzevt-sec.on{display:block;}
+.kzevt-sec .fg{margin-bottom:15px;}
+.kzevt-note{display:flex;gap:8px;align-items:flex-start;background:var(--blue-pale);border-radius:11px;padding:12px 14px;font-size:0.78rem;color:var(--navy-mid);line-height:1.65;margin-top:12px;}
+.kzevt-note i{margin-top:2px;flex-shrink:0;color:var(--blue-solid);}
+/* 요금제 토글 */
+.kzevt-plans{display:flex;flex-direction:column;gap:9px;}
+.kzevt-plan{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;cursor:pointer;transition:all .18s;background:var(--white);}
+.kzevt-plan:hover{border-color:var(--blue);}
+.kzevt-plan input{position:absolute;opacity:0;pointer-events:none;}
+.kzevt-plan .pl{min-width:0;}
+.kzevt-plan .pn{font-size:0.88rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.kzevt-plan .pt{font-size:0.62rem;font-weight:800;letter-spacing:0.04em;padding:2px 7px;border-radius:6px;background:var(--light-gray);color:var(--text-muted);}
+.kzevt-plan .pt.hs{background:#DCFCE7;color:#166534;}
+.kzevt-plan .pd{font-size:0.74rem;color:var(--text-muted);margin-top:3px;}
+.kzevt-plan .pp{font-size:1rem;font-weight:800;color:var(--navy);white-space:nowrap;letter-spacing:-0.3px;}
+.kzevt-plan.on{border-color:var(--blue);background:var(--blue-pale);}
+.kzevt-plan.on .pp{color:var(--blue-solid);}
+.kzevt-plan-info{font-size:0.76rem;color:var(--text-muted);line-height:1.75;margin-top:11px;padding-left:2px;}
+.kzevt-plan-info b{color:var(--navy);font-weight:700;}
+.kzevt-foot{padding:18px 28px 24px;background:var(--off-white);border-top:1px solid var(--border);}
+.kzevt-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:0.82rem;color:var(--text-muted);margin-bottom:13px;flex-wrap:wrap;}
+.kzevt-sum strong{color:var(--navy);font-size:0.95rem;font-weight:800;}
+.kzevt-submit{width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;transition:all .22s;}
+.kzevt-submit:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-2px);box-shadow:0 8px 26px rgba(15,23,42,0.3);}
+.kzevt-submit:disabled{opacity:0.45;cursor:not-allowed;}
+.kzevt-skip{display:block;width:100%;margin-top:10px;background:none;border:none;font-size:0.78rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;font-family:'Pretendard',-apple-system,sans-serif;padding:4px;}
+/* 재오픈 플로팅 버튼 */
+#kzEvtFab{display:none;position:fixed;right:20px;bottom:20px;z-index:380;align-items:center;gap:9px;padding:13px 19px;border:none;border-radius:16px;background:var(--navy);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(15,23,42,0.32);font-family:'Pretendard',-apple-system,sans-serif;transition:transform .2s;}
+#kzEvtFab.show{display:inline-flex;}
+#kzEvtFab:hover{transform:translateY(-2px);}
+body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none!important;}
+/* ── 관리자 테이블 그리드 ── */
+.simm-col{grid-template-columns:0.9fr 1fr 0.75fr 0.8fr 1fr 1.05fr 0.8fr 0.8fr 0.7fr;gap:10px;}
+.amnm-col{grid-template-columns:0.95fr 1.1fr 0.85fr 1.25fr 0.6fr 0.9fr 0.7fr;gap:10px;}
+@media (max-width:920px){.simm-col{min-width:980px;}.amnm-col{min-width:760px;}}
+.evt-hero{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px 28px;box-shadow:0 4px 20px var(--shadow);margin-bottom:22px;}
+.evt-hero-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.evt-hero h4{font-size:1.05rem;font-weight:800;color:var(--navy);margin:0 0 6px;display:flex;align-items:center;gap:9px;}
+.evt-hero p{font-size:0.83rem;color:var(--text-muted);line-height:1.7;margin:0;max-width:52ch;}
+.evt-state{display:inline-flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:800;padding:8px 15px;border-radius:10px;background:var(--light-gray);color:var(--text-muted);}
+.evt-state.on{background:#DCFCE7;color:#166534;}
+.evt-switch{position:relative;width:60px;height:32px;flex-shrink:0;}
+.evt-switch input{opacity:0;width:0;height:0;}
+.evt-slider{position:absolute;inset:0;background:var(--mid-gray);border-radius:32px;transition:.2s;cursor:pointer;}
+.evt-slider:before{content:"";position:absolute;width:26px;height:26px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.evt-switch input:checked + .evt-slider{background:#16A34A;}
+.evt-switch input:checked + .evt-slider:before{transform:translateX(28px);}
+.evt-link-box{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);}
+.evt-link-box label{display:block;font-size:0.74rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+.evt-link-row{display:flex;gap:8px;flex-wrap:wrap;}
+.evt-link-row input{flex:1;min-width:220px;padding:11px 14px;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:0.78rem;}
+</style>
+
+<!-- ═══ 공개 팝업 ═══ -->
+<div id="kzEvtBg" onclick="if(event.target===this)kzEvtClose()">
+  <div class="kzevt-modal" role="dialog" aria-modal="true" aria-labelledby="kzEvtTitle">
+    <div class="kzevt-head">
+      <button type="button" class="kzevt-x" onclick="kzEvtClose()" aria-label="close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="kzevt-badge"><i class="fa-solid fa-bolt"></i><span id="kzEvtBadge">Today Only</span></div>
+      <h3 id="kzEvtTitle">Welcome Day Special</h3>
+      <p id="kzEvtDesc">On-site only, for today. Pick everything you need — bedding, a SIM card, or a toiletry kit — and fill in one form.</p>
+    </div>
+
+    <form id="kzEvtForm" onsubmit="kzEvtSubmit(event)" accept-charset="UTF-8">
+      <div class="kzevt-body">
+
+        <!-- STEP 1 · 항목 선택 (중복 선택) -->
+        <div class="kzevt-step"><i class="fa-solid fa-1"></i><span id="kzEvtS1">Choose what you need (multiple choice)</span></div>
+        <div class="kzevt-picks">
+          <label class="kzevt-pick" id="kzEvtPick-bedding" onclick="setTimeout(kzEvtSync,0)">
+            <input type="checkbox" id="kzEvtChk-bedding" value="bedding">
+            <div class="ck"><i class="fa-solid fa-check"></i></div>
+            <div class="ic"><i class="fa-solid fa-bed"></i></div>
+            <div class="tt">Bedding Rental</div>
+            <div class="ss">이불 렌탈</div>
+          </label>
+          <label class="kzevt-pick" id="kzEvtPick-sim" onclick="setTimeout(kzEvtSync,0)">
+            <input type="checkbox" id="kzEvtChk-sim" value="sim">
+            <div class="ck"><i class="fa-solid fa-check"></i></div>
+            <div class="ic"><i class="fa-solid fa-sim-card"></i></div>
+            <div class="tt">SIM Card</div>
+            <div class="ss">유심</div>
+          </label>
+          <label class="kzevt-pick" id="kzEvtPick-amenity" onclick="setTimeout(kzEvtSync,0)">
+            <input type="checkbox" id="kzEvtChk-amenity" value="amenity">
+            <div class="ck"><i class="fa-solid fa-check"></i></div>
+            <div class="ic"><i class="fa-solid fa-pump-soap"></i></div>
+            <div class="tt">Toiletry Kit</div>
+            <div class="ss">세면용품</div>
+          </label>
+        </div>
+
+        <!-- STEP 2 · 공통 기본 정보 -->
+        <div class="kzevt-sec" id="kzEvtSec-base">
+          <div class="kzevt-step"><i class="fa-solid fa-2"></i><span>Your details / 기본 정보</span></div>
+          <div class="frow">
+            <div class="fg"><label>Last Name <span class="req">*</span></label><input type="text" name="lastName" id="kzEvt-lastName" required></div>
+            <div class="fg"><label>First Name <span class="req">*</span></label><input type="text" name="firstName" id="kzEvt-firstName" required></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Nationality <span class="req">*</span></label><input type="text" name="nationality" id="kzEvt-nationality" list="countryOptions" required></div>
+            <div class="fg"><label>Email <span class="req">*</span></label><input type="email" name="email" id="kzEvt-email" placeholder="example@email.com" required></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Instagram ID <span class="req">*</span></label><input type="text" name="instagram" id="kzEvt-instagram" placeholder="@username" required></div>
+            <div class="fg"><label>Phone</label><input type="tel" name="phone" id="kzEvt-phone" placeholder="010-0000-0000"></div>
+          </div>
+        </div>
+
+        <!-- STEP 3-A · 이불 렌탈 -->
+        <div class="kzevt-sec" id="kzEvtSec-bedding">
+          <div class="kzevt-step"><i class="fa-solid fa-bed"></i><span>Bedding Rental / 이불 렌탈</span></div>
+          <div class="fg">
+            <label>University <span class="req">*</span></label>
+            <select id="kzEvt-school"><option value="">Select your university</option></select>
+          </div>
+          <div class="fg">
+            <label>Rental period <span class="req">*</span></label>
+            <div class="pkg-cards" style="grid-template-columns:repeat(2,1fr);">
+              <label class="pkg-card" id="kzEvtDur-semester" onclick="kzEvtSetDur('semester')">
+                <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
+                <div class="pkg-card-title">One Semester</div>
+                <div class="pkg-card-items">$40</div>
+              </label>
+              <label class="pkg-card" id="kzEvtDur-extend" onclick="kzEvtSetDur('extend')">
+                <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
+                <div class="pkg-card-title">Extension</div>
+                <div class="pkg-card-items">$10 / month</div>
+              </label>
+            </div>
+            <div id="kzEvtExtWrap" style="display:none;margin-top:14px;padding:15px 17px;border:1.5px solid var(--border);border-radius:12px;background:var(--off-white);">
+              <div style="font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:10px;">Months</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="button" class="ext-month-btn selected" id="kzEvtExt-1" onclick="kzEvtSetExt(1)">1 month · $10</button>
+                <button type="button" class="ext-month-btn" id="kzEvtExt-2" onclick="kzEvtSetExt(2)">2 months · $20</button>
+                <button type="button" class="ext-month-btn" id="kzEvtExt-3" onclick="kzEvtSetExt(3)">3 months · $30</button>
+              </div>
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Rental start <span class="req">*</span></label><input type="date" id="kzEvt-startDate"></div>
+            <div class="fg"><label>Return date</label><input type="date" id="kzEvt-endDate"><div class="hint">Auto-filled from your university's move-out date.</div></div>
+          </div>
+          <div class="fg"><label>Postal code</label><input type="text" id="kzEvt-postalCode" inputmode="numeric"></div>
+          <div class="fg"><label>Street address <span class="req">*</span></label><input type="text" id="kzEvt-address1"></div>
+          <div class="fg"><label>Building name <span class="req">*</span></label><input type="text" id="kzEvt-building"></div>
+          <div class="fg"><label>Requests</label><textarea id="kzEvt-notes" rows="2"></textarea></div>
+        </div>
+
+        <!-- STEP 3-B · 유심 -->
+        <div class="kzevt-sec" id="kzEvtSec-sim">
+          <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card / 유심</span></div>
+          <div class="frow">
+            <div class="fg"><label>Date of birth <span class="req">*</span></label><input type="date" id="kzEvt-birthday"></div>
+            <div class="fg"><label>Passport No. <span class="req">*</span></label><input type="text" id="kzEvt-passport" placeholder="M12345678" autocomplete="off"></div>
+          </div>
+          <div class="fg">
+            <label>Plan <span class="req">*</span></label>
+            <div class="kzevt-plans" id="kzEvtPlans"></div>
+            <div class="kzevt-plan-info">
+              <b>Plan C</b> — Only for Samsung &amp; i-Phone<br>
+              <b>Plan A</b> — Available for all kinds of smartphones
+            </div>
+          </div>
+          <div class="kzevt-note"><i class="fa-solid fa-shield-halved"></i><span>Passport details are collected solely for SIM registration required by Korean telecom law, and are deleted once activation is complete.</span></div>
+        </div>
+
+        <!-- STEP 3-C · 세면용품 -->
+        <div class="kzevt-sec" id="kzEvtSec-amenity">
+          <div class="kzevt-step"><i class="fa-solid fa-pump-soap"></i><span>Toiletry Kit / 세면용품</span></div>
+          <div class="fg"><label>Quantity <span class="req">*</span></label><input type="number" id="kzEvt-amnQty" min="1" max="20" step="1" value="1"></div>
+          <div class="fg"><label>Requests</label><textarea id="kzEvt-amnNotes" rows="2"></textarea></div>
+          <div class="kzevt-note"><i class="fa-solid fa-hand-holding-heart"></i><span>Pick up your kit at the K-ozy booth today.</span></div>
+        </div>
+
+        <!-- 동의 -->
+        <div class="kzevt-sec" id="kzEvtSec-agree">
+          <div class="kzevt-step"><i class="fa-solid fa-check"></i><span>Consent / 동의</span></div>
+          <div class="chk-wrap">
+            <label class="chk-item"><input type="checkbox" id="kzEvt-agree1"><span>[Required] I agree to the collection and use of my personal information for the selected services.</span></label>
+            <label class="chk-item"><input type="checkbox" id="kzEvt-agree2"><span>[Required] I agree to the terms of service.</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="kzevt-foot">
+        <div class="kzevt-sum">
+          <span id="kzEvtSumLabel">Nothing selected yet</span>
+          <strong id="kzEvtSumTotal"></strong>
+        </div>
+        <button type="submit" class="kzevt-submit" id="kzEvtSubmitBtn" disabled>Submit</button>
+        <button type="button" class="kzevt-skip" onclick="kzEvtClose()">Maybe later</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<button type="button" id="kzEvtFab" onclick="kzEvtOpen()"><i class="fa-solid fa-bolt"></i><span>Today's Special</span></button>
+
+<!-- ═══ 관리자: 유심 신청 ═══ -->
+<div class="page adm-full-page" id="page-sim-admin">
+<div class="adm-shell">
+  <aside class="adm-sidebar">
+    <div class="adm-sidebar-top"><div class="adm-logo"><div class="adm-logo-mark">K-ozy</div><div class="adm-logo-sub">유심 신청 관리</div></div></div>
+    <nav class="adm-nav" data-ops-active="sim">
+      <div class="adm-nav-section">메인</div>
+      <button class="adm-nav-item" onclick="_closeAdminSubPage()"><i class="fa-solid fa-chart-pie adm-nav-icon"></i><span>대시보드</span></button>
+      <div class="adm-nav-section">신청 관리</div>
+      <button class="adm-nav-item" onclick="openRentalAdminPage()"><i class="fa-solid fa-bed adm-nav-icon"></i><span>렌탈 신청</span></button>
+      <div class="adm-nav-section">피드백</div>
+      <button class="adm-nav-item" onclick="openFeedbackAdminPage()"><i class="fa-solid fa-face-smile adm-nav-icon"></i><span>만족도</span></button>
+      <button class="adm-nav-item" onclick="openIssuesAdminPage()"><i class="fa-solid fa-wrench adm-nav-icon"></i><span>이슈 보고</span></button>
+    </nav>
+    <div class="adm-sidebar-footer"><button class="adm-back-btn" onclick="_closeAdminSubPage()"><i class="fa-solid fa-arrow-left"></i> 관리자 홈</button></div>
+  </aside>
+  <main class="adm-main">
+    <div class="adm-page-header">
+      <div>
+        <h2 class="adm-page-title"><i class="fa-solid fa-sim-card"></i> 유심 신청</h2>
+        <p class="adm-page-sub">현장 이벤트 팝업에서 접수된 유심 신청입니다 · 여권번호는 개통 완료 후 <strong>여권번호 일괄 삭제</strong>로 지워 주세요</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="rz-btn ghost" onclick="kzEvtExportCsv('sim')"><i class="fa-solid fa-file-csv"></i>CSV 내보내기</button>
+        <button type="button" class="rz-btn ghost" onclick="kzEvtPurgePassports()"><i class="fa-solid fa-eraser"></i>여권번호 일괄 삭제</button>
+      </div>
+    </div>
+    <div class="rz-search-row">
+      <input type="text" id="kzSimSearch" placeholder="이름 · 이메일 · 여권번호 검색..." oninput="kzSimRender()">
+      <select id="kzSimPlanFilter" onchange="kzSimRender()"><option value="">전체 요금제</option></select>
+      <select id="kzSimStatusFilter" onchange="kzSimRender()">
+        <option value="">전체 상태</option>
+        <option value="new">접수</option>
+        <option value="paid">결제완료</option>
+        <option value="issued">개통완료</option>
+        <option value="cancelled">취소</option>
+      </select>
+      <select id="kzSimSort" onchange="kzSimRender()">
+        <option value="new">최신 접수순</option>
+        <option value="old">오래된 접수순</option>
+        <option value="name">이름순</option>
+      </select>
+      <span class="adm-result-count" id="kzSimCount"></span>
+    </div>
+    <div class="orders-table">
+      <div class="tbl-head simm-col">
+        <div>접수일</div><div>이름</div><div>국적</div><div>생년월일</div><div>여권번호</div><div>요금제</div><div>금액</div><div>상태</div><div style="text-align:right">관리</div>
+      </div>
+      <div id="kzSimTbody"></div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- ═══ 관리자: 세면용품 ═══ -->
+<div class="page adm-full-page" id="page-amenity-admin">
+<div class="adm-shell">
+  <aside class="adm-sidebar">
+    <div class="adm-sidebar-top"><div class="adm-logo"><div class="adm-logo-mark">K-ozy</div><div class="adm-logo-sub">세면용품 구매 관리</div></div></div>
+    <nav class="adm-nav" data-ops-active="amenity">
+      <div class="adm-nav-section">메인</div>
+      <button class="adm-nav-item" onclick="_closeAdminSubPage()"><i class="fa-solid fa-chart-pie adm-nav-icon"></i><span>대시보드</span></button>
+      <div class="adm-nav-section">신청 관리</div>
+      <button class="adm-nav-item" onclick="openRentalAdminPage()"><i class="fa-solid fa-bed adm-nav-icon"></i><span>렌탈 신청</span></button>
+      <div class="adm-nav-section">피드백</div>
+      <button class="adm-nav-item" onclick="openFeedbackAdminPage()"><i class="fa-solid fa-face-smile adm-nav-icon"></i><span>만족도</span></button>
+      <button class="adm-nav-item" onclick="openIssuesAdminPage()"><i class="fa-solid fa-wrench adm-nav-icon"></i><span>이슈 보고</span></button>
+    </nav>
+    <div class="adm-sidebar-footer"><button class="adm-back-btn" onclick="_closeAdminSubPage()"><i class="fa-solid fa-arrow-left"></i> 관리자 홈</button></div>
+  </aside>
+  <main class="adm-main">
+    <div class="adm-page-header">
+      <div>
+        <h2 class="adm-page-title"><i class="fa-solid fa-pump-soap"></i> 세면용품</h2>
+        <p class="adm-page-sub">현장 이벤트 팝업에서 접수된 세면용품 구매 내역입니다</p>
+      </div>
+      <button type="button" class="rz-btn ghost" onclick="kzEvtExportCsv('amenity')"><i class="fa-solid fa-file-csv"></i>CSV 내보내기</button>
+    </div>
+    <div class="rz-search-row">
+      <input type="text" id="kzAmnSearch" placeholder="이름 · 이메일 검색..." oninput="kzAmnRender()">
+      <select id="kzAmnStatusFilter" onchange="kzAmnRender()">
+        <option value="">전체 상태</option>
+        <option value="new">접수</option>
+        <option value="paid">결제완료</option>
+        <option value="handed">전달완료</option>
+        <option value="cancelled">취소</option>
+      </select>
+      <select id="kzAmnSort" onchange="kzAmnRender()">
+        <option value="new">최신 접수순</option>
+        <option value="old">오래된 접수순</option>
+        <option value="qty">수량 많은순</option>
+      </select>
+      <span class="adm-result-count" id="kzAmnCount"></span>
+    </div>
+    <div class="orders-table">
+      <div class="tbl-head amnm-col">
+        <div>접수일</div><div>이름</div><div>국적</div><div>이메일</div><div>수량</div><div>상태</div><div style="text-align:right">관리</div>
+      </div>
+      <div id="kzAmnTbody"></div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- ═══ 관리자: 팝업 설정 ═══ -->
+<div class="page adm-full-page" id="page-event-admin">
+<div class="adm-shell">
+  <aside class="adm-sidebar">
+    <div class="adm-sidebar-top"><div class="adm-logo"><div class="adm-logo-mark">K-ozy</div><div class="adm-logo-sub">이벤트 팝업 설정</div></div></div>
+    <nav class="adm-nav" data-ops-active="event">
+      <div class="adm-nav-section">메인</div>
+      <button class="adm-nav-item" onclick="_closeAdminSubPage()"><i class="fa-solid fa-chart-pie adm-nav-icon"></i><span>대시보드</span></button>
+      <div class="adm-nav-section">신청 관리</div>
+      <button class="adm-nav-item" onclick="openRentalAdminPage()"><i class="fa-solid fa-bed adm-nav-icon"></i><span>렌탈 신청</span></button>
+      <div class="adm-nav-section">피드백</div>
+      <button class="adm-nav-item" onclick="openFeedbackAdminPage()"><i class="fa-solid fa-face-smile adm-nav-icon"></i><span>만족도</span></button>
+      <button class="adm-nav-item" onclick="openIssuesAdminPage()"><i class="fa-solid fa-wrench adm-nav-icon"></i><span>이슈 보고</span></button>
+    </nav>
+    <div class="adm-sidebar-footer"><button class="adm-back-btn" onclick="_closeAdminSubPage()"><i class="fa-solid fa-arrow-left"></i> 관리자 홈</button></div>
+  </aside>
+  <main class="adm-main">
+    <div class="adm-page-header">
+      <div>
+        <h2 class="adm-page-title"><i class="fa-solid fa-bullhorn"></i> 이벤트 팝업 설정</h2>
+        <p class="adm-page-sub">오프라인 행사 당일에만 켜는 팝업입니다 · 켜면 사이트 방문자에게 이불 렌탈 · 유심 · 세면용품 신청 팝업이 뜹니다</p>
+      </div>
+    </div>
+
+    <div class="evt-hero">
+      <div class="evt-hero-row">
+        <div style="flex:1;min-width:240px;">
+          <h4><i class="fa-solid fa-power-off" style="color:var(--blue-solid);"></i> 팝업 표시</h4>
+          <p>행사가 끝나면 반드시 다시 꺼 주세요. 꺼두면 일반 방문자에게는 팝업이 전혀 노출되지 않습니다.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span class="evt-state" id="kzEvtStateLabel">OFF</span>
+          <label class="evt-switch">
+            <input type="checkbox" id="kzEvtToggle" onchange="kzEvtSetFlag(this.checked)">
+            <span class="evt-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="evt-link-box">
+        <label>현장 배포용 링크 (QR 코드로 만들어 쓰세요)</label>
+        <div class="evt-link-row">
+          <input type="text" id="kzEvtLink" readonly>
+          <button type="button" class="rz-btn ghost" onclick="kzEvtCopyLink()"><i class="fa-solid fa-copy"></i>복사</button>
+          <button type="button" class="rz-btn ghost" onclick="kzEvtPreview()"><i class="fa-solid fa-eye"></i>미리보기</button>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.7;margin-top:10px;">
+          이 링크로 들어오면 위 스위치와 무관하게 팝업이 바로 열립니다. 부스에서 QR로 나눠줄 때 쓰세요.
+          (<code style="font-size:0.74rem;">?event=0</code> 을 붙이면 반대로 숨겨집니다.)
+        </p>
+      </div>
+    </div>
+
+    <div class="adm-stats-grid" id="kzEvtStats"></div>
+
+    <div class="evt-hero" style="margin-top:22px;">
+      <h4><i class="fa-solid fa-list-check" style="color:var(--blue-solid);"></i> 접수 데이터가 쌓이는 곳</h4>
+      <p style="margin-bottom:14px;">팝업에서 들어온 신청은 항목별로 아래 탭에 자동 분류됩니다.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="rz-btn ghost" onclick="openOrdersAdminPage()"><i class="fa-solid fa-bed"></i>이불 렌탈 → 주문 / 반납</button>
+        <button type="button" class="rz-btn ghost" onclick="openSimAdminPage()"><i class="fa-solid fa-sim-card"></i>유심 → 유심 신청</button>
+        <button type="button" class="rz-btn ghost" onclick="openAmenityAdminPage()"><i class="fa-solid fa-pump-soap"></i>세면용품 → 세면용품</button>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   현장 이벤트 팝업 모듈
+   ─────────────────────────────────────────────────────────────────────
+   [저장] 팝업 접수분도 기존 /orders 엔드포인트를 그대로 쓴다.
+          레코드마다 kind 를 붙여 화면에서 세 갈래로 나눈다.
+            kind:'bedding'  → orders.rental  (렌탈 신청 · 주문/반납 탭 — 기존과 동일)
+            kind:'sim'      → orders.sim     (유심 신청 탭)
+            kind:'amenity'  → orders.amenity (세면용품 탭)
+          서버가 스키마상 모르는 필드를 버리더라도 복구할 수 있도록
+          notes 끝에 ##KZEVT## + JSON 백업을 같이 실어 보낸다.
+
+   [ON/OFF] 관리자 토글은 서버 플래그(kozy_event_popup)에 저장된다.
+            공개 화면은 아래 순서로 켜짐 여부를 판단한다.
+              1) URL 파라미터 ?event=1 / ?event=0   (부스 QR 링크용 — 최우선)
+              2) /.netlify/functions/admin-store?public=1 의 flags
+              3) 위가 모두 없으면 OFF
+   ═══════════════════════════════════════════════════════════════════════ */
+(function(){
+
+  var FLAG_KEY   = 'kozy_event_popup';
+  var SEEN_KEY   = 'kozy_evt_seen';
+  var PACK_TAG   = '##KZEVT##';
+
+  /* ── 유심 요금제 ── */
+  var SIM_PLANS = [
+    { id:'C-3', name:'Plan C', hotspot:false, months:3, price:50000 },
+    { id:'C-4', name:'Plan C', hotspot:false, months:4, price:70000 },
+    { id:'A-3', name:'Plan A', hotspot:true,  months:3, price:70000 },
+    { id:'A-4', name:'Plan A', hotspot:true,  months:4, price:90000 }
+  ];
+  window.KZ_SIM_PLANS = SIM_PLANS;
+  function planById(id){ for(var i=0;i<SIM_PLANS.length;i++){ if(SIM_PLANS[i].id===id) return SIM_PLANS[i]; } return null; }
+  function planLabel(id){
+    var p=planById(id);
+    if(!p) return id||'-';
+    return p.name+' ('+(p.hotspot?'hotspot O':'hotspot X')+') · '+p.months+'개월';
+  }
+
+  var SIM_STATUS = {
+    new:      { label:'접수',     cls:'s-new'  },
+    paid:     { label:'결제완료', cls:'s-ok'   },
+    issued:   { label:'개통완료', cls:'s-pass' },
+    cancelled:{ label:'취소',     cls:'s-fail' }
+  };
+  var AMN_STATUS = {
+    new:      { label:'접수',     cls:'s-new'  },
+    paid:     { label:'결제완료', cls:'s-ok'   },
+    handed:   { label:'전달완료', cls:'s-pass' },
+    cancelled:{ label:'취소',     cls:'s-fail' }
+  };
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function el(id){ return document.getElementById(id); }
+  function won(v){ return (+v||0).toLocaleString('ko-KR')+'원'; }
+  function online(){ return location.protocol==='http:'||location.protocol==='https:'; }
+
+  /* ══════════ 저장 계층 ══════════ */
+
+  // 서버가 미지의 필드를 버려도 복원할 수 있도록 notes 에 백업을 실어 보낸다
+  function pack(o){
+    var meta={};
+    ['kind','simPlan','simPrice','birthday','passport','instagram','amnQty','evtStatus','evtAt']
+      .forEach(function(k){ if(o[k]!==undefined && o[k]!=='') meta[k]=o[k]; });
+    o.notes=String(o.notes||'').replace(/\s*##KZEVT##[\s\S]*$/,'').trim();
+    o.notes=(o.notes?o.notes+'\n':'')+PACK_TAG+JSON.stringify(meta);
+    return o;
+  }
+  function unpack(o){
+    if(!o || typeof o.notes!=='string') return o;
+    var i=o.notes.indexOf(PACK_TAG);
+    if(i<0) return o;
+    try{
+      var meta=JSON.parse(o.notes.slice(i+PACK_TAG.length));
+      Object.keys(meta).forEach(function(k){ if(o[k]===undefined||o[k]==='') o[k]=meta[k]; });
+    }catch(e){}
+    o.notes=o.notes.slice(0,i).trim();
+    return o;
+  }
+
+  /* 서버에서 받은 주문 배열을 kind 별로 갈라 각 화면 배열에 넣는다 */
+  window.kzSplitOrders = function(all){
+    var bed=[], sim=[], amn=[];
+    (all||[]).forEach(function(o){
+      unpack(o);
+      var k=(o&&o.kind)||'bedding';
+      if(k==='sim') sim.push(o);
+      else if(k==='amenity') amn.push(o);
+      else bed.push(o);
+    });
+    window.orders.rental  = bed;
+    window.orders.sim     = sim;
+    window.orders.amenity = amn;
+  };
+
+  /* 유심·세면용품 배열 저장 (id 기준 upsert — 기존 렌탈 데이터는 건드리지 않는다) */
+  function saveList(list){
+    if(!window.__kzAdmin || !online()) return;
+    var body=(list||[]).map(function(o){ return pack(Object.assign({}, o)); });
+    fetch('/.netlify/functions/orders', {
+      method:'POST', credentials:'same-origin', cache:'no-store',
+      headers:{'content-type':'application/json'}, body:JSON.stringify(body)
+    }).catch(function(e){ console.warn('[kzEvt] save', e); });
+  }
+
+  /* ══════════ 팝업 ON/OFF 플래그 ══════════ */
+
+  window.kzEvtLive = false;
+
+  function urlFlag(){
+    var m=/[?&]event=([^&#]+)/i.exec(location.search);
+    if(!m) return null;
+    var v=decodeURIComponent(m[1]).toLowerCase();
+    return (v==='1'||v==='on'||v==='true'||v==='y');
+  }
+
+  /* 공개 화면에서 팝업 노출 여부 판정 */
+  function resolvePublicFlag(){
+    var u=urlFlag();
+    if(u!==null){
+      try{ sessionStorage.setItem(FLAG_KEY, u?'1':'0'); }catch(e){}
+      return Promise.resolve(u);
+    }
+    try{
+      var s=sessionStorage.getItem(FLAG_KEY);
+      if(s!=null) return Promise.resolve(s==='1');
+    }catch(e){}
+    if(!online()) return Promise.resolve(false);
+    return fetch('/.netlify/functions/admin-store?public=1', { cache:'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        var on=!!(j && j.flags && j.flags[FLAG_KEY]);
+        try{ sessionStorage.setItem(FLAG_KEY, on?'1':'0'); }catch(e){}
+        return on;
+      })
+      .catch(function(){ return false; });
+  }
+
+  /* 관리자 토글 */
+  window.kzEvtSetFlag = function(on){
+    on=!!on;
+    window.kzEvtLive=on;
+    if(typeof rzSave==='function') rzSave(FLAG_KEY, on);
+    try{ sessionStorage.setItem(FLAG_KEY, on?'1':'0'); }catch(e){}
+    kzEvtPaintAdmin();
+    if(typeof rzToast==='function') rzToast(on?'이벤트 팝업을 켰습니다. 행사 종료 후 꼭 꺼 주세요.':'이벤트 팝업을 껐습니다.');
+  };
+
+  window.kzEvtCopyLink = function(){
+    var i=el('kzEvtLink'); if(!i) return;
+    i.select(); i.setSelectionRange(0,999);
+    try{ document.execCommand('copy'); }catch(e){}
+    if(navigator.clipboard) navigator.clipboard.writeText(i.value).catch(function(){});
+    if(typeof rzToast==='function') rzToast('링크를 복사했습니다.');
+  };
+  window.kzEvtPreview = function(){ kzEvtOpen(); };
+
+  /* ══════════ 공개 팝업 UI ══════════ */
+
+  var dur='', extM=1, planId='';
+
+  function paintPlans(){
+    var wrap=el('kzEvtPlans'); if(!wrap) return;
+    wrap.innerHTML=SIM_PLANS.map(function(p){
+      return '<label class="kzevt-plan'+(planId===p.id?' on':'')+'" onclick="kzEvtSetPlan(\''+p.id+'\')">'
+        +'<div class="pl">'
+        +'<div class="pn">'+p.name+' <span class="pt'+(p.hotspot?' hs':'')+'">'+(p.hotspot?'HOTSPOT O':'HOTSPOT X')+'</span></div>'
+        +'<div class="pd">'+p.months+' months</div>'
+        +'</div>'
+        +'<div class="pp">'+(p.price/10000)+'만원</div>'
+        +'</label>';
+    }).join('');
+  }
+  window.kzEvtSetPlan = function(id){ planId=id; paintPlans(); kzEvtSync(); };
+  window.kzEvtSetDur = function(d){
+    dur=d;
+    ['semester','extend'].forEach(function(k){
+      var c=el('kzEvtDur-'+k); if(c) c.classList.toggle('selected', k===d);
+    });
+    var w=el('kzEvtExtWrap'); if(w) w.style.display=(d==='extend')?'block':'none';
+    kzEvtSync();
+  };
+  window.kzEvtSetExt = function(n){
+    extM=n;
+    [1,2,3].forEach(function(k){ var b=el('kzEvtExt-'+k); if(b) b.classList.toggle('selected', k===n); });
+    kzEvtSync();
+  };
+
+  function picked(k){ var c=el('kzEvtChk-'+k); return !!(c&&c.checked); }
+
+  /* 선택 상태에 따라 필요한 입력 섹션만 노출 + 합계 갱신 */
+  window.kzEvtSync = function(){
+    var any=false;
+    ['bedding','sim','amenity'].forEach(function(k){
+      var on=picked(k);
+      if(on) any=true;
+      var card=el('kzEvtPick-'+k); if(card) card.classList.toggle('on', on);
+      var sec=el('kzEvtSec-'+k);   if(sec)  sec.classList.toggle('on', on);
+    });
+    ['base','agree'].forEach(function(k){ var s=el('kzEvtSec-'+k); if(s) s.classList.toggle('on', any); });
+
+    var parts=[], total=0;
+    if(picked('bedding')){
+      parts.push('Bedding');
+      if(dur==='semester') total+=40*(typeof KOZY_FX!=='undefined'?KOZY_FX:1400);
+      else if(dur==='extend') total+=10*extM*(typeof KOZY_FX!=='undefined'?KOZY_FX:1400);
+    }
+    if(picked('sim')){
+      parts.push('SIM');
+      var p=planById(planId); if(p) total+=p.price;
+    }
+    if(picked('amenity')){
+      parts.push('Toiletry');
+    }
+    var lab=el('kzEvtSumLabel'), tot=el('kzEvtSumTotal');
+    if(lab) lab.textContent = parts.length ? ('Selected: '+parts.join(' + ')) : 'Nothing selected yet';
+    if(tot) tot.textContent = total ? ('≈ '+won(total)) : '';
+    var btn=el('kzEvtSubmitBtn'); if(btn) btn.disabled=!parts.length;
+  };
+
+  window.kzEvtOpen = function(){
+    var bg=el('kzEvtBg'); if(!bg) return;
+    fillSchools();
+    if(!el('kzEvtPlans').innerHTML) paintPlans();
+    kzEvtSync();
+    bg.classList.add('show');
+    document.body.style.overflow='hidden';
+  };
+  window.kzEvtClose = function(){
+    var bg=el('kzEvtBg'); if(bg) bg.classList.remove('show');
+    document.body.style.overflow='';
+    var fab=el('kzEvtFab'); if(fab && window.kzEvtLive) fab.classList.add('show');
+    try{ sessionStorage.setItem(SEEN_KEY,'1'); }catch(e){}
+  };
+
+  /* 학교 목록은 기존 렌탈 폼 select 를 그대로 복제해 쓴다 (한 곳만 관리) */
+  function fillSchools(){
+    var src=el('rentalSchoolSelect'), dst=el('kzEvt-school');
+    if(!src||!dst||dst.options.length>1) return;
+    dst.innerHTML=src.innerHTML;
+    dst.value='';
+    dst.onchange=function(){
+      // 학교별 고정 반납일이 있으면 반납예정일에 채운다
+      try{
+        var merged=(typeof getKozySchoolsMerged==='function')?getKozySchoolsMerged():{};
+        var hit=merged[dst.value];
+        var rd=hit&&hit.returnDate;
+        if(!rd && typeof kozySchools!=='undefined'){
+          (kozySchools||[]).forEach(function(s){ if(s.name===dst.value && s.returnDate) rd=s.returnDate; });
+        }
+        if(rd) el('kzEvt-endDate').value=rd;
+      }catch(e){}
+    };
+  }
+
+  function v(id){ var e=el(id); return e?String(e.value||'').trim():''; }
+
+  window.kzEvtSubmit = function(e){
+    e.preventDefault();
+    var items=['bedding','sim','amenity'].filter(picked);
+    if(!items.length) return;
+
+    // ── 검증 ──
+    var need=[];
+    if(!v('kzEvt-lastName')||!v('kzEvt-firstName')) need.push('name');
+    if(!v('kzEvt-nationality')) need.push('nationality');
+    if(!v('kzEvt-email')) need.push('email');
+    if(!v('kzEvt-instagram')) need.push('Instagram ID');
+    if(items.indexOf('bedding')>=0){
+      if(!v('kzEvt-school')) need.push('university');
+      if(!dur) need.push('rental period');
+      if(!v('kzEvt-startDate')) need.push('rental start date');
+      if(!v('kzEvt-address1')) need.push('street address');
+      if(!v('kzEvt-building')) need.push('building name');
+    }
+    if(items.indexOf('sim')>=0){
+      if(!v('kzEvt-birthday')) need.push('date of birth');
+      if(!v('kzEvt-passport')) need.push('passport number');
+      if(!planId) need.push('SIM plan');
+    }
+    if(items.indexOf('amenity')>=0){
+      if(!(parseInt(v('kzEvt-amnQty'),10)>0)) need.push('quantity');
+    }
+    if(need.length){ alert('Please fill in: '+need.join(', ')); return; }
+    if(!el('kzEvt-agree1').checked||!el('kzEvt-agree2').checked){
+      alert('Please agree to both required items.'); return;
+    }
+
+    var base={
+      lastName:v('kzEvt-lastName'), firstName:v('kzEvt-firstName'),
+      name:(v('kzEvt-lastName')+' '+v('kzEvt-firstName')).trim(),
+      nationality:v('kzEvt-nationality'), email:v('kzEvt-email'),
+      phone:v('kzEvt-phone'), instagram:v('kzEvt-instagram'),
+      channel:'B',                              // 현장 부스 접수
+      source:'event-popup',
+      lang:(typeof currentLang!=='undefined'?currentLang:'en')
+    };
+    var stamp=Date.now(), made=[], total=0;
+
+    // ── 이불 렌탈: 기존 렌탈 데이터와 완전히 동일한 형태로 저장 ──
+    if(items.indexOf('bedding')>=0){
+      var o=Object.assign({}, base, {
+        id:stamp, kind:'bedding',
+        submittedAt:new Date().toISOString(), status:'new',
+        school:v('kzEvt-school'), package:'A',
+        duration:dur, startDate:v('kzEvt-startDate'), endDate:v('kzEvt-endDate'),
+        postalCode:v('kzEvt-postalCode'), address1:v('kzEvt-address1'),
+        building:v('kzEvt-building'), notes:v('kzEvt-notes')
+      });
+      if(dur==='extend') o.extendMonths=extM;
+      orders.rental.push(o);
+      if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, o)));
+      var fx=(typeof KOZY_FX!=='undefined')?KOZY_FX:1400;
+      var bedKrw=(dur==='semester') ? 40*fx : (dur==='extend' ? 10*extM*fx : 0);
+      total+=bedKrw;
+      made.push('Bedding rental'+(bedKrw?' — '+won(bedKrw):''));
+    }
+
+    // ── 유심 ──
+    if(items.indexOf('sim')>=0){
+      var p=planById(planId)||{};
+      var s=Object.assign({}, base, {
+        id:stamp+1, kind:'sim',
+        submittedAt:new Date().toISOString(),
+        birthday:v('kzEvt-birthday'), passport:v('kzEvt-passport'),
+        simPlan:planId, simPrice:p.price||0,
+        evtStatus:'new', notes:''
+      });
+      orders.sim.push(s);
+      if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, s)));
+      total+=(p.price||0);
+      made.push('SIM card — '+planLabel(planId)+' · '+won(p.price));
+    }
+
+    // ── 세면용품 ──
+    if(items.indexOf('amenity')>=0){
+      var a=Object.assign({}, base, {
+        id:stamp+2, kind:'amenity',
+        submittedAt:new Date().toISOString(),
+        amnQty:parseInt(v('kzEvt-amnQty'),10)||1,
+        evtStatus:'new', notes:v('kzEvt-amnNotes')
+      });
+      orders.amenity.push(a);
+      if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, a)));
+      made.push('Toiletry kit × '+a.amnQty);
+    }
+
+    // ── 초기화 & 완료 ──
+    resetForm();
+    kzEvtClose();
+
+    // 현장 결제 — 결제 페이지로 보내지 않고 부스 안내만 띄운다
+    var mt=el('modalTitle'), mm=el('modalMsg'), mx=el('modalExtra');
+    if(mt) mt.textContent='Thank you!';
+    if(mm) mm.textContent='We have received your request. Please come to the K-ozy booth to pay on-site and pick up your items.';
+    if(mx) mx.innerHTML='<div class="account-box"><strong>Your request</strong><code>'
+      +esc(made.join('\n'))+(total?'\n\nTotal (pay at the booth): '+won(total):'')+'</code></div>';
+    var mb=el('modalBg'); if(mb) mb.classList.add('show');
+  };
+
+  function resetForm(){
+    var f=el('kzEvtForm'); if(f) f.reset();
+    dur=''; extM=1; planId='';
+    ['semester','extend'].forEach(function(k){ var c=el('kzEvtDur-'+k); if(c) c.classList.remove('selected'); });
+    [1,2,3].forEach(function(k){ var b=el('kzEvtExt-'+k); if(b) b.classList.toggle('selected', k===1); });
+    var w=el('kzEvtExtWrap'); if(w) w.style.display='none';
+    paintPlans();
+    kzEvtSync();
+  }
+
+  /* ══════════ 관리자 — 유심 탭 ══════════ */
+
+  function ensureNav(){ try{ if(typeof rzInjectNav==='function') rzInjectNav(); }catch(e){} }
+  window.openSimAdminPage     = function(){ ensureNav(); _openAdminSubPage('sim-admin',     function(){ kzSimRender(); }); };
+  window.openAmenityAdminPage = function(){ ensureNav(); _openAdminSubPage('amenity-admin', function(){ kzAmnRender(); }); };
+  window.openEventAdminPage   = function(){ ensureNav(); _openAdminSubPage('event-admin',   function(){ kzEvtPaintAdmin(); }); };
+
+  function fillPlanFilter(){
+    var f=el('kzSimPlanFilter'); if(!f) return;
+    var cur=f.value;
+    f.innerHTML='<option value="">전체 요금제</option>'+SIM_PLANS.map(function(p){
+      return '<option value="'+p.id+'"'+(cur===p.id?' selected':'')+'>'+esc(planLabel(p.id))+'</option>';
+    }).join('');
+  }
+
+  function fmtDate(v){
+    if(typeof kzFmtDateTime==='function'){ try{ return kzFmtDateTime(v); }catch(e){} }
+    return String(v||'-').slice(0,10);
+  }
+
+  window.kzSimRender = function(){
+    var tb=el('kzSimTbody'); if(!tb) return;
+    fillPlanFilter();
+    var list=orders.sim||[];
+    var q=(v('kzSimSearch')||'').toLowerCase();
+    var pf=v('kzSimPlanFilter'), sf=v('kzSimStatusFilter'), sort=v('kzSimSort')||'new';
+    var rows=list.map(function(o,i){ return {o:o,i:i}; }).filter(function(r){
+      var o=r.o;
+      if(pf && o.simPlan!==pf) return false;
+      if(sf && (o.evtStatus||'new')!==sf) return false;
+      if(q){
+        var hay=[o.name,o.email,o.passport,o.nationality,o.instagram].join(' ').toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+    rows.sort(function(a,b){
+      if(sort==='old') return kzT(a.o.submittedAt)-kzT(b.o.submittedAt);
+      if(sort==='name') return String(a.o.name||'').localeCompare(String(b.o.name||''),'ko');
+      return kzT(b.o.submittedAt)-kzT(a.o.submittedAt);
+    });
+    var c=el('kzSimCount');
+    if(c) c.textContent=(rows.length===list.length)?(list.length+'건'):(rows.length+' / '+list.length+'건');
+    if(!rows.length){
+      tb.innerHTML='<div class="empty-st"><div class="ei"><i class="fa-solid fa-sim-card"></i></div><p>'
+        +(list.length?'조건에 맞는 신청이 없습니다.':'아직 유심 신청이 없습니다. 이벤트 팝업에서 접수되면 여기에 쌓입니다.')+'</p></div>';
+      kzEvtBadges(); return;
+    }
+    tb.innerHTML=rows.map(function(r){
+      var o=r.o, i=r.i, st=SIM_STATUS[o.evtStatus||'new']||SIM_STATUS.new;
+      return '<div class="tbl-row simm-col">'
+        +'<div style="font-size:0.78rem;color:var(--text-muted)">'+esc(fmtDate(o.submittedAt))+'</div>'
+        +'<div style="cursor:pointer" onclick="kzEvtDetail(\'sim\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.email||'')+'</div></div>'
+        +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
+        +'<div style="font-size:0.82rem">'+esc(o.birthday||'-')+'</div>'
+        +'<div class="rz-mono">'+esc(o.passport||'-')+'</div>'
+        +'<div style="font-size:0.8rem">'+esc(planLabel(o.simPlan))+'</div>'
+        +'<div style="font-size:0.82rem">'+won(o.simPrice)+'</div>'
+        +'<div><select onchange="kzEvtSetStatus(\'sim\','+i+',this.value)" style="padding:5px 26px 5px 9px;font-size:0.76rem;width:auto;min-width:96px;">'
+          +Object.keys(SIM_STATUS).map(function(k){
+             return '<option value="'+k+'"'+(((o.evtStatus||'new')===k)?' selected':'')+'>'+SIM_STATUS[k].label+'</option>'; }).join('')
+          +'</select></div>'
+        +'<div style="display:flex;gap:2px;justify-content:flex-end;">'
+        +'<button type="button" class="rz-icon-btn" title="상세" onclick="kzEvtDetail(\'sim\','+i+')"><i class="fa-solid fa-eye"></i></button>'
+        +'<button type="button" class="rz-icon-btn danger" title="삭제" onclick="kzEvtDelete(\'sim\','+i+')"><i class="fa-solid fa-trash-can"></i></button>'
+        +'</div></div>';
+    }).join('');
+    kzEvtBadges();
+  };
+
+  /* ══════════ 관리자 — 세면용품 탭 ══════════ */
+
+  window.kzAmnRender = function(){
+    var tb=el('kzAmnTbody'); if(!tb) return;
+    var list=orders.amenity||[];
+    var q=(v('kzAmnSearch')||'').toLowerCase();
+    var sf=v('kzAmnStatusFilter'), sort=v('kzAmnSort')||'new';
+    var rows=list.map(function(o,i){ return {o:o,i:i}; }).filter(function(r){
+      var o=r.o;
+      if(sf && (o.evtStatus||'new')!==sf) return false;
+      if(q){
+        var hay=[o.name,o.email,o.nationality,o.instagram].join(' ').toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+    rows.sort(function(a,b){
+      if(sort==='old') return kzT(a.o.submittedAt)-kzT(b.o.submittedAt);
+      if(sort==='qty') return (+b.o.amnQty||0)-(+a.o.amnQty||0);
+      return kzT(b.o.submittedAt)-kzT(a.o.submittedAt);
+    });
+    var c=el('kzAmnCount');
+    if(c) c.textContent=(rows.length===list.length)?(list.length+'건'):(rows.length+' / '+list.length+'건');
+    if(!rows.length){
+      tb.innerHTML='<div class="empty-st"><div class="ei"><i class="fa-solid fa-pump-soap"></i></div><p>'
+        +(list.length?'조건에 맞는 내역이 없습니다.':'아직 세면용품 구매 내역이 없습니다. 이벤트 팝업에서 접수되면 여기에 쌓입니다.')+'</p></div>';
+      kzEvtBadges(); return;
+    }
+    tb.innerHTML=rows.map(function(r){
+      var o=r.o, i=r.i;
+      return '<div class="tbl-row amnm-col">'
+        +'<div style="font-size:0.78rem;color:var(--text-muted)">'+esc(fmtDate(o.submittedAt))+'</div>'
+        +'<div style="cursor:pointer" onclick="kzEvtDetail(\'amenity\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.instagram||'')+'</div></div>'
+        +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
+        +'<div style="font-size:0.8rem;word-break:break-all">'+esc(o.email||'-')+'</div>'
+        +'<div style="font-size:0.85rem;font-weight:700">'+(+o.amnQty||1)+'</div>'
+        +'<div><select onchange="kzEvtSetStatus(\'amenity\','+i+',this.value)" style="padding:5px 26px 5px 9px;font-size:0.76rem;width:auto;min-width:96px;">'
+          +Object.keys(AMN_STATUS).map(function(k){
+             return '<option value="'+k+'"'+(((o.evtStatus||'new')===k)?' selected':'')+'>'+AMN_STATUS[k].label+'</option>'; }).join('')
+          +'</select></div>'
+        +'<div style="display:flex;gap:2px;justify-content:flex-end;">'
+        +'<button type="button" class="rz-icon-btn" title="상세" onclick="kzEvtDetail(\'amenity\','+i+')"><i class="fa-solid fa-eye"></i></button>'
+        +'<button type="button" class="rz-icon-btn danger" title="삭제" onclick="kzEvtDelete(\'amenity\','+i+')"><i class="fa-solid fa-trash-can"></i></button>'
+        +'</div></div>';
+    }).join('');
+    kzEvtBadges();
+  };
+
+  function kzT(x){ return (typeof kzTime==='function') ? kzTime(x) : (new Date(x||0)).getTime()||0; }
+
+  /* ══════════ 관리자 — 공통 동작 ══════════ */
+
+  window.kzEvtSetStatus = function(kind, i, val){
+    var list=(kind==='sim')?orders.sim:orders.amenity;
+    var o=list[i]; if(!o) return;
+    o.evtStatus=val;
+    saveList([o]);
+    (kind==='sim')?kzSimRender():kzAmnRender();
+    if(typeof rzToast==='function') rzToast('상태를 변경했습니다.');
+  };
+
+  window.kzEvtDelete = function(kind, i){
+    var list=(kind==='sim')?orders.sim:orders.amenity;
+    var o=list[i]; if(!o) return;
+    if(!confirm('이 신청을 삭제할까요?\n삭제된 데이터는 복구할 수 없습니다.')) return;
+    list.splice(i,1);
+    if(typeof kzDeleteOrder==='function' && o.id!=null) kzDeleteOrder(o.id);
+    (kind==='sim')?kzSimRender():kzAmnRender();
+  };
+
+  window.kzEvtDetail = function(kind, i){
+    var list=(kind==='sim')?orders.sim:orders.amenity;
+    var o=list[i]; if(!o) return;
+    var head='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-user"></i> 신청자 정보</div>'
+      +row('이름', o.name)+row('국적', o.nationality)+row('이메일', o.email)
+      +row('전화번호', o.phone)+row('인스타그램', o.instagram)+'</div>';
+    var mid;
+    if(kind==='sim'){
+      mid='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-sim-card"></i> 유심 정보</div>'
+        +row('생년월일', o.birthday)+row('여권번호', o.passport)
+        +row('요금제', planLabel(o.simPlan))+row('금액', won(o.simPrice))
+        +row('상태', (SIM_STATUS[o.evtStatus||'new']||SIM_STATUS.new).label)+'</div>';
+    } else {
+      mid='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-pump-soap"></i> 세면용품</div>'
+        +row('수량', (+o.amnQty||1)+'개')
+        +row('수령', '현장 수령')
+        +row('상태', (AMN_STATUS[o.evtStatus||'new']||AMN_STATUS.new).label)+'</div>';
+    }
+    var tail='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-note-sticky"></i> 추가 정보</div>'
+      +row('요청사항', o.notes||'없음')+row('접수일시', fmtDate(o.submittedAt))
+      +row('접수 경로', o.source==='event-popup'?'현장 이벤트 팝업':'-')+'</div>';
+    var body=el('detailModalBody');
+    if(body) body.innerHTML='<div class="detail-grid">'+head+mid+tail+'</div>';
+    var bg=el('detailModalBg'); if(bg) bg.classList.add('show');
+    function row(k,val){ return '<div class="detail-row"><span>'+k+'</span><strong>'+esc(val||'-')+'</strong></div>'; }
+  };
+
+  /* 개통이 끝난 뒤 여권번호만 지운다 (나머지 신청 정보는 유지) */
+  window.kzEvtPurgePassports = function(){
+    var n=(orders.sim||[]).filter(function(o){ return o.passport; }).length;
+    if(!n){ alert('삭제할 여권번호가 없습니다.'); return; }
+    if(!confirm('여권번호 '+n+'건을 삭제할까요?\n신청 정보는 그대로 남고 여권번호만 지워집니다.')) return;
+    var touched=[];
+    (orders.sim||[]).forEach(function(o){ if(o.passport){ o.passport=''; touched.push(o); } });
+    saveList(touched);
+    kzSimRender();
+    if(typeof rzToast==='function') rzToast('여권번호 '+n+'건을 삭제했습니다.');
+  };
+
+  window.kzEvtExportCsv = function(kind){
+    var list=(kind==='sim')?(orders.sim||[]):(orders.amenity||[]);
+    if(!list.length){ alert('내보낼 데이터가 없습니다.'); return; }
+    var cols = (kind==='sim')
+      ? [['접수일시','submittedAt'],['이름','name'],['국적','nationality'],['생년월일','birthday'],
+         ['여권번호','passport'],['이메일','email'],['전화번호','phone'],['인스타그램','instagram'],
+         ['요금제','_plan'],['금액','simPrice'],['상태','_status']]
+      : [['접수일시','submittedAt'],['이름','name'],['국적','nationality'],['이메일','email'],
+         ['전화번호','phone'],['인스타그램','instagram'],['수량','amnQty'],
+         ['상태','_status'],['요청사항','notes']];
+    function cell(o,key){
+      if(key==='_plan')   return planLabel(o.simPlan);
+      if(key==='_status') return ((kind==='sim'?SIM_STATUS:AMN_STATUS)[o.evtStatus||'new']||{label:''}).label;
+      return o[key]==null?'':o[key];
+    }
+    var lines=[cols.map(function(c){ return c[0]; }).join(',')];
+    list.forEach(function(o){
+      lines.push(cols.map(function(c){ return '"'+String(cell(o,c[1])).replace(/"/g,'""')+'"'; }).join(','));
+    });
+    var blob=new Blob(['\uFEFF'+lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='kozy_'+kind+'_'+(new Date().toISOString().slice(0,10))+'.csv';
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+  };
+
+  window.kzEvtBadges = function(){
+    var s=(orders.sim||[]).filter(function(o){ return (o.evtStatus||'new')==='new'; }).length;
+    var a=(orders.amenity||[]).filter(function(o){ return (o.evtStatus||'new')==='new'; }).length;
+    document.querySelectorAll('[data-evt-sim]').forEach(function(b){ b.textContent=s; b.style.display=s?'':'none'; });
+    document.querySelectorAll('[data-evt-amn]').forEach(function(b){ b.textContent=a; b.style.display=a?'':'none'; });
+    document.querySelectorAll('[data-evt-live]').forEach(function(b){ b.style.display=window.kzEvtLive?'':'none'; });
+  };
+
+  window.kzEvtPaintAdmin = function(){
+    var on=!!window.kzEvtLive;
+    var t=el('kzEvtToggle'); if(t) t.checked=on;
+    var lb=el('kzEvtStateLabel');
+    if(lb){ lb.textContent=on?'ON — 노출 중':'OFF'; lb.classList.toggle('on', on); }
+    var link=el('kzEvtLink');
+    if(link) link.value=location.origin+location.pathname+'?event=1';
+    var st=el('kzEvtStats');
+    if(st){
+      var sim=orders.sim||[], amn=orders.amenity||[];
+      var bed=(orders.rental||[]).filter(function(o){ return o.source==='event-popup'; });
+      var simRev=sim.reduce(function(x,o){ return x+(+o.simPrice||0); },0);
+      var amnQty=amn.reduce(function(x,o){ return x+(+o.amnQty||1); },0);
+      st.innerHTML=
+        card('팝업 접수 · 이불', bed.length, '전체 렌탈 <strong>'+(orders.rental||[]).length+'</strong>건 중', 'fa-bed')
+        +card('팝업 접수 · 유심', sim.length, '예상 매출 <strong>'+won(simRev)+'</strong>', 'fa-sim-card')
+        +card('팝업 접수 · 세면용품', amn.length, '총 <strong>'+amnQty+'</strong>개', 'fa-pump-soap')
+        +card('미처리', sim.filter(nw).length+amn.filter(nw).length, '유심 · 세면용품 접수 상태', 'fa-bell');
+    }
+    kzEvtBadges();
+    function nw(o){ return (o.evtStatus||'new')==='new'; }
+    function card(l,n,s,ic){
+      return (typeof admStatCard==='function') ? admStatCard(l,n,s,ic)
+        : '<div class="stat-card"><div class="stat-label">'+l+'</div><div class="stat-num">'+n+'</div><div class="stat-sub">'+s+'</div></div>';
+    }
+  };
+
+  /* 관리자 진입(하이드레이트 완료) 직후 — 서버 플래그를 화면에 반영 */
+  window.kzEvtOnEnterAdmin = function(){
+    try{ if(typeof rzLoad==='function') window.kzEvtLive=!!rzLoad(FLAG_KEY, false); }catch(e){}
+    kzEvtPaintAdmin();
+    try{ kzSimRender(); }catch(e){}
+    try{ kzAmnRender(); }catch(e){}
+  };
+
+  /* ══════════ 공개 화면 초기화 ══════════ */
+
+  function boot(){
+    paintPlans();
+    /* 이 파일 끝에 추가된 관리자 페이지들의 사이드바에도 '운영/현장 이벤트' 섹션을 주입한다.
+       (rzInit 은 이 블록보다 먼저 실행되어 여기 있는 .adm-nav 를 아직 보지 못했다) */
+    try{ if(typeof rzInjectNav==='function') rzInjectNav(); }catch(e){}
+    resolvePublicFlag().then(function(on){
+      window.kzEvtLive=on;
+      if(!on) return;
+      var fab=el('kzEvtFab'); if(fab) fab.classList.add('show');
+      var seen=false;
+      try{ seen=sessionStorage.getItem(SEEN_KEY)==='1'; }catch(e){}
+      // 관리자 화면에서는 자동으로 띄우지 않는다
+      if(!seen && !document.body.classList.contains('admin-subpage-mode') && !window.__kzAdmin){
+        setTimeout(kzEvtOpen, 900);
+      }
+    });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){
+      var bg=el('kzEvtBg');
+      if(bg && bg.classList.contains('show')) kzEvtClose();
+    }
+  });
+
+})();
+</script>
+
 </body>
 </html>
