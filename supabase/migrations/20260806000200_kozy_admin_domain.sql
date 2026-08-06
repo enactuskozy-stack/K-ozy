@@ -9,7 +9,71 @@
 --   · 2MB 본문 제한에 걸리면 그 시점부터 저장 자체가 실패한다
 -- 이 파일은 그 데이터가 들어갈 정식 테이블을 만든다.
 -- (admin_store → 이 테이블들로의 자동 반영은 ③ 파일의 트리거가 담당한다)
+--
+-- ── 같은 이름의 테이블이 이미 있는 경우 ────────────────────────────────────
+-- `create table if not exists` 는 테이블이 이미 있으면 **통째로 건너뛴다.**
+-- 그래서 구조가 다른 테이블이 이미 있으면 그 다음 문장부터 컬럼이 없다고 실패한다.
+--   예) ERROR: column "auto" of relation "customers" does not exist
+-- 이를 막기 위해 각 테이블마다 `create table` 뒤에 컬럼별
+-- `alter table ... add column if not exists` 를 붙였다. 새 DB 에서는 전부 no-op 이고,
+-- 기존 테이블이 있으면 모자란 컬럼만 채워 넣는다.
+-- 기본키 타입까지 다른 경우는 자동으로 고칠 수 없으므로 아래 0번에서 먼저 확인한다.
 -- ═══════════════════════════════════════════════════════════════════════════
+
+
+/* ────────────────── 0. 충돌 사전 점검 ──────────────────
+   같은 이름의 테이블이 이미 있는데 기본키가 호환되지 않으면, 여기서 무슨 일이
+   벌어지는지 알려주고 멈춘다(엉뚱한 테이블에 컬럼을 덧붙이지 않기 위해). */
+
+do $$
+declare
+  r    record;
+  actual text;
+begin
+  for r in
+    select * from (values
+      ('customers',       'id',          'text'),
+      ('schools',         'name',        'text'),
+      ('inventory_items', 'id',          'text'),
+      ('settings',        'key',         'text'),
+      ('order_seq',       'key',         'text'),
+      ('payments',        'order_no',    'text'),
+      ('feedback_photos', 'feedback_id', 'text')
+    ) as t(tbl, col, typ)
+  loop
+    -- 테이블이 없으면 아래에서 새로 만들면 되므로 통과
+    if not exists (
+      select 1 from information_schema.tables
+       where table_schema = 'public' and table_name = r.tbl
+    ) then
+      continue;
+    end if;
+
+    select data_type into actual
+      from information_schema.columns
+     where table_schema = 'public' and table_name = r.tbl and column_name = r.col;
+
+    if actual is null then
+      raise exception
+        E'이미 있는 "%" 테이블에 "%" 컬럼이 없습니다.\n'
+        '  K-ozy 가 쓰는 테이블이 아닐 가능성이 큽니다. 다음 중 하나를 하세요.\n'
+        '   1) 안 쓰는 테이블이면  →  drop table public.% cascade;  실행 후 이 파일을 다시 실행\n'
+        '   2) 쓰는 테이블이면    →  alter table public.% rename to %_old;  로 비켜 둔 뒤 다시 실행\n'
+        '  (기존 데이터는 이 마이그레이션이 건드리지 않습니다)',
+        r.tbl, r.col, r.tbl, r.tbl, r.tbl;
+    end if;
+
+    if actual <> r.typ then
+      raise exception
+        E'이미 있는 "%" 테이블의 "%" 컬럼 타입이 %(기대값: %)입니다.\n'
+        '  K-ozy 가 쓰는 테이블이 아닐 가능성이 큽니다. 다음 중 하나를 하세요.\n'
+        '   1) 안 쓰는 테이블이면  →  drop table public.% cascade;  실행 후 이 파일을 다시 실행\n'
+        '   2) 쓰는 테이블이면    →  alter table public.% rename to %_old;  로 비켜 둔 뒤 다시 실행',
+        r.tbl, r.col, actual, r.typ, r.tbl, r.tbl, r.tbl;
+    end if;
+  end loop;
+end $$;
+
 
 /* ────────────────── 1. customers — 고객 ──────────────────
    렌탈 신청이 들어오면 이메일 기준으로 자동 등록되고(auto=true),
@@ -31,6 +95,21 @@ create table if not exists customers (
   updated_at  timestamptz not null default now(),
   deleted_at  timestamptz                     -- 관리자 삭제(주문 기록은 유지 → soft delete)
 );
+
+-- 이미 있던 테이블이면 모자란 컬럼만 채운다 (새 DB 에서는 전부 no-op)
+alter table customers add column if not exists name        text;
+alter table customers add column if not exists gender      text;
+alter table customers add column if not exists nationality text;
+alter table customers add column if not exists school      text;
+alter table customers add column if not exists email       text;
+alter table customers add column if not exists insta       text;
+alter table customers add column if not exists depart      text;
+alter table customers add column if not exists auto        boolean not null default false;
+alter table customers add column if not exists note        text;
+alter table customers add column if not exists data        jsonb not null default '{}'::jsonb;
+alter table customers add column if not exists created_at  timestamptz not null default now();
+alter table customers add column if not exists updated_at  timestamptz not null default now();
+alter table customers add column if not exists deleted_at  timestamptz;
 
 comment on table  customers            is '고객 마스터. 주문(orders)과는 이메일로 느슨하게 연결된다.';
 comment on column customers.auto       is 'true = 렌탈 신청에서 자동 생성, false = 관리자가 직접 등록';
@@ -66,6 +145,15 @@ create table if not exists schools (
   deleted_at  timestamptz
 );
 
+alter table schools add column if not exists return_date date;
+alter table schools add column if not exists postal_code text;
+alter table schools add column if not exists address1    text;
+alter table schools add column if not exists active      boolean not null default true;
+alter table schools add column if not exists data        jsonb not null default '{}'::jsonb;
+alter table schools add column if not exists created_at  timestamptz not null default now();
+alter table schools add column if not exists updated_at  timestamptz not null default now();
+alter table schools add column if not exists deleted_at  timestamptz;
+
 comment on table schools is '학교 디렉터리(주소·우편번호)와 학교별 공통 반납일.';
 
 create index if not exists schools_live_idx on schools (name) where deleted_at is null;
@@ -92,6 +180,19 @@ create table if not exists inventory_items (
   updated_at timestamptz not null default now(),
   deleted_at timestamptz
 );
+
+-- type 은 NOT NULL 이지만 기본값이 없다. 기존 테이블에 행이 있으면 NOT NULL 로 못 붙이므로
+-- 여기서는 컬럼만 추가한다(새로 만들 때는 위 create 문이 NOT NULL 을 건다).
+alter table inventory_items add column if not exists type       text;
+alter table inventory_items add column if not exists label      text;
+alter table inventory_items add column if not exists grade      text not null default 'A';
+alter table inventory_items add column if not exists note       text;
+alter table inventory_items add column if not exists created_on date;
+alter table inventory_items add column if not exists retired_at timestamptz;
+alter table inventory_items add column if not exists data       jsonb not null default '{}'::jsonb;
+alter table inventory_items add column if not exists created_at timestamptz not null default now();
+alter table inventory_items add column if not exists updated_at timestamptz not null default now();
+alter table inventory_items add column if not exists deleted_at timestamptz;
 
 do $$
 begin
@@ -136,10 +237,24 @@ create table if not exists email_log (
   body          text,
   status        text not null default 'queued',  -- queued | opened | sent | failed
   error         text,
-  fingerprint   text unique,                 -- 같은 메일이 두 번 들어오는 것 방지
+  fingerprint   text,                        -- 같은 메일이 두 번 들어오는 것 방지(아래 unique 인덱스)
   data          jsonb not null default '{}'::jsonb,
   created_at    timestamptz not null default now()
 );
+
+alter table email_log add column if not exists sent_at       timestamptz;
+alter table email_log add column if not exists sent_at_text  text;
+alter table email_log add column if not exists kind          text;
+alter table email_log add column if not exists to_email      text;
+alter table email_log add column if not exists customer_name text;
+alter table email_log add column if not exists order_no      text;
+alter table email_log add column if not exists subject       text;
+alter table email_log add column if not exists body          text;
+alter table email_log add column if not exists status        text not null default 'queued';
+alter table email_log add column if not exists error         text;
+alter table email_log add column if not exists fingerprint   text;
+alter table email_log add column if not exists data          jsonb not null default '{}'::jsonb;
+alter table email_log add column if not exists created_at    timestamptz not null default now();
 
 do $$
 begin
@@ -152,6 +267,8 @@ end $$;
 comment on table  email_log        is '안내 메일 이력(append-only). 관리자 화면에서 목록을 비워도 여기 기록은 남는다.';
 comment on column email_log.status is 'queued=대기열 등록, opened=Gmail 작성창 열림, sent=발송 확인, failed=실패';
 
+-- ③ 파일의 팬아웃이 `on conflict (fingerprint)` 를 쓰므로 반드시 있어야 한다
+create unique index if not exists email_log_fingerprint_uq on email_log (fingerprint);
 create index if not exists email_log_order_idx   on email_log (order_no);
 create index if not exists email_log_kind_idx    on email_log (order_no, kind);
 create index if not exists email_log_sent_at_idx on email_log (sent_at desc nulls last);
@@ -169,6 +286,11 @@ create table if not exists settings (
   description text,
   updated_at  timestamptz not null default now()
 );
+
+alter table settings add column if not exists value       jsonb;
+alter table settings add column if not exists is_public   boolean not null default false;
+alter table settings add column if not exists description text;
+alter table settings add column if not exists updated_at  timestamptz not null default now();
 
 comment on table  settings           is '사이트 설정. admin_store 의 flags 와 자동 동기화된다.';
 comment on column settings.is_public is 'true 면 로그인하지 않은 방문자도 값을 읽을 수 있다(예: 이벤트 팝업 ON/OFF).';
@@ -196,6 +318,9 @@ create table if not exists order_seq (
   updated_at timestamptz not null default now()
 );
 
+alter table order_seq add column if not exists n          integer not null default 0;
+alter table order_seq add column if not exists updated_at timestamptz not null default now();
+
 comment on table order_seq is '채널·학기별 주문번호 카운터. kz_next_order_no() 로만 증가시킨다.';
 
 
@@ -221,6 +346,20 @@ create table if not exists payments (
   updated_at   timestamptz not null default now()
 );
 
+alter table payments add column if not exists order_id     text;
+alter table payments add column if not exists order_no     text;
+alter table payments add column if not exists method       text;
+alter table payments add column if not exists amount_krw   numeric(12,2) not null default 0;
+alter table payments add column if not exists currency     text not null default 'KRW';
+alter table payments add column if not exists status       text not null default 'pending';
+alter table payments add column if not exists paid_at      timestamptz;
+alter table payments add column if not exists refunded_at  timestamptz;
+alter table payments add column if not exists external_ref text;
+alter table payments add column if not exists memo         text;
+alter table payments add column if not exists data         jsonb not null default '{}'::jsonb;
+alter table payments add column if not exists created_at   timestamptz not null default now();
+alter table payments add column if not exists updated_at   timestamptz not null default now();
+
 do $$
 begin
   if not exists (select 1 from pg_constraint where conname = 'payments_status_chk') then
@@ -230,6 +369,10 @@ begin
   if not exists (select 1 from pg_constraint where conname = 'payments_method_chk') then
     alter table payments add constraint payments_method_chk
       check (method is null or method in ('paypal','bank','cash','card','other'));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'payments_order_id_fkey') then
+    alter table payments add constraint payments_order_id_fkey
+      foreign key (order_id) references orders(id) on delete set null;
   end if;
 end $$;
 
@@ -253,19 +396,37 @@ create trigger payments_touch before update on payments
    나중에 Supabase Storage 로 옮길 때는 storage_path 만 채우면 된다.       */
 
 create table if not exists feedback_photos (
-  id           bigserial primary key,
-  feedback_id  text not null references feedback(id) on delete cascade,
-  idx          smallint not null,            -- 0,1,2 (건당 최대 3장)
+  id             bigserial primary key,
+  feedback_id    text not null references feedback(id) on delete cascade,
+  idx            smallint not null,          -- 0,1,2 (건당 최대 3장)
   thumb_data_url text,                       -- 목록·카드용 썸네일
   full_data_url  text,                       -- 원본 (Storage 이관 시 NULL 로 비운다)
-  storage_path text,                         -- 예: 'feedback/<id>/0.jpg'
-  content_type text,
-  bytes        integer,
-  created_at   timestamptz not null default now(),
-  unique (feedback_id, idx)
+  storage_path   text,                       -- 예: 'feedback/<id>/0.jpg'
+  content_type   text,
+  bytes          integer,
+  created_at     timestamptz not null default now()
 );
+
+alter table feedback_photos add column if not exists feedback_id    text;
+alter table feedback_photos add column if not exists idx            smallint;
+alter table feedback_photos add column if not exists thumb_data_url text;
+alter table feedback_photos add column if not exists full_data_url  text;
+alter table feedback_photos add column if not exists storage_path   text;
+alter table feedback_photos add column if not exists content_type   text;
+alter table feedback_photos add column if not exists bytes          integer;
+alter table feedback_photos add column if not exists created_at     timestamptz not null default now();
+
+do $$
+begin
+  if not exists (select 1 from pg_constraint where conname = 'feedback_photos_feedback_id_fkey') then
+    alter table feedback_photos add constraint feedback_photos_feedback_id_fkey
+      foreign key (feedback_id) references feedback(id) on delete cascade;
+  end if;
+end $$;
 
 comment on table feedback_photos is
   '리뷰·이슈 첨부 사진. feedback.data->photos 를 kz_backfill_feedback_photos() 로 복사해 채운다.';
 
+-- ③ 파일의 백필이 `on conflict (feedback_id, idx)` 를 쓰므로 반드시 있어야 한다
+create unique index if not exists feedback_photos_fid_idx_uq on feedback_photos (feedback_id, idx);
 create index if not exists feedback_photos_fid_idx on feedback_photos (feedback_id);

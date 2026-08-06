@@ -122,6 +122,28 @@ select kz_sync_order_seq();           -- 이미 발급된 주문번호에 맞춰
 select kz_backfill_feedback_photos(); -- feedback.data->photos → feedback_photos (원본은 그대로 둠)
 ```
 
+### 같은 이름의 테이블이 이미 있다면
+
+`create table if not exists` 는 테이블이 이미 있으면 **통째로 건너뜁니다.** 그래서 구조가 다른
+`customers` 같은 테이블이 이미 있으면 그 다음 문장부터 이런 에러가 납니다.
+
+```
+ERROR: 42703: column "auto" of relation "customers" does not exist
+```
+
+②번 파일이 이 상황을 처리합니다.
+
+- **모자란 컬럼만 채웁니다** — 기존 행과 데이터는 그대로 두고 `alter table ... add column
+  if not exists` 로 없는 컬럼만 추가합니다.
+- **기본키 타입까지 다르면** (예: `customers.id` 가 uuid) 자동으로 고칠 수 없으므로, 파일 맨 앞의
+  점검 블록이 **무엇을 어떻게 하면 되는지 한국어로 알려주고 멈춥니다.** 안 쓰는 테이블이면
+  `drop table`, 쓰는 테이블이면 `rename to <이름>_old` 로 비켜 둔 뒤 다시 실행하면 됩니다.
+
+⚠️ 기존 `customers` / `schools` / `inventory_items` 테이블에 **K-ozy 관리자 화면에는 없는 데이터**가
+들어 있다면, ③번의 팬아웃이 그 행들을 `deleted_at` 으로 표시합니다(soft delete — 행과 값은
+그대로 남습니다). 관리자 화면의 목록이 정본이기 때문입니다. 되살리려면
+`update customers set deleted_at = null where id = '...';` 로 풀면 됩니다.
+
 ### 안전성
 
 - 모든 파일이 **idempotent** 합니다. 여러 번 실행해도 결과가 같습니다.
