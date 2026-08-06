@@ -18,8 +18,9 @@
 
 do $$
 declare
-  r record;
-  n integer;
+  r    record;
+  n    integer;
+  idx  text;
 begin
   for r in
     select * from (values
@@ -34,17 +35,33 @@ begin
       raise exception E'"%" 테이블이 없습니다. ② (20260806000200_kozy_admin_domain.sql) 를 먼저 실행하세요.', r.tbl;
     end if;
 
-    -- 이름과 무관하게, 해당 컬럼 구성의 유니크 인덱스가 이미 있는지 본다
+    -- 이름과 무관하게, 이 테이블에 해당 컬럼 구성의 유니크 인덱스가 이미 있는지 본다
     select count(*) into n
       from pg_index i
      where i.indrelid = format('public.%I', r.tbl)::regclass
        and i.indisunique
        and pg_get_indexdef(i.indexrelid) like '%(' || r.cols || ')';
 
-    if n = 0 then
-      execute format('create unique index if not exists %I on public.%I (%s)', r.idxname, r.tbl, r.cols);
-      raise notice '% 에 유니크 인덱스 %(%) 를 새로 만들었습니다.', r.tbl, r.idxname, r.cols;
+    if n > 0 then
+      continue;
     end if;
+
+    /* 인덱스 이름은 테이블이 아니라 스키마 전체에서 유일해야 한다.
+       `alter table X rename to X_old` 는 인덱스 이름을 따라 바꾸지 않으므로,
+       비켜 둔 옛 테이블이 원하는 이름을 계속 쥐고 있는 경우가 있다. 그 상태에서
+       `create unique index if not exists <이름>` 을 쓰면 **이름만 보고 조용히 건너뛰어**
+       인덱스가 없는 채로 남는다(그래서 나중에 ON CONFLICT 가 실패한다).
+       → 이름이 이미 쓰이고 있으면 다른 이름으로 만든다. */
+    idx := r.idxname;
+    if exists (
+      select 1 from pg_class
+       where relname = idx and relnamespace = 'public'::regnamespace
+    ) then
+      idx := left(r.idxname, 50) || '_' || substr(md5(r.tbl || r.cols || clock_timestamp()::text), 1, 8);
+    end if;
+
+    execute format('create unique index %I on public.%I (%s)', idx, r.tbl, r.cols);
+    raise notice '% 에 유니크 인덱스 %(%) 를 새로 만들었습니다.', r.tbl, idx, r.cols;
   end loop;
 end $$;
 
