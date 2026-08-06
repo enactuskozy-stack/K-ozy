@@ -235,9 +235,12 @@ export default async (req) => {
 
       await ensureTable();
       // 공개 경로이므로 INSERT 전용 — 기존 응답을 덮어쓸 수 없다.
+      // sql.json(객체) 로 넘겨야 jsonb 에 객체가 들어간다.
+      // `${JSON.stringify(v)}::jsonb` 로 쓰면 문자열이 한 번 더 감싸져 저장되고,
+      // 그러면 아래 PUT 의 jsonb_set 이 'cannot set path in scalar' 로 실패한다.
       const rows = await sql`
         INSERT INTO feedback (id, type, data)
-        VALUES (${clean.id}, ${clean.type}, ${JSON.stringify(clean.value)}::jsonb)
+        VALUES (${clean.id}, ${clean.type}, ${sql.json(clean.value)})
         ON CONFLICT (id) DO NOTHING
         RETURNING id`;
       if (!rows.length) return json(409, { error: 'duplicate id' });
@@ -261,7 +264,7 @@ export default async (req) => {
       await ensureTable();
       const rows = await sql`
         UPDATE feedback
-           SET data = jsonb_set(data, '{hidden}', ${JSON.stringify(hidden)}::jsonb, true)
+           SET data = jsonb_set(data, '{hidden}', ${sql.json(hidden)}, true)
          WHERE id = ${id}
         RETURNING id`;
       if (!rows.length) return json(404, { error: 'not found' });

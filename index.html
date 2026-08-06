@@ -3691,6 +3691,12 @@ function submitForm(e,type){
   data.package = data.package || getSelectedPkg();
   data.duration = selectedDur;
   data.channel = 'W';                       // 웹사이트 접수
+  /* 동의 기록 — 이 폼은 개인정보 '고지'(privacy-notice)만 있고 동의 체크박스가 없다.
+     실제로 받지 않은 동의를 true 로 남기면 기록이 사실과 달라지므로, 고지를 보고
+     제출했다는 사실(notice)과 그 시각만 남긴다. 현장 팝업처럼 체크박스를 추가하면
+     그때 consentPrivacy/consentTerms 를 함께 실어 보내면 된다(서버·DB 수정 불필요). */
+  data.consentMethod = 'notice';
+  data.consentAt = new Date().toISOString();
   if(selectedDur==='extend') data.extendMonths = extendMonths||1;
   var ed=document.getElementById('endDate'); if(ed) data.endDate=ed.value;
   data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
@@ -8409,6 +8415,12 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       phone:v('kzEvt-phone'), instagram:v('kzEvt-instagram'),
       channel:'B',                              // 현장 부스 접수
       source:'event-popup',
+      // 동의 기록 — 위에서 두 항목이 모두 체크됐을 때만 여기까지 온다.
+      // 체크 상태를 그대로 읽어 남긴다(나중에 필수 여부가 바뀌어도 기록이 어긋나지 않도록).
+      consentPrivacy:!!el('kzEvt-agree1').checked,   // 개인정보 수집·이용
+      consentTerms:!!el('kzEvt-agree2').checked,     // 이용약관
+      consentMethod:'checkbox',
+      consentAt:new Date().toISOString(),
       lang:(typeof currentLang!=='undefined'?currentLang:'en')
     };
     var stamp=Date.now(), made=[], total=0;

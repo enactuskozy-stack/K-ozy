@@ -193,7 +193,7 @@ alter table orders add column if not exists amn_qty integer
 alter table orders add column if not exists evt_status text
   generated always as (lower(nullif(btrim(data->>'evtStatus'), ''))) stored;
 
--- 개인정보·약관 동의 (현재 브라우저가 보내지 않는다 → 값을 실어 보내면 자동으로 채워진다)
+-- 개인정보·약관 동의
 alter table orders add column if not exists consent_privacy boolean
   generated always as (kz_bool(data->>'consentPrivacy')) stored;
 
@@ -202,6 +202,12 @@ alter table orders add column if not exists consent_terms boolean
 
 alter table orders add column if not exists consent_at timestamptz
   generated always as (kz_ts(data->>'consentAt')) stored;
+
+-- 동의를 어떻게 받았는가.
+--   checkbox = 현장 팝업의 필수 동의 체크박스 (consent_privacy/consent_terms 가 함께 찬다)
+--   notice   = 웹 신청 폼의 개인정보 고지문 (명시적 동의가 아니므로 위 두 컬럼은 NULL)
+alter table orders add column if not exists consent_method text
+  generated always as (lower(nullif(btrim(data->>'consentMethod'), ''))) stored;
 
 comment on table  orders             is 'K-ozy 주문. data(jsonb)가 원본이고 나머지 컬럼은 전부 거기서 파생(GENERATED)된다.';
 comment on column orders.kind        is 'bedding | sim | amenity — 관리자 화면 탭 분류 기준';
