@@ -405,6 +405,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .ext-month-btn:hover{border-color:var(--blue);color:var(--blue);}
 .ext-month-btn.selected{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}
 .duration-note-inline{margin-top:6px;font-size:clamp(0.64rem,0.14vw + 0.62rem,0.72rem);line-height:1.2;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dur-extend-only{margin-top:8px;font-size:clamp(0.62rem,0.14vw + 0.6rem,0.7rem);font-weight:600;line-height:1.45;color:#B45309;word-break:keep-all;}
+.ext-only-note{margin-top:12px;padding:10px 12px;border-radius:12px;background:#FEF3C7;color:#92400E;font-size:0.78rem;line-height:1.6;word-break:keep-all;}
+.ext-only-sub{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(146,64,14,0.2);}
+.ext-only-note a{color:inherit;font-weight:700;text-decoration:underline;}
 .hero h1,.section-title,.story-hero .section-title,.form-hero h2,.feedback-hero h2,.service-card h3,.about-feat h4,.step h3{text-wrap:balance;word-break:keep-all;overflow-wrap:normal;}.hero h1{text-wrap:unset;}
 .hero-sub,.section-sub,.story-hero p,.form-hero p,.feedback-hero p,.about-feat p,.step p,.service-card p,.form-sidebar-body p,.form-sidebar-info li,.privacy-notice,.env-body-text{font-size:clamp(0.92rem,0.46vw + 0.84rem,1.04rem);line-height:clamp(1.68,0.18vw + 1.62,1.86);max-width:min(100%,62ch);word-break:keep-all;overflow-wrap:anywhere;text-wrap:pretty;}
 .hero-sub{font-size:clamp(0.98rem,0.55vw + 0.9rem,1.12rem);line-height:1.9;max-width:min(100%,34ch);letter-spacing:0.01em;word-spacing:0.04em;text-wrap:wrap;overflow-wrap:normal;}
@@ -1388,9 +1392,11 @@ body.admin-subpage-mode > nav { display:none !important; }
                   <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
                   <div class="pkg-card-title" data-k="dur_extend_title">기간 연장</div>
                   <div class="pkg-card-items duration-note-inline" data-k="dur_extend_note">$10 / 개월</div>
+                  <div class="dur-extend-only" data-k="dur_extend_only">기존 대여자만 선택 가능 (신규 대여자 선택 불가)</div>
                 </label>
               </div>
               <div id="extendStepperWrap" style="display:none;margin-top:14px;padding:16px 18px;border:1.5px solid var(--border);border-radius:12px;background:var(--off-white);">
+                <div class="ext-only-note" style="margin-top:0;margin-bottom:14px;" data-k="ext_only_note"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>기간 연장은 이미 K-ozy 이불을 대여 중인 기존 대여자만 신청할 수 있습니다. 처음 신청하시는 분은 '한 학기'를 선택해 주세요.<span class="ext-only-sub">한 학기보다 짧거나 긴 기간을 원하시면 먼저 <a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a>으로 문의해 주세요.</span></div>
                 <div style="font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:10px;" data-k="ext_months_label">연장 개월 수</div>
                 <div id="extendMonthsToggle" style="display:flex;gap:8px;">
                   <button type="button" class="ext-month-btn selected" onclick="setExtendMonths(1,this)" data-k="ext_b1">1개월 · $10</button>
@@ -2697,6 +2703,8 @@ pkg_a_title:'구성 A (풀세트)', pkg_a_items:'솜이불, 매트리스 시트,
 
 dur_ph:'선택해 주세요',
 dur_sem_title:'한 학기', dur_sem_note:'$40', dur_extend_title:'기간 연장', dur_extend_note:'$10 / 개월',
+dur_extend_only:'기존 대여자만 선택 가능 (신규 대여자 선택 불가)',
+ext_only_note:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>기간 연장은 이미 K-ozy 이불을 대여 중인 기존 대여자만 신청할 수 있습니다. 처음 신청하시는 분은 \'한 학기\'를 선택해 주세요.<span class="ext-only-sub">한 학기보다 짧거나 긴 기간을 원하시면 먼저 <a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a>으로 문의해 주세요.</span>',
 ext_months_label:'연장 개월 수', ext_b1:'1개월 · $10', ext_b2:'2개월 · $20', ext_b3:'3개월 · $30', per_month:'/ 개월', price_incl_note:'세탁·살균·배송·수거 모두 포함',
 dur_sem_label:'한 학기', dur_extend_label2:'기간 연장',
 return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>지정 반납일 외 반납을 희망 시 연락 바랍니다.',
@@ -2834,6 +2842,8 @@ pkg_a_title:'Package A (Full Set)', pkg_a_items:'Comforter, Mattress Sheet, Topp
 
 dur_ph:'Please select',
 dur_sem_title:'One Semester', dur_sem_note:'$40', dur_extend_title:'Extension', dur_extend_note:'$10 / month',
+dur_extend_only:'Existing renters only (not available for new renters)',
+ext_only_note:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>Extension is only for existing renters who are already renting K-ozy bedding. If this is your first rental, please choose \'One Semester\'.<span class="ext-only-sub">Need a period shorter or longer than one semester? Please email <a href="mailto:enactuskozy@gmail.com">enactuskozy@gmail.com</a> first.</span>',
 ext_months_label:'Extension months', ext_b1:'1 mo · $10', ext_b2:'2 mo · $20', ext_b3:'3 mo · $30', per_month:'/ month', price_incl_note:'Laundering, sanitizing, delivery & pickup all included',
 dur_sem_label:'One Semester', dur_extend_label2:'Extension',
 return_notice:'<i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>If you wish to return on a date other than the designated return date, please contact us.',
