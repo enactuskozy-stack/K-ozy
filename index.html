@@ -3681,6 +3681,13 @@ function seedSchoolDirectoryToAdmin(){
  if(typeof kozySchools!=='undefined') kozySchools=list;
 }
 
+/* 신청서를 서버에 저장한 뒤에야 결제 페이지로 넘어간다.
+   (예전에는 kzCreateOrder() 를 쏘자마자 location.href 로 페이팔로 이동해서,
+    아직 전송이 끝나지 않은 POST 가 브라우저에 의해 취소됐다. 왕복 지연이 큰
+    해외에서는 요청이 서버에 닿기도 전에 페이지가 사라져 신청 내역이 통째로
+    유실됐다 — 결제까지 마쳐도 어드민에 안 뜨던 원인.) */
+var PAY_SAVE_TIMEOUT_MS = 12000;
+
 function submitForm(e,type){
  e.preventDefault();
  if(type==='rental'&&!selectedDur){ alert(currentLang==='en'?'Please select a rental period.':'대여 기간을 선택해 주세요.'); return; }
@@ -3701,18 +3708,69 @@ function submitForm(e,type){
   var ed=document.getElementById('endDate'); if(ed) data.endDate=ed.value;
   data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
   orders.rental.push(data);
-  if(typeof kzCreateOrder==='function'){ kzCreateOrder(data); }
-  if(co2AnimDone) updateCo2Stat();
-  form.reset();
+  // 서버 저장은 여기서 시작한다(응답은 아래에서 기다린다).
+  var savePromise = (typeof kzCreateOrder==='function')
+   ? kzCreateOrder(data)
+   : Promise.resolve({ ok:true, status:0 });
+
   var chosenDur = selectedDur;   // 결제 분기용으로 초기화 전에 보관
-  selectedDur=''; clearPricing(); var edEl=document.getElementById('endDate'); if(edEl)edEl.value='';
+
   // 결제 페이지로 이동: 한 학기 / 기간 연장(개월 수별 링크). 링크가 비어있으면 계좌 안내 모달로 대체.
+  var payUrl='';
   if(type==='rental'){
-   var payUrl='';
    if(chosenDur==='semester') payUrl=PAYPAL_LINKS.semester;
    else if(chosenDur==='extend') payUrl=(PAYPAL_LINKS.extend && PAYPAL_LINKS.extend[data.extendMonths]) || '';
-   if(payUrl){ window.location.href=payUrl; return; }
   }
+
+  var resetFormState=function(){
+   if(co2AnimDone) updateCo2Stat();
+   form.reset();
+   selectedDur=''; clearPricing();
+   var edEl=document.getElementById('endDate'); if(edEl)edEl.value='';
+  };
+
+  if(payUrl){
+   /* 저장 응답을 기다리는 동안 폼은 그대로 둔다.
+      저장에 실패하면 사용자가 다시 제출할 수 있어야 하기 때문이다. */
+   var en=(currentLang==='en');
+   var btn=form.querySelector('button[type="submit"]');
+   var btnLabel=btn?btn.innerHTML:'';
+   if(btn){
+    btn.disabled=true;
+    btn.style.opacity='0.6';
+    btn.innerHTML=en?'Saving your application…':'신청서를 저장하는 중…';
+   }
+   var restoreBtn=function(){
+    if(!btn) return;
+    btn.disabled=false;
+    btn.style.opacity='';
+    btn.innerHTML=btnLabel;
+   };
+
+   // 응답이 너무 늦어도 결제는 진행시킨다. 저장 요청은 keepalive 로 보내므로
+   // 페이지가 바뀌어도 브라우저가 끝까지 전송해 준다.
+   var timeoutP=new Promise(function(resolve){
+    setTimeout(function(){ resolve({ ok:true, status:0 }); }, PAY_SAVE_TIMEOUT_MS);
+   });
+
+   Promise.race([Promise.resolve(savePromise), timeoutP]).then(function(res){
+    if(res && res.ok===false){
+     restoreBtn();
+     var i=orders.rental.indexOf(data);   // 저장 실패분은 화면 메모리에서도 되돌린다
+     if(i>=0) orders.rental.splice(i,1);
+     alert(en
+      ? 'We could not save your application (network error). Please check your connection and submit again — do not pay yet.'
+      : '신청서를 저장하지 못했습니다(네트워크 오류). 연결을 확인한 뒤 다시 제출해 주세요. 결제는 저장이 끝난 뒤에 진행됩니다.');
+     return;
+    }
+    if(btn) btn.innerHTML=en?'Redirecting to payment…':'결제 페이지로 이동 중…';
+    resetFormState();
+    window.location.href=payUrl;
+   });
+   return;
+  }
+
+  resetFormState();
   document.getElementById('modalTitle').textContent=t('success_r_title');
   document.getElementById('modalMsg').textContent=t('success_r_msg');
   var extra=document.getElementById('modalExtra');
@@ -7567,10 +7625,25 @@ ChannelIO('boot', {
 
   /* ── 주문 ── */
   // 고객 신규 주문 1건 (공개 엔드포인트 — 서버가 상태·주문번호 등 관리자 필드를 무시한다)
+  //
+  // 결과를 { ok, status } 로 돌려준다. 호출부(결제 이동)가 "정말 저장됐는지"를
+  // 보고 다음 동작을 정해야 하기 때문이다.
+  //  - keepalive: 신청 직후 페이팔로 이동해도 브라우저가 전송을 끝까지 마친다.
+  //               (본문 64KB 제한 — 주문 1건은 서버에서도 20KB 로 잘리므로 안전)
+  //  - 409(duplicate id): 이미 같은 주문이 저장돼 있다는 뜻이므로 성공으로 본다.
+  //  - 네트워크 오류·5xx 는 한 번 재시도한다(해외 회선에서 간헐적으로 끊긴다).
   window.kzCreateOrder = function (o) {
-    if (!alive()) return Promise.resolve();
-    return api('/orders', { method: 'POST', headers: jsonHdr(), body: JSON.stringify(o) })
-      .catch(function (e) { console.warn('[kz] createOrder', e); });
+    if (!alive()) return Promise.resolve({ ok: true, status: 0 });
+    var body = JSON.stringify(o);
+    var send = function () {
+      return api('/orders', { method: 'POST', headers: jsonHdr(), body: body, keepalive: true })
+        .then(function (r) { return { ok: r.ok || r.status === 409, status: r.status }; })
+        .catch(function (e) { console.warn('[kz] createOrder', e); return { ok: false, status: 0 }; });
+    };
+    return send().then(function (res) {
+      if (res.ok || (res.status >= 400 && res.status < 500)) return res;
+      return new Promise(function (resolve) { setTimeout(resolve, 700); }).then(send);
+    });
   };
 
   // 관리자 전체 동기화(upsert) — 짧게 디바운스해서 연속 저장을 한 번에 묶음
