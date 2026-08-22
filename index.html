@@ -4066,7 +4066,7 @@ function renderAdminPage(page) {
     var listR=r.map(function(row,i){ return {row:row, i:i}; })
       .filter(function(e){
         if(fStatus && (e.row.rentStatus||'reserved')!==fStatus) return false;
-        return hit(e.row, q, ['name','email','orderNo','school']);
+        return hit(e.row, q, ['name','email','orderNo','school','instagram']);
       });
     listR.sort(function(a,b){
       if(sort==='old') return kzTime(a.row.submittedAt)-kzTime(b.row.submittedAt);
@@ -4249,6 +4249,7 @@ function showRentalDetail(idx){
  '<div class="detail-row"><span>국적</span><strong>'+(row.nationality||'-')+'</strong></div>'+
  '<div class="detail-row"><span>이메일</span><strong>'+(row.email||'-')+'</strong></div>'+
  '<div class="detail-row"><span>전화번호</span><strong>'+(row.phone||'-')+'</strong></div>'+
+ '<div class="detail-row"><span>인스타그램</span><strong>'+rzEsc(row.instagram||row.insta||'-')+'</strong></div>'+
  '<div class="detail-row"><span>소속 학교</span><strong>'+(row.school||'-')+'</strong></div></div>'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-bed"></i> 렌탈 정보</div>'+
  '<div class="detail-row"><span>이불 구성</span><strong>'+(pkgMap[row.package]||row.package||'-')+'</strong></div>'+
@@ -6377,12 +6378,21 @@ function rzSyncCustomers(){
         id:'C'+Date.now()+Math.floor(Math.random()*1000),
         name:o.name||((o.lastName||'')+' '+(o.firstName||'')).trim()||'-',
         gender:'', nationality:o.nationality||'', school:o.school||'',
-        email:String(o.email).trim(), insta:'', depart:'', auto:true
+        email:String(o.email).trim(), insta:o.instagram||'', depart:'', auto:true
       });
       added++;
     }
   });
-  if(added) rzSave('kozy_customers', kozyCustomers);
+  /* 이미 등록된 고객 중 인스타 아이디가 비어 있으면 신청서 값으로 채운다.
+     (예전에는 자동 등록 시 insta 를 무조건 '' 로 넣어서, 신청서에 적어 준
+      인스타 아이디가 고객 명단에 남지 않았다) */
+  var filled=0;
+  orders.rental.forEach(function(o){
+    if(!o.email || !o.instagram) return;
+    var c=rzFindCustomer(o.email);
+    if(c && !String(c.insta||'').trim()){ c.insta=o.instagram; filled++; }
+  });
+  if(added||filled) rzSave('kozy_customers', kozyCustomers);
   /* 고객에 학교가 지정되어 있으면 학교 미지정 주문에 전파 */
   var touched=false;
   orders.rental.forEach(function(o){
