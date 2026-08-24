@@ -401,6 +401,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 2;
 }
 .form-inline-note{font-size:0.76rem;color:var(--text-muted);margin-top:6px;line-height:1.6;}
+.kz-date-echo{font-size:0.8rem;font-weight:700;color:var(--navy);margin-top:6px;line-height:1.6;}
 .country-input-wrap{display:flex;flex-direction:column;gap:6px;}
 .faq-page{padding-top:66px;background:var(--white);min-height:100vh;}
 .faq-hero{padding:72px 8% 36px;background:rgba(47, 98, 232, 0.1);border-bottom:1px solid var(--border);}
@@ -1427,14 +1428,14 @@ body.admin-subpage-mode > nav { display:none !important; }
             </div>
             <div class="address-note" data-k="kst_note" style="background:var(--blue-pale);color:var(--navy-mid);margin-top:0;margin-bottom:18px;"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>모든 날짜와 시간은 <strong>한국 시간(KST, UTC+9)</strong> 기준으로 입력해 주세요.</div>
             <div class="frow">
-              <div class="fg"><label data-k="fl_start">렌탈 시작일 <span class="req">*</span></label><input type="date" name="startDate" required id="startDateInput"></div>
-              <div class="fg"><label data-k="fl_end">반납 예정일 <span class="req">*</span></label><input type="date" name="endDate" id="endDate"><div class="hint" id="endDateHint" data-k="end_hint">소속 학교를 선택하면 해당 학교 기숙사 퇴사일이 고정 반납일로 자동 적용됩니다.</div></div>
+              <div class="fg"><label data-k="fl_start">렌탈 시작일 <span class="req">*</span></label><input type="date" name="startDate" required id="startDateInput"><div class="kz-date-echo" id="startDateEcho" style="display:none;"></div></div>
+              <div class="fg"><label data-k="fl_end">반납 예정일 <span class="req">*</span></label><input type="date" name="endDate" id="endDate"><div class="kz-date-echo" id="endDateEcho" style="display:none;"></div><div class="hint" id="endDateHint" data-k="end_hint">소속 학교를 선택하면 해당 학교 기숙사 퇴사일이 고정 반납일로 자동 적용됩니다.</div></div>
             </div>
             <div class="address-note" data-k="return_notice" style="background:var(--blue-pale);color:var(--navy-mid);"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>지정 반납일 외 반납을 희망 시 연락 바랍니다.</div>
 
             <div class="frow" style="margin-top:20px;">
-              <div class="fg"><label data-k="fl_arrive_time">기숙사 도착 시간 <span class="req">*</span></label><input type="time" name="arrivalTime" required><div class="form-inline-note" data-k="arrive_time_hint">기숙사에 도착하시는 예정 시간을 한국 시간 기준으로 입력해 주세요.</div></div>
-              <div class="fg"><label data-k="fl_recv_time">원하는 수령 시간 <span class="req">*</span></label><input type="time" name="preferredTime" required><div class="form-inline-note" data-k="recv_time_hint">이불을 받고 싶은 시간을 한국 시간 기준으로 입력해 주세요. 배송 상황에 따라 조율될 수 있습니다.</div></div>
+              <div class="fg"><label data-k="fl_arrive_time">기숙사 도착 시간 <span class="req">*</span></label><select name="arrivalTime" id="arrivalTimeSelect" required></select><div class="form-inline-note" data-k="arrive_time_hint">기숙사에 도착하시는 예정 시간을 한국 시간 기준으로 입력해 주세요.</div></div>
+              <div class="fg"><label data-k="fl_recv_time">원하는 수령 시간 <span class="req">*</span></label><select name="preferredTime" id="preferredTimeSelect" required></select><div class="form-inline-note" data-k="recv_time_hint">이불을 받고 싶은 시간을 한국 시간 기준으로 입력해 주세요. 배송 상황에 따라 조율될 수 있습니다.</div></div>
             </div>
 
             <div class="fsec" data-k="fs_addr">배송 주소</div>
@@ -3442,6 +3443,7 @@ function setLang(lang){
   closeLangMenus();
   applyTranslations();
   updateDurCardPrices();
+  if(typeof kzRefreshDateTimeUi==='function') kzRefreshDateTimeUi();
 }
 
 // ── 모바일 햄버거 메뉴 ──
@@ -3575,6 +3577,66 @@ function clearPricing(){
  var tg=document.getElementById('extendMonthsToggle'); if(tg){ tg.querySelectorAll('.ext-month-btn').forEach(function(b,i){ b.classList.toggle('selected', i===0); }); }
  var d=document.getElementById('pricingDefault'); if(d) d.style.display='flex';
  var s=document.getElementById('pricingSelected'); if(s) s.style.display='none';
+}
+
+/* ── 날짜·시간 표기 언어 통일 ─────────────────────────────────────────
+   input[type=date/time] 안의 글자("2026. 09. 01.", "오후 02:30")는 브라우저가
+   자기 UI 언어로 그린다. lang 속성으로는 바뀌지 않으므로(크롬 확인) 사이트에서
+   직접 제어할 수 있는 형태로 바꾼다.
+    - 시간: 사이트 언어로 만든 select 로 받는다(값은 그대로 "HH:MM").
+    - 날짜: 네이티브 달력을 그대로 쓰되, 고른 날짜를 사이트 언어로 아래에 적어준다. */
+var KZ_WEEKDAY={ ko:['일','월','화','수','목','금','토'],
+                 en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] };
+var KZ_MONTH_EN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function kzTimeLabel(hh,mm,lang){
+ var h12=(hh%12)||12, m=String(mm).padStart(2,'0');
+ return lang==='en' ? h12+':'+m+' '+(hh<12?'AM':'PM')
+                    : (hh<12?'오전':'오후')+' '+h12+':'+m;
+}
+function kzDateLabel(v,lang){
+ var p=String(v||'').split('-');
+ if(p.length!==3||!p[0]||!p[1]||!p[2]) return '';
+ var y=+p[0], mo=+p[1], d=+p[2];
+ if(!y||!mo||!d) return '';
+ var wd=new Date(y,mo-1,d).getDay();
+ return lang==='en' ? KZ_WEEKDAY.en[wd]+', '+KZ_MONTH_EN[mo-1]+' '+d+', '+y
+                    : y+'년 '+mo+'월 '+d+'일 ('+KZ_WEEKDAY.ko[wd]+')';
+}
+/** 30분 단위 시간 select 를 현재 언어로 다시 그린다(선택값은 유지). */
+function kzFillTimeSelect(sel){
+ if(!sel) return;
+ var keep=sel.value;
+ var ph=(currentLang==='en'?'Select a time':'시간을 선택하세요');
+ var html='<option value="" disabled'+(keep?'':' selected')+'>'+ph+'</option>';
+ for(var i=0;i<48;i++){
+  var hh=Math.floor(i/2), mm=(i%2)*30;
+  var v=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+  html+='<option value="'+v+'"'+(v===keep?' selected':'')+'>'+kzTimeLabel(hh,mm,currentLang)+'</option>';
+ }
+ sel.innerHTML=html;
+ if(keep) sel.value=keep;
+}
+/** 고른 날짜를 사이트 언어로 입력칸 아래에 표시한다. */
+function kzUpdateDateEcho(){
+ [['startDateInput','startDateEcho'],['endDate','endDateEcho']].forEach(function(pair){
+  var inp=document.getElementById(pair[0]), out=document.getElementById(pair[1]);
+  if(!inp||!out) return;
+  var txt=kzDateLabel(inp.value,currentLang);
+  out.textContent=txt;
+  out.style.display=txt?'':'none';
+ });
+}
+function kzRefreshDateTimeUi(){
+ kzFillTimeSelect(document.getElementById('arrivalTimeSelect'));
+ kzFillTimeSelect(document.getElementById('preferredTimeSelect'));
+ kzUpdateDateEcho();
+}
+/** 반납일은 학교 선택·기간 선택에 따라 코드가 직접 채우므로(change 이벤트가 안 뜬다)
+    calcReturnDate 가 끝날 때마다 표기도 같이 갱신한다. */
+function kzHookReturnDateEcho(){
+ var orig=calcReturnDate;
+ calcReturnDate=function(){ var r=orig.apply(this,arguments); kzUpdateDateEcho(); return r; };
 }
 
 function calcReturnDate(){
@@ -3768,6 +3830,10 @@ function submitForm(e,type){
    form.reset();
    selectedDur=''; clearPricing();
    var edEl=document.getElementById('endDate'); if(edEl)edEl.value='';
+   ['arrivalTimeSelect','preferredTimeSelect'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='';
+   });
+   if(typeof kzRefreshDateTimeUi==='function') kzRefreshDateTimeUi();
   };
 
   if(payUrl){
@@ -4899,6 +4965,12 @@ if(typeof IntersectionObserver !== 'undefined'){
   updateDurCardPrices();
   
   // startDate change handler
+  kzHookReturnDateEcho();
+  kzRefreshDateTimeUi();
+  ['startDateInput','endDate'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('change', kzUpdateDateEcho);
+  });
   var startDateInputs = document.querySelectorAll('[name="startDate"]');
   startDateInputs.forEach(function(inp){
     inp.addEventListener('change', calcReturnDate);
