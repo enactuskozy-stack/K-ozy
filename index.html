@@ -1431,6 +1431,11 @@ body.admin-subpage-mode > nav { display:none !important; }
             </div>
             <div class="address-note" data-k="return_notice" style="background:var(--blue-pale);color:var(--navy-mid);"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>지정 반납일 외 반납을 희망 시 연락 바랍니다.</div>
 
+            <div class="frow" style="margin-top:20px;">
+              <div class="fg"><label data-k="fl_arrive_time">기숙사 도착 시간 <span class="req">*</span></label><input type="time" name="arrivalTime" required><div class="form-inline-note" data-k="arrive_time_hint">기숙사에 도착하시는 예정 시간을 입력해 주세요.</div></div>
+              <div class="fg"><label data-k="fl_recv_time">원하는 수령 시간 <span class="req">*</span></label><input type="time" name="preferredTime" required><div class="form-inline-note" data-k="recv_time_hint">이불을 받고 싶은 시간을 입력해 주세요. 배송 상황에 따라 조율될 수 있습니다.</div></div>
+            </div>
+
             <div class="fsec" data-k="fs_addr">배송 주소</div>
             <div class="fg"><label data-k="fl_postal">우편번호</label><input type="text" name="postalCode" id="rentalPostalCode" inputmode="numeric" data-ph="postal_ph"></div>
             <div class="fg">
@@ -2715,6 +2720,8 @@ sp1b:'버려지는 마음과 필요한 마음을 잇는 가장 따뜻한 방법,
  
 fl_name:'이름', fl_lname:'성 / Last Name', fl_fname:'이름 / First Name', fl_nation:'국적', fl_email:'이메일', fl_phone:'전화번호', fl_phone_optional:'전화번호', fl_school:'소속 학교', school_opt_default:'학교를 선택하세요', school_opt_other:'기타', fl_insta:'인스타그램 아이디 <span class="req">*</span>', insta_ph:'@username', insta_hint:'인스타그램을 사용하지 않는다면, 평소 자주 사용하는 메신저 이름과 아이디를 입력해 주세요. (예: Anna123 (KakaoTalk))',
  fl_dur:'대여 기간', fl_start:'렌탈 시작일', fl_end:'반납 예정일', end_hint:'소속 학교를 선택하면 해당 학교 기숙사 퇴사일이 고정 반납일로 자동 적용됩니다.',
+ fl_arrive_time:'기숙사 도착 시간', arrive_time_hint:'기숙사에 도착하시는 예정 시간을 입력해 주세요.',
+ fl_recv_time:'원하는 수령 시간', recv_time_hint:'이불을 받고 싶은 시간을 입력해 주세요. 배송 상황에 따라 조율될 수 있습니다.',
  fl_addr1:'도로명 주소', fl_building:'건물명', fl_room:'방 호수', fl_addr2:'상세 주소 (동/층 등)',
 fl_notes:'요청사항', fl_postal:'우편번호', fl_addr_search:'주소 입력 안내',
  
@@ -2854,6 +2861,8 @@ story_label:'Our Story', story_title:'From Discarded Bedding to Cozy Connections
  
 fl_name:'Name', fl_lname:'Last Name', fl_fname:'First Name', fl_nation:'Nationality', fl_email:'Email', fl_phone:'Phone Number', fl_phone_optional:'Phone Number', fl_school:'University', school_opt_default:'Select your university', school_opt_other:'Other', fl_insta:'Instagram ID <span class="req">*</span>', insta_ph:'@username', insta_hint:'If you don\'t use Instagram, please enter the name of the messaging app you use often and your ID (e.g. Anna123 (KakaoTalk)).',
  fl_dur:'Rental Period', fl_start:'Rental Start Date', fl_end:'Return Date', end_hint:'When you select your school, its dormitory move-out date is automatically applied as the fixed return date.',
+ fl_arrive_time:'Dorm Arrival Time', arrive_time_hint:'Let us know what time you expect to arrive at your dormitory.',
+ fl_recv_time:'Preferred Delivery Time', recv_time_hint:'Tell us when you would like to receive your bedding. The exact time may be adjusted.',
  fl_addr1:'Street Address', fl_building:'Building Name', fl_room:'Room Number', fl_addr2:'Additional Address (Floor/Unit)',
 fl_notes:'Special Requests', fl_postal:'Postal Code', fl_addr_search:'Address Input',
  
@@ -4274,7 +4283,9 @@ function showRentalDetail(idx){
  '<div class="detail-row"><span>이불 구성</span><strong>'+(pkgMap[row.package]||row.package||'-')+'</strong></div>'+
  '<div class="detail-row"><span>대여 기간</span><strong>'+(durMap[row.duration]||row.duration||'-')+'</strong></div>'+
  '<div class="detail-row"><span>렌탈 시작일</span><strong>'+(row.startDate||'-')+'</strong></div>'+
- '<div class="detail-row"><span>반납 예정일</span><strong>'+(row.endDate||'-')+'</strong></div></div>'+
+ '<div class="detail-row"><span>반납 예정일</span><strong>'+(row.endDate||'-')+'</strong></div>'+
+ '<div class="detail-row"><span>기숙사 도착 시간</span><strong>'+rzEsc(row.arrivalTime||'-')+'</strong></div>'+
+ '<div class="detail-row"><span>희망 수령 시간</span><strong>'+rzEsc(row.preferredTime||'-')+'</strong></div></div>'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-location-dot"></i> 배송 주소</div>'+
  '<div class="detail-row"><span>도로명 주소</span><strong>'+(row.address1||'-')+'</strong></div>'+
  '<div class="detail-row"><span>건물명</span><strong>'+(row.building||'-')+'</strong></div>'+
@@ -5254,6 +5265,8 @@ document.addEventListener('click', function(e){
     <div class="receipt-section-label">배송 정보 / Delivery</div>
     <div class="receipt-row"><span class="lbl">주소 / Address</span><span class="val" id="r-address">-</span></div>
     <div class="receipt-row"><span class="lbl">건물 / 호수</span><span class="val" id="r-building">-</span></div>
+    <div class="receipt-row"><span class="lbl">기숙사 도착 시간 / Arrival</span><span class="val" id="r-arrival">-</span></div>
+    <div class="receipt-row"><span class="lbl">희망 수령 시간 / Preferred</span><span class="val" id="r-preferred">-</span></div>
     
     <div id="r-notes-block" style="display:none;">
      <div class="receipt-section-label">요청사항 / Notes</div>
@@ -5314,6 +5327,8 @@ function openReceiptModal(order) {
   set('r-address', addrParts.length ? addrParts.join(' ') : '-');
   var buildingParts = [order.building, order.roomNum].filter(function(x){ return x && String(x).trim(); });
   set('r-building', buildingParts.length ? buildingParts.join(' / ') : '-');
+  set('r-arrival', order.arrivalTime);
+  set('r-preferred', order.preferredTime);
   var notesBlock = document.getElementById('r-notes-block');
   var notesEl    = document.getElementById('r-notes');
   if (order.notes && String(order.notes).trim()) {
