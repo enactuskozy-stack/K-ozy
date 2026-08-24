@@ -811,8 +811,20 @@ window.KZ_LIB_SRC = {
   window.kzWarmAdminLibs  = function(){ loadScript('chart'); };
 })();
 </script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WV4R4J6C');</script>
+<!-- End Google Tag Manager -->
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WV4R4J6C"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--blue);color:white;padding:8px 16px;text-decoration:none;border-radius:0 0 8px 0;z-index:9999;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">본문 바로가기</a>
 <nav role="navigation" aria-label="주 메뉴">
@@ -2055,6 +2067,7 @@ body.admin-subpage-mode > nav { display:none !important; }
     <p>④ 이용자는 언제든지 자신의 개인정보에 대해 열람, 정정, 삭제 또는 처리정지를 요청할 수 있으며, K-ozy는 관련 법령에 따라 필요한 조치를 취한다.</p>
     <p>⑤ K-ozy는 개인정보 보호를 위해 개인정보를 취급하는 인원을 최소한으로 제한하고, 개인정보의 분실, 도난, 유출, 변조 등을 방지하기 위해 필요한 조치를 취한다.</p>
     <p>⑥ 개인정보의 구체적인 처리 기준은 K-ozy 개인정보처리방침에 따른다.</p>
+    <p>⑦ K-ozy는 서비스 개선을 위해 Google Analytics(Google Tag Manager)를 이용하여 방문 통계(접속 국가, 유입 경로, 접속 시각, 기기·브라우저 정보 등)를 수집한다. 이 정보는 개인을 식별하지 않는 형태로 처리되며, 이용자는 브라우저 설정 또는 Google 애널리틱스 차단 부가기능(https://tools.google.com/dlpage/gaoptout)을 통해 수집을 거부할 수 있다.</p>
 
     <h3>제16조(K-ozy의 의무)</h3>
     <p>① K-ozy는 법령과 본 약관이 금지하거나 공서양속에 반하는 행위를 하지 않으며, 안정적으로 서비스를 제공하기 위해 노력한다.</p>
@@ -2233,6 +2246,7 @@ body.admin-subpage-mode > nav { display:none !important; }
      <li>Users may request access, correction, deletion, or suspension of processing of their personal information at any time, and K-ozy shall take necessary measures in accordance with applicable laws.</li>
      <li>K-ozy shall limit the number of persons handling personal information to the minimum necessary and take necessary measures to prevent loss, theft, leakage, alteration, or damage of personal information.</li>
      <li>Specific standards for the processing of personal information shall be governed by K-ozy’s Privacy Policy.</li>
+     <li>K-ozy uses Google Analytics (Google Tag Manager) to collect visit statistics — such as country of access, referral source, time of access, and device or browser information — for the purpose of improving the service. This information is processed in a non-identifying form, and users may opt out through their browser settings or the Google Analytics Opt-out Add-on (https://tools.google.com/dlpage/gaoptout).</li>
     </ol>
 
     <h3>Article 16. Obligations of K-ozy</h3>
@@ -3303,7 +3317,28 @@ function kzViewUrl(v){
  var h = (v && v.sub) || (v && v.page) || 'home';
  return (h==='home') ? (location.pathname+location.search) : ('#'+h);
 }
+/* ── 방문 통계(Google Tag Manager) ─────────────────────────────────────
+   이 사이트는 화면을 바꿔도 URL 이 새로 로드되지 않는 SPA 라서, GTM 이
+   자동으로 잡는 페이지뷰는 첫 진입 1회뿐이다. 그래서 화면이 바뀔 때마다
+   dataLayer 에 이벤트를 직접 넣어 준다(GTM 에서 트리거로 잡아 쓴다).
+   GTM 이 없거나 차단돼도 dataLayer 배열에 쌓이기만 하므로 에러가 없다. */
+function kzTrack(event, params){
+ try{
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(Object.assign({ event:event }, params||{}));
+ }catch(e){}
+}
+function kzTrackView(v){
+ var h = (v && v.sub) || (v && v.page) || 'home';
+ kzTrack('kz_page_view', {
+  page_path : (h==='home') ? '/' : ('/#'+h),
+  page_title: 'K-ozy · ' + h,
+  site_lang : (typeof currentLang!=='undefined' ? currentLang : '')
+ });
+}
+
 function kzPushView(v){
+ kzTrackView(v);   /* 기록은 히스토리 처리(_kzNavLock)와 무관하게 항상 남긴다 */
  if(_kzNavLock || !window.history || !history.pushState) return;
  try{
   if(history.state && kzViewKey(history.state)===kzViewKey(v)){
@@ -3339,6 +3374,7 @@ function kzInitHistory(){
  var h=(location.hash||'').replace(/^#/,'');
  var target=(h && document.getElementById('page-'+h)) ? h : 'home';
  try{ history.replaceState({page:target==='home'?'home':target}, '', kzViewUrl({page:target})); }catch(e){}
+ if(target==='home') kzTrackView({page:'home'});   /* 그 외 화면은 아래 goPage → kzPushView 에서 기록된다 */
  if(target!=='home'){
   _kzNavLock = true;
   try{
@@ -3810,6 +3846,14 @@ function submitForm(e,type){
   if(selectedDur==='extend') data.extendMonths = extendMonths||1;
   var ed=document.getElementById('endDate'); if(ed) data.endDate=ed.value;
   data.id=Date.now(); data.submittedAt=new Date().toISOString(); data.status='new'; data.lang=currentLang;
+  /* 어느 유입 경로에서 실제 신청까지 이어졌는지 보기 위한 전환 이벤트.
+     개인정보는 싣지 않는다(이름·연락처·주소 제외). */
+  kzTrack(type==='rental' ? 'kz_rental_apply' : 'kz_form_submit', {
+   form_type: type,
+   duration : data.duration || '',
+   school   : data.school || '',
+   site_lang: data.lang || ''
+  });
   orders.rental.push(data);
   // 서버 저장은 여기서 시작한다(응답은 아래에서 기다린다).
   var savePromise = (typeof kzCreateOrder==='function')
