@@ -4178,7 +4178,7 @@ function renderAdminPage(page) {
   var sats=feedbackData.satisfaction, issues=feedbackData.issue;
 
   var pkgMap={A:'풀세트 (5품목)'};
-  var durMap={'contact':'그 외 기간','extend':'기간 연장'};
+  var durMap={'contact':'그 외 기간','extend':'기간 연장','semester':'한 학기'};
 
   function val(id){ var el=document.getElementById(id); return el?String(el.value||''):''; }
   function setCount(id, shown, total){
@@ -4382,7 +4382,7 @@ function renderAdmin() {
 function showRentalDetail(idx){
  var row=orders.rental[idx]; if(!row) return;
  var pkgMap={A:'풀세트 (5품목)'};
- var durMap={'contact':'그 외 기간','extend':'기간 연장'};
+ var durMap={'contact':'그 외 기간','extend':'기간 연장','semester':'한 학기'};
  document.getElementById('detailModalBody').innerHTML=
  '<div class="detail-grid">'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-user"></i> 신청자 정보</div>'+
@@ -4391,7 +4391,9 @@ function showRentalDetail(idx){
  '<div class="detail-row"><span>이메일</span><strong>'+(row.email||'-')+'</strong></div>'+
  '<div class="detail-row"><span>전화번호</span><strong>'+(row.phone||'-')+'</strong></div>'+
  '<div class="detail-row"><span>인스타그램</span><strong>'+rzEsc(row.instagram||row.insta||'-')+'</strong></div>'+
- '<div class="detail-row"><span>소속 학교</span><strong>'+(row.school||'-')+'</strong></div></div>'+
+ (row.whatsapp?'<div class="detail-row"><span>WhatsApp</span><strong>'+rzEsc(row.whatsapp)+'</strong></div>':'')+
+ '<div class="detail-row"><span>소속 학교</span><strong>'+(row.school||'-')+'</strong></div>'+
+ (row.studentType?'<div class="detail-row"><span>학생 구분</span><strong>'+rzEsc(kzStudentLabel(row.studentType))+'</strong></div>':'')+'</div>'+
  '<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-bed"></i> 렌탈 정보</div>'+
  '<div class="detail-row"><span>이불 구성</span><strong>'+(pkgMap[row.package]||row.package||'-')+'</strong></div>'+
  '<div class="detail-row"><span>대여 기간</span><strong>'+(durMap[row.duration]||row.duration||'-')+'</strong></div>'+
@@ -7999,6 +8001,9 @@ ChannelIO('boot', {
 .kzevt-sec .fg{margin-bottom:15px;}
 .kzevt-note{display:flex;gap:8px;align-items:flex-start;background:var(--blue-pale);border-radius:11px;padding:12px 14px;font-size:0.78rem;color:var(--navy-mid);line-height:1.65;margin-top:12px;}
 .kzevt-note i{margin-top:2px;flex-shrink:0;color:var(--blue-solid);}
+.kzevt-note.warn{background:#FEF3C7;color:#78350F;}
+.kzevt-note.warn i{color:#B45309;}
+.kzevt-note.warn b{font-weight:800;}
 /* 요금제 토글 */
 .kzevt-plans{display:flex;flex-direction:column;gap:9px;}
 .kzevt-plan{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;cursor:pointer;transition:all .18s;background:var(--white);}
@@ -8027,9 +8032,9 @@ ChannelIO('boot', {
 #kzEvtFab:hover{transform:translateY(-2px);}
 body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none!important;}
 /* ── 관리자 테이블 그리드 ── */
-.simm-col{grid-template-columns:0.9fr 1fr 0.75fr 0.8fr 1fr 1.05fr 0.8fr 0.8fr 0.7fr;gap:10px;}
-.amnm-col{grid-template-columns:0.95fr 1.1fr 0.85fr 1.25fr 0.6fr 0.9fr 0.7fr;gap:10px;}
-@media (max-width:920px){.simm-col{min-width:980px;}.amnm-col{min-width:760px;}}
+.simm-col{grid-template-columns:0.9fr 1fr 0.75fr 0.9fr 1.15fr 0.9fr 0.7fr;gap:10px;}
+.amnm-col{grid-template-columns:0.95fr 1.05fr 0.8fr 1.15fr 0.85fr 0.5fr 0.7fr 0.85fr 0.7fr;gap:10px;}
+@media (max-width:920px){.simm-col{min-width:860px;}.amnm-col{min-width:1000px;}}
 .evt-hero{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px 28px;box-shadow:0 4px 20px var(--shadow);margin-bottom:22px;}
 .evt-hero-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
 .evt-hero h4{font-size:1.05rem;font-weight:800;color:var(--navy);margin:0 0 6px;display:flex;align-items:center;gap:9px;}
@@ -8055,7 +8060,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       <button type="button" class="kzevt-x" onclick="kzEvtClose()" aria-label="close"><i class="fa-solid fa-xmark"></i></button>
       <div class="kzevt-badge"><i class="fa-solid fa-bolt"></i><span id="kzEvtBadge">Today Only</span></div>
       <h3 id="kzEvtTitle">Welcome Day Special</h3>
-      <p id="kzEvtDesc">On-site only, for today. Pick everything you need — bedding, a SIM card, or a toiletry kit — and fill in one form.</p>
+      <p id="kzEvtDesc">On-site only, for today. Pick everything you need — bedding, a SIM card, or an amenity kit — and fill in one form.</p>
     </div>
 
     <form id="kzEvtForm" onsubmit="kzEvtSubmit(event)" accept-charset="UTF-8">
@@ -8082,7 +8087,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
             <input type="checkbox" id="kzEvtChk-amenity" value="amenity">
             <div class="ck"><i class="fa-solid fa-check"></i></div>
             <div class="ic"><i class="fa-solid fa-pump-soap"></i></div>
-            <div class="tt">Toiletry Kit</div>
+            <div class="tt">Amenity Kit</div>
             <div class="ss">세면용품</div>
           </label>
         </div>
@@ -8100,70 +8105,67 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
           </div>
           <div class="frow">
             <div class="fg"><label>Instagram ID <span class="req">*</span></label><input type="text" name="instagram" id="kzEvt-instagram" placeholder="@username" required></div>
-            <div class="fg"><label>Phone</label><input type="tel" name="phone" id="kzEvt-phone" placeholder="010-0000-0000"></div>
+            <div class="fg"><label>Phone (Korean number)</label><input type="tel" name="phone" id="kzEvt-phone" placeholder="010-0000-0000"></div>
           </div>
+          <div class="fg"><label>WhatsApp ID</label><input type="text" name="whatsapp" id="kzEvt-whatsapp" placeholder="+82 10-0000-0000 or your WhatsApp ID"></div>
+          <div class="frow">
+            <div class="fg">
+              <label>University <span class="req">*</span></label>
+              <select id="kzEvt-school"><option value="">Select your university</option></select>
+            </div>
+            <div class="fg">
+              <label>Student status <span class="req">*</span></label>
+              <select id="kzEvt-studentType">
+                <option value="">Select your student status</option>
+                <option value="undergraduate">Undergraduate / 학부생</option>
+                <option value="exchange">Exchange student / 교환학생</option>
+                <option value="graduate">Graduate student / 대학원생</option>
+                <option value="gsis">GSIS student / GSIS 학생</option>
+                <option value="other">Other / 기타</option>
+              </select>
+            </div>
+          </div>
+          <div class="kzevt-note warn"><i class="fa-solid fa-triangle-exclamation"></i><span><b>Double-check your contact details.</b> Please make sure the contact details above are ones we can actually reach you on — we will use them to send return instructions and other follow-up notices. / 반납 안내 등이 이 연락처로 전달되니 반드시 연락 가능한 정보를 적어 주세요.</span></div>
         </div>
 
         <!-- STEP 3-A · 이불 렌탈 -->
         <div class="kzevt-sec" id="kzEvtSec-bedding">
           <div class="kzevt-step"><i class="fa-solid fa-bed"></i><span>Bedding Rental / 이불 렌탈</span></div>
           <div class="fg">
-            <label>University <span class="req">*</span></label>
-            <select id="kzEvt-school"><option value="">Select your university</option></select>
-          </div>
-          <div class="fg">
             <label>Rental period <span class="req">*</span></label>
-            <div class="pkg-cards" style="grid-template-columns:repeat(2,1fr);">
-              <label class="pkg-card" id="kzEvtDur-semester" onclick="kzEvtSetDur('semester')">
+            <div class="pkg-cards" style="grid-template-columns:1fr;">
+              <label class="pkg-card selected" id="kzEvtDur-semester" onclick="kzEvtSetDur('semester')">
                 <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
                 <div class="pkg-card-title">One Semester</div>
-                <div class="pkg-card-items">$40</div>
+                <div class="pkg-card-items">₩ 60,000 (60,000KRW)</div>
               </label>
-              <label class="pkg-card" id="kzEvtDur-extend" onclick="kzEvtSetDur('extend')">
-                <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
-                <div class="pkg-card-title">Extension</div>
-                <div class="pkg-card-items">$10 / month</div>
-              </label>
-            </div>
-            <div id="kzEvtExtWrap" style="display:none;margin-top:14px;padding:15px 17px;border:1.5px solid var(--border);border-radius:12px;background:var(--off-white);">
-              <div style="font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:10px;">Months</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button type="button" class="ext-month-btn selected" id="kzEvtExt-1" onclick="kzEvtSetExt(1)">1 month · $10</button>
-                <button type="button" class="ext-month-btn" id="kzEvtExt-2" onclick="kzEvtSetExt(2)">2 months · $20</button>
-                <button type="button" class="ext-month-btn" id="kzEvtExt-3" onclick="kzEvtSetExt(3)">3 months · $30</button>
-              </div>
             </div>
           </div>
           <div class="frow">
             <div class="fg"><label>Rental start <span class="req">*</span></label><input type="date" id="kzEvt-startDate"></div>
             <div class="fg"><label>Return date</label><input type="date" id="kzEvt-endDate"><div class="hint">Auto-filled from your university's move-out date.</div></div>
           </div>
-          <div class="fg"><label>Requests</label><textarea id="kzEvt-notes" rows="2"></textarea></div>
         </div>
 
         <!-- STEP 3-B · 유심 -->
         <div class="kzevt-sec" id="kzEvtSec-sim">
           <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card / 유심</span></div>
-          <div class="frow">
-            <div class="fg"><label>Date of birth <span class="req">*</span></label><input type="date" id="kzEvt-birthday"></div>
-            <div class="fg"><label>Passport No. <span class="req">*</span></label><input type="text" id="kzEvt-passport" placeholder="M12345678" autocomplete="off"></div>
-          </div>
           <div class="fg">
-            <label>Plan <span class="req">*</span></label>
-            <div class="kzevt-plans" id="kzEvtPlans"></div>
+            <label>Which plan did you choose? <span class="req">*</span></label>
+            <input type="text" id="kzEvt-simChoice" placeholder="e.g. Plan A · 4 months" autocomplete="off">
+            <div class="hint">Write down the plan you picked with our staff at the booth.</div>
             <div class="kzevt-plan-info">
               <b>Plan C</b> — Only for Samsung &amp; i-Phone<br>
               <b>Plan A</b> — Available for all kinds of smartphones
             </div>
           </div>
-          <div class="kzevt-note"><i class="fa-solid fa-shield-halved"></i><span>Passport details are collected solely for SIM registration required by Korean telecom law, and are deleted once activation is complete.</span></div>
+          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bring your passport to the booth — our staff will complete the SIM registration with you on-site.</span></div>
         </div>
 
         <!-- STEP 3-C · 세면용품 -->
         <div class="kzevt-sec" id="kzEvtSec-amenity">
-          <div class="kzevt-step"><i class="fa-solid fa-pump-soap"></i><span>Toiletry Kit / 세면용품</span></div>
-          <div class="fg"><label>Quantity <span class="req">*</span></label><input type="number" id="kzEvt-amnQty" min="1" max="20" step="1" value="1"></div>
-          <div class="fg"><label>Requests</label><textarea id="kzEvt-amnNotes" rows="2"></textarea></div>
+          <div class="kzevt-step"><i class="fa-solid fa-pump-soap"></i><span>Amenity Kit / 세면용품</span></div>
+          <div class="fg"><label>Quantity <span class="req">*</span></label><input type="number" id="kzEvt-amnQty" min="1" max="20" step="1" value="1" oninput="kzEvtSync()"><div class="hint">₩ 9,000 per kit (9,000KRW)</div></div>
           <div class="kzevt-note"><i class="fa-solid fa-hand-holding-heart"></i><span>Pick up your kit at the K-ozy booth today.</span></div>
         </div>
 
@@ -8173,6 +8175,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
           <div class="chk-wrap">
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree1"><span>[Required] I agree to the collection and use of my personal information for the selected services.</span></label>
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree2"><span>[Required] I agree to the terms of service.</span></label>
+            <label class="chk-item"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them. / 위 연락처를 확인했으며, 반납·수령 안내가 이 연락처로 전달된다는 점을 이해했습니다.</span></label>
           </div>
         </div>
       </div>
@@ -8211,7 +8214,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     <div class="adm-page-header">
       <div>
         <h2 class="adm-page-title"><i class="fa-solid fa-sim-card"></i> 유심 신청</h2>
-        <p class="adm-page-sub">현장 이벤트 팝업에서 접수된 유심 신청입니다 · 여권번호는 개통 완료 후 <strong>여권번호 일괄 삭제</strong>로 지워 주세요</p>
+        <p class="adm-page-sub">현장 이벤트 팝업에서 접수된 유심 신청입니다 · 여권번호는 더 이상 수집하지 않습니다 (예전 기록은 <strong>여권번호 일괄 삭제</strong>로 지워 주세요)</p>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button type="button" class="rz-btn ghost" onclick="kzEvtExportCsv('sim')"><i class="fa-solid fa-file-csv"></i>CSV 내보내기</button>
@@ -8219,8 +8222,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       </div>
     </div>
     <div class="rz-search-row">
-      <input type="text" id="kzSimSearch" placeholder="이름 · 이메일 · 여권번호 검색..." oninput="kzSimRender()">
-      <select id="kzSimPlanFilter" onchange="kzSimRender()"><option value="">전체 요금제</option></select>
+      <input type="text" id="kzSimSearch" placeholder="이름 · 이메일 · 학교 · 선택 요금제 검색..." oninput="kzSimRender()">
       <select id="kzSimStatusFilter" onchange="kzSimRender()">
         <option value="">전체 상태</option>
         <option value="new">접수</option>
@@ -8237,7 +8239,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     </div>
     <div class="orders-table">
       <div class="tbl-head simm-col">
-        <div>접수일</div><div>이름</div><div>국적</div><div>생년월일</div><div>여권번호</div><div>요금제</div><div>금액</div><div>상태</div><div style="text-align:right">관리</div>
+        <div>접수일</div><div>이름</div><div>국적</div><div>학생 구분</div><div>선택 요금제</div><div>상태</div><div style="text-align:right">관리</div>
       </div>
       <div id="kzSimTbody"></div>
     </div>
@@ -8270,7 +8272,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       <button type="button" class="rz-btn ghost" onclick="kzEvtExportCsv('amenity')"><i class="fa-solid fa-file-csv"></i>CSV 내보내기</button>
     </div>
     <div class="rz-search-row">
-      <input type="text" id="kzAmnSearch" placeholder="이름 · 이메일 검색..." oninput="kzAmnRender()">
+      <input type="text" id="kzAmnSearch" placeholder="이름 · 이메일 · 학교 검색..." oninput="kzAmnRender()">
       <select id="kzAmnStatusFilter" onchange="kzAmnRender()">
         <option value="">전체 상태</option>
         <option value="new">접수</option>
@@ -8287,7 +8289,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     </div>
     <div class="orders-table">
       <div class="tbl-head amnm-col">
-        <div>접수일</div><div>이름</div><div>국적</div><div>이메일</div><div>수량</div><div>상태</div><div style="text-align:right">관리</div>
+        <div>접수일</div><div>이름</div><div>국적</div><div>연락처</div><div>학생 구분</div><div>수량</div><div>금액</div><div>상태</div><div style="text-align:right">관리</div>
       </div>
       <div id="kzAmnTbody"></div>
     </div>
@@ -8387,7 +8389,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   var SEEN_KEY   = 'kozy_evt_seen';
   var PACK_TAG   = '##KZEVT##';
 
-  /* ── 유심 요금제 ── */
+  /* ── 현장 부스 가격 (원화 정찰가 — 웹사이트 달러 가격표와 별개) ── */
+  var BED_PRICE = 60000;   // 이불 렌탈 한 학기
+  var AMN_PRICE = 9000;    // 세면용품 1개
+
+  /* ── 유심 요금제 ──
+     현장 팝업에서는 더 이상 요금제를 고르지 않는다(부스에서 정한 항목을 직접 적는다).
+     아래 목록은 예전에 접수된 기록을 관리자 화면에서 읽어 주기 위해 남겨 둔다. ── */
   var SIM_PLANS = [
     { id:'C-3', name:'Plan C', hotspot:false, months:3, price:50000 },
     { id:'C-4', name:'Plan C', hotspot:false, months:4, price:70000 },
@@ -8408,6 +8416,17 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     issued:   { label:'개통완료', cls:'s-pass' },
     cancelled:{ label:'취소',     cls:'s-fail' }
   };
+  /* 학부생 / 교환학생 / 대학원생 / GSIS — 현장 팝업 전용 항목 */
+  var STUDENT_TYPES = {
+    undergraduate:'학부생 (Undergraduate)',
+    exchange:'교환학생 (Exchange)',
+    graduate:'대학원생 (Graduate)',
+    gsis:'GSIS 학생 (GSIS)',
+    other:'기타 (Other)'
+  };
+  function studentLabel(v){ return v ? (STUDENT_TYPES[v]||v) : ''; }
+  window.kzStudentLabel = studentLabel;   // 렌탈 상세(현장 접수분)에서도 쓴다
+
   var AMN_STATUS = {
     new:      { label:'접수',     cls:'s-new'  },
     paid:     { label:'결제완료', cls:'s-ok'   },
@@ -8425,7 +8444,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   // 서버가 미지의 필드를 버려도 복원할 수 있도록 notes 에 백업을 실어 보낸다
   function pack(o){
     var meta={};
-    ['kind','simPlan','simPrice','birthday','passport','instagram','amnQty','evtStatus','evtAt']
+    ['kind','simPlan','simPrice','simChoice','birthday','passport','instagram','whatsapp',
+     'school','studentType','amnQty','amnPrice','evtStatus','evtAt']
       .forEach(function(k){ if(o[k]!==undefined && o[k]!=='') meta[k]=o[k]; });
     o.notes=String(o.notes||'').replace(/\s*##KZEVT##[\s\S]*$/,'').trim();
     o.notes=(o.notes?o.notes+'\n':'')+PACK_TAG+JSON.stringify(meta);
@@ -8522,36 +8542,17 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
   /* ══════════ 공개 팝업 UI ══════════ */
 
-  var dur='', extM=1, planId='';
+  /* 현장 부스는 한 학기 렌탈만 받는다 (연장은 웹사이트 신청 폼에서만) */
+  var dur='semester';
 
-  function paintPlans(){
-    var wrap=el('kzEvtPlans'); if(!wrap) return;
-    wrap.innerHTML=SIM_PLANS.map(function(p){
-      return '<label class="kzevt-plan'+(planId===p.id?' on':'')+'" onclick="kzEvtSetPlan(\''+p.id+'\')">'
-        +'<div class="pl">'
-        +'<div class="pn">'+p.name+' <span class="pt'+(p.hotspot?' hs':'')+'">'+(p.hotspot?'HOTSPOT O':'HOTSPOT X')+'</span></div>'
-        +'<div class="pd">'+p.months+' months</div>'
-        +'</div>'
-        +'<div class="pp">'+(p.price/10000)+'만원</div>'
-        +'</label>';
-    }).join('');
-  }
-  window.kzEvtSetPlan = function(id){ planId=id; paintPlans(); kzEvtSync(); };
   window.kzEvtSetDur = function(d){
     dur=d;
-    ['semester','extend'].forEach(function(k){
-      var c=el('kzEvtDur-'+k); if(c) c.classList.toggle('selected', k===d);
-    });
-    var w=el('kzEvtExtWrap'); if(w) w.style.display=(d==='extend')?'block':'none';
-    kzEvtSync();
-  };
-  window.kzEvtSetExt = function(n){
-    extM=n;
-    [1,2,3].forEach(function(k){ var b=el('kzEvtExt-'+k); if(b) b.classList.toggle('selected', k===n); });
+    var c=el('kzEvtDur-semester'); if(c) c.classList.toggle('selected', d==='semester');
     kzEvtSync();
   };
 
   function picked(k){ var c=el('kzEvtChk-'+k); return !!(c&&c.checked); }
+  function amnQty(){ var n=parseInt(v('kzEvt-amnQty'),10); return (n>0)?n:0; }
 
   /* 선택 상태에 따라 필요한 입력 섹션만 노출 + 합계 갱신 */
   window.kzEvtSync = function(){
@@ -8567,26 +8568,26 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     var parts=[], total=0;
     if(picked('bedding')){
       parts.push('Bedding');
-      if(dur==='semester') total+=40*(typeof KOZY_FX!=='undefined'?KOZY_FX:1400);
-      else if(dur==='extend') total+=10*extM*(typeof KOZY_FX!=='undefined'?KOZY_FX:1400);
+      total+=BED_PRICE;
     }
     if(picked('sim')){
       parts.push('SIM');
-      var p=planById(planId); if(p) total+=p.price;
+      // 요금제는 부스에서 정하므로 합계에는 넣지 않는다 (현장에서 안내)
     }
     if(picked('amenity')){
-      parts.push('Toiletry');
+      parts.push('Amenity');
+      total+=AMN_PRICE*amnQty();
     }
     var lab=el('kzEvtSumLabel'), tot=el('kzEvtSumTotal');
     if(lab) lab.textContent = parts.length ? ('Selected: '+parts.join(' + ')) : 'Nothing selected yet';
-    if(tot) tot.textContent = total ? ('≈ '+won(total)) : '';
+    if(tot) tot.textContent = total ? won(total) : '';
     var btn=el('kzEvtSubmitBtn'); if(btn) btn.disabled=!parts.length;
   };
 
   window.kzEvtOpen = function(){
     var bg=el('kzEvtBg'); if(!bg) return;
     fillSchools();
-    if(!el('kzEvtPlans').innerHTML) paintPlans();
+    kzEvtSetDur('semester');
     kzEvtSync();
     bg.classList.add('show');
     document.body.style.overflow='hidden';
@@ -8631,35 +8632,41 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(!v('kzEvt-nationality')) need.push('nationality');
     if(!v('kzEvt-email')) need.push('email');
     if(!v('kzEvt-instagram')) need.push('Instagram ID');
+    if(!v('kzEvt-school')) need.push('university');
+    if(!v('kzEvt-studentType')) need.push('student status');
     if(items.indexOf('bedding')>=0){
-      if(!v('kzEvt-school')) need.push('university');
-      if(!dur) need.push('rental period');
       if(!v('kzEvt-startDate')) need.push('rental start date');
     }
     if(items.indexOf('sim')>=0){
-      if(!v('kzEvt-birthday')) need.push('date of birth');
-      if(!v('kzEvt-passport')) need.push('passport number');
-      if(!planId) need.push('SIM plan');
+      if(!v('kzEvt-simChoice')) need.push('the SIM plan you chose');
     }
     if(items.indexOf('amenity')>=0){
-      if(!(parseInt(v('kzEvt-amnQty'),10)>0)) need.push('quantity');
+      if(!amnQty()) need.push('quantity');
     }
     if(need.length){ alert('Please fill in: '+need.join(', ')); return; }
     if(!el('kzEvt-agree1').checked||!el('kzEvt-agree2').checked){
       alert('Please agree to both required items.'); return;
+    }
+    // 연락처는 반납 안내가 나가는 통로라 제출 전에 한 번 더 확인받는다
+    if(!el('kzEvt-agree3').checked){
+      alert('Please check your contact details (email / phone / WhatsApp) and tick the last box —\nwe will send your return and pickup notices there.');
+      return;
     }
 
     var base={
       lastName:v('kzEvt-lastName'), firstName:v('kzEvt-firstName'),
       name:(v('kzEvt-lastName')+' '+v('kzEvt-firstName')).trim(),
       nationality:v('kzEvt-nationality'), email:v('kzEvt-email'),
-      phone:v('kzEvt-phone'), instagram:v('kzEvt-instagram'),
+      phone:v('kzEvt-phone'), whatsapp:v('kzEvt-whatsapp'), instagram:v('kzEvt-instagram'),
+      // 학교·학생 구분은 현장 팝업에서만 받는다 (웹사이트 신청 폼에는 없는 항목)
+      school:v('kzEvt-school'), studentType:v('kzEvt-studentType'),
       channel:'B',                              // 현장 부스 접수
       source:'event-popup',
       // 동의 기록 — 위에서 두 항목이 모두 체크됐을 때만 여기까지 온다.
       // 체크 상태를 그대로 읽어 남긴다(나중에 필수 여부가 바뀌어도 기록이 어긋나지 않도록).
       consentPrivacy:!!el('kzEvt-agree1').checked,   // 개인정보 수집·이용
       consentTerms:!!el('kzEvt-agree2').checked,     // 이용약관
+      consentContact:!!el('kzEvt-agree3').checked,   // 연락처 확인 (반납·수령 안내 발송)
       consentMethod:'checkbox',
       consentAt:new Date().toISOString(),
       lang:(typeof currentLang!=='undefined'?currentLang:'en')
@@ -8671,48 +8678,47 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       var o=Object.assign({}, base, {
         id:stamp, kind:'bedding',
         submittedAt:new Date().toISOString(), status:'new',
-        school:v('kzEvt-school'), package:'A',
-        duration:dur, startDate:v('kzEvt-startDate'), endDate:v('kzEvt-endDate'),
+        package:'A',
+        duration:'semester', startDate:v('kzEvt-startDate'), endDate:v('kzEvt-endDate'),
+        // 부스 정찰가(원화). 비워 두면 관리자 화면이 달러 가격표 × 환율로 채우므로 직접 넣는다.
+        amountKRW:BED_PRICE,
         // 현장 부스에서 직접 받아 가므로 배송지(우편번호·주소·건물명)는 받지 않는다.
         // 배송이 필요해지면 관리자 화면의 주문 수정에서 채워 넣으면 된다.
-        notes:v('kzEvt-notes')
+        notes:''
       });
-      if(dur==='extend') o.extendMonths=extM;
       orders.rental.push(o);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, o)));
-      var fx=(typeof KOZY_FX!=='undefined')?KOZY_FX:1400;
-      var bedKrw=(dur==='semester') ? 40*fx : (dur==='extend' ? 10*extM*fx : 0);
-      total+=bedKrw;
-      made.push('Bedding rental'+(bedKrw?' — '+won(bedKrw):''));
+      total+=BED_PRICE;
+      made.push('Bedding rental (one semester) — '+won(BED_PRICE));
     }
 
     // ── 유심 ──
     if(items.indexOf('sim')>=0){
-      var p=planById(planId)||{};
       var s=Object.assign({}, base, {
         id:stamp+1, kind:'sim',
         submittedAt:new Date().toISOString(),
-        birthday:v('kzEvt-birthday'), passport:v('kzEvt-passport'),
-        simPlan:planId, simPrice:p.price||0,
+        // 요금제는 부스에서 정한 내용을 그대로 적어 둔다 (생년월일·여권번호는 받지 않는다)
+        simChoice:v('kzEvt-simChoice'),
         evtStatus:'new', notes:''
       });
       orders.sim.push(s);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, s)));
-      total+=(p.price||0);
-      made.push('SIM card — '+planLabel(planId)+' · '+won(p.price));
+      made.push('SIM card — '+v('kzEvt-simChoice'));
     }
 
     // ── 세면용품 ──
     if(items.indexOf('amenity')>=0){
+      var qty=amnQty()||1;
       var a=Object.assign({}, base, {
         id:stamp+2, kind:'amenity',
         submittedAt:new Date().toISOString(),
-        amnQty:parseInt(v('kzEvt-amnQty'),10)||1,
-        evtStatus:'new', notes:v('kzEvt-amnNotes')
+        amnQty:qty, amnPrice:AMN_PRICE*qty,
+        evtStatus:'new', notes:''
       });
       orders.amenity.push(a);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, a)));
-      made.push('Toiletry kit × '+a.amnQty);
+      total+=a.amnPrice;
+      made.push('Amenity kit × '+qty+' — '+won(a.amnPrice));
     }
 
     // ── 초기화 & 완료 ──
@@ -8722,7 +8728,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     // 현장 결제 — 결제 페이지로 보내지 않고 부스 안내만 띄운다
     var mt=el('modalTitle'), mm=el('modalMsg'), mx=el('modalExtra');
     if(mt) mt.textContent='Thank you!';
-    if(mm) mm.textContent='We have received your request. Please come to the K-ozy booth to pay on-site and pick up your items.';
+    if(mm) mm.textContent='We have received your request. Please come to the K-ozy booth to pay on-site and pick up your items.\n\nWe will send return and pickup notices to the contact details you entered — please keep an eye on them, and let our staff know right away if anything was wrong.';
     if(mx) mx.innerHTML='<div class="account-box"><strong>Your request</strong><code>'
       +esc(made.join('\n'))+(total?'\n\nTotal (pay at the booth): '+won(total):'')+'</code></div>';
     var mb=el('modalBg'); if(mb) mb.classList.add('show');
@@ -8730,11 +8736,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
   function resetForm(){
     var f=el('kzEvtForm'); if(f) f.reset();
-    dur=''; extM=1; planId='';
-    ['semester','extend'].forEach(function(k){ var c=el('kzEvtDur-'+k); if(c) c.classList.remove('selected'); });
-    [1,2,3].forEach(function(k){ var b=el('kzEvtExt-'+k); if(b) b.classList.toggle('selected', k===1); });
-    var w=el('kzEvtExtWrap'); if(w) w.style.display='none';
-    paintPlans();
+    kzEvtSetDur('semester');
     kzEvtSync();
   }
 
@@ -8745,12 +8747,17 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   window.openAmenityAdminPage = function(){ ensureNav(); _openAdminSubPage('amenity-admin', function(){ kzAmnRender(); }); };
   window.openEventAdminPage   = function(){ ensureNav(); _openAdminSubPage('event-admin',   function(){ kzEvtPaintAdmin(); }); };
 
-  function fillPlanFilter(){
-    var f=el('kzSimPlanFilter'); if(!f) return;
-    var cur=f.value;
-    f.innerHTML='<option value="">전체 요금제</option>'+SIM_PLANS.map(function(p){
-      return '<option value="'+p.id+'"'+(cur===p.id?' selected':'')+'>'+esc(planLabel(p.id))+'</option>';
-    }).join('');
+  /* 세면용품 금액 — 접수 당시 금액을 우선하고, 없으면 현재 단가로 계산한다 */
+  function amnAmount(o){
+    if(o && o.amnPrice!=null && o.amnPrice!=='') return +o.amnPrice||0;
+    return AMN_PRICE*(+((o&&o.amnQty))||1);
+  }
+
+  /* 부스에서 적어 준 요금제 텍스트 — 예전 기록(요금제 선택)도 함께 읽어 준다 */
+  function simPlanText(o){
+    if(o && o.simChoice) return o.simChoice;
+    if(o && o.simPlan) return planLabel(o.simPlan);
+    return '-';
   }
 
   function fmtDate(v){
@@ -8760,16 +8767,14 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
   window.kzSimRender = function(){
     var tb=el('kzSimTbody'); if(!tb) return;
-    fillPlanFilter();
     var list=orders.sim||[];
     var q=(v('kzSimSearch')||'').toLowerCase();
-    var pf=v('kzSimPlanFilter'), sf=v('kzSimStatusFilter'), sort=v('kzSimSort')||'new';
+    var sf=v('kzSimStatusFilter'), sort=v('kzSimSort')||'new';
     var rows=list.map(function(o,i){ return {o:o,i:i}; }).filter(function(r){
       var o=r.o;
-      if(pf && o.simPlan!==pf) return false;
       if(sf && (o.evtStatus||'new')!==sf) return false;
       if(q){
-        var hay=[o.name,o.email,o.passport,o.nationality,o.instagram].join(' ').toLowerCase();
+        var hay=[o.name,o.email,o.nationality,o.instagram,o.school,simPlanText(o)].join(' ').toLowerCase();
         if(hay.indexOf(q)<0) return false;
       }
       return true;
@@ -8793,10 +8798,9 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         +'<div style="cursor:pointer" onclick="kzEvtDetail(\'sim\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
           +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.email||'')+'</div></div>'
         +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
-        +'<div style="font-size:0.82rem">'+esc(o.birthday||'-')+'</div>'
-        +'<div class="rz-mono">'+esc(o.passport||'-')+'</div>'
-        +'<div style="font-size:0.8rem">'+esc(planLabel(o.simPlan))+'</div>'
-        +'<div style="font-size:0.82rem">'+won(o.simPrice)+'</div>'
+        +'<div style="font-size:0.8rem">'+esc(studentLabel(o.studentType)||'-')
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.school||'')+'</div></div>'
+        +'<div style="font-size:0.8rem;word-break:break-word">'+esc(simPlanText(o))+'</div>'
         +'<div><select onchange="kzEvtSetStatus(\'sim\','+i+',this.value)" style="padding:5px 26px 5px 9px;font-size:0.76rem;width:auto;min-width:96px;">'
           +Object.keys(SIM_STATUS).map(function(k){
              return '<option value="'+k+'"'+(((o.evtStatus||'new')===k)?' selected':'')+'>'+SIM_STATUS[k].label+'</option>'; }).join('')
@@ -8820,7 +8824,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       var o=r.o;
       if(sf && (o.evtStatus||'new')!==sf) return false;
       if(q){
-        var hay=[o.name,o.email,o.nationality,o.instagram].join(' ').toLowerCase();
+        var hay=[o.name,o.email,o.nationality,o.instagram,o.whatsapp,o.school].join(' ').toLowerCase();
         if(hay.indexOf(q)<0) return false;
       }
       return true;
@@ -8844,8 +8848,12 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         +'<div style="cursor:pointer" onclick="kzEvtDetail(\'amenity\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
           +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.instagram||'')+'</div></div>'
         +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
-        +'<div style="font-size:0.8rem;word-break:break-all">'+esc(o.email||'-')+'</div>'
+        +'<div style="font-size:0.78rem;word-break:break-all">'+esc(o.email||'-')
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.phone||o.whatsapp||'')+'</div></div>'
+        +'<div style="font-size:0.8rem">'+esc(studentLabel(o.studentType)||'-')
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.school||'')+'</div></div>'
         +'<div style="font-size:0.85rem;font-weight:700">'+(+o.amnQty||1)+'</div>'
+        +'<div style="font-size:0.82rem">'+won(amnAmount(o))+'</div>'
         +'<div><select onchange="kzEvtSetStatus(\'amenity\','+i+',this.value)" style="padding:5px 26px 5px 9px;font-size:0.76rem;width:auto;min-width:96px;">'
           +Object.keys(AMN_STATUS).map(function(k){
              return '<option value="'+k+'"'+(((o.evtStatus||'new')===k)?' selected':'')+'>'+AMN_STATUS[k].label+'</option>'; }).join('')
@@ -8885,21 +8893,26 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     var o=list[i]; if(!o) return;
     var head='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-user"></i> 신청자 정보</div>'
       +row('이름', o.name)+row('국적', o.nationality)+row('이메일', o.email)
-      +row('전화번호', o.phone)+row('인스타그램', o.instagram)+'</div>';
+      +row('전화번호(한국)', o.phone)+row('WhatsApp', o.whatsapp)+row('인스타그램', o.instagram)
+      +row('소속 학교', o.school)+row('학생 구분', studentLabel(o.studentType))+'</div>';
     var mid;
     if(kind==='sim'){
       mid='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-sim-card"></i> 유심 정보</div>'
-        +row('생년월일', o.birthday)+row('여권번호', o.passport)
-        +row('요금제', planLabel(o.simPlan))+row('금액', won(o.simPrice))
+        +row('선택 요금제', simPlanText(o))
+        // 아래 두 줄은 예전에 접수된 기록에만 값이 있다 (지금은 수집하지 않는다)
+        +(o.birthday?row('생년월일', o.birthday):'')
+        +(o.passport?row('여권번호', o.passport):'')
+        +(o.simPrice?row('금액', won(o.simPrice)):'')
         +row('상태', (SIM_STATUS[o.evtStatus||'new']||SIM_STATUS.new).label)+'</div>';
     } else {
       mid='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-pump-soap"></i> 세면용품</div>'
         +row('수량', (+o.amnQty||1)+'개')
+        +row('금액', won(amnAmount(o)))
         +row('수령', '현장 수령')
         +row('상태', (AMN_STATUS[o.evtStatus||'new']||AMN_STATUS.new).label)+'</div>';
     }
     var tail='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-note-sticky"></i> 추가 정보</div>'
-      +row('요청사항', o.notes||'없음')+row('접수일시', fmtDate(o.submittedAt))
+      +row('접수일시', fmtDate(o.submittedAt))
       +row('접수 경로', o.source==='event-popup'?'현장 이벤트 팝업':'-')+'</div>';
     var body=el('detailModalBody');
     if(body) body.innerHTML='<div class="detail-grid">'+head+mid+tail+'</div>';
@@ -8923,15 +8936,18 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     var list=(kind==='sim')?(orders.sim||[]):(orders.amenity||[]);
     if(!list.length){ alert('내보낼 데이터가 없습니다.'); return; }
     var cols = (kind==='sim')
-      ? [['접수일시','submittedAt'],['이름','name'],['국적','nationality'],['생년월일','birthday'],
-         ['여권번호','passport'],['이메일','email'],['전화번호','phone'],['인스타그램','instagram'],
-         ['요금제','_plan'],['금액','simPrice'],['상태','_status']]
+      ? [['접수일시','submittedAt'],['이름','name'],['국적','nationality'],['이메일','email'],
+         ['전화번호','phone'],['WhatsApp','whatsapp'],['인스타그램','instagram'],
+         ['소속 학교','school'],['학생 구분','_student'],['선택 요금제','_plan'],['상태','_status']]
       : [['접수일시','submittedAt'],['이름','name'],['국적','nationality'],['이메일','email'],
-         ['전화번호','phone'],['인스타그램','instagram'],['수량','amnQty'],
-         ['상태','_status'],['요청사항','notes']];
+         ['전화번호','phone'],['WhatsApp','whatsapp'],['인스타그램','instagram'],
+         ['소속 학교','school'],['학생 구분','_student'],['수량','amnQty'],['금액','_amount'],
+         ['상태','_status']];
     function cell(o,key){
-      if(key==='_plan')   return planLabel(o.simPlan);
-      if(key==='_status') return ((kind==='sim'?SIM_STATUS:AMN_STATUS)[o.evtStatus||'new']||{label:''}).label;
+      if(key==='_plan')    return simPlanText(o);
+      if(key==='_student') return studentLabel(o.studentType);
+      if(key==='_amount')  return amnAmount(o);
+      if(key==='_status')  return ((kind==='sim'?SIM_STATUS:AMN_STATUS)[o.evtStatus||'new']||{label:''}).label;
       return o[key]==null?'':o[key];
     }
     var lines=[cols.map(function(c){ return c[0]; }).join(',')];
@@ -8965,12 +8981,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(st){
       var sim=orders.sim||[], amn=orders.amenity||[];
       var bed=(orders.rental||[]).filter(function(o){ return o.source==='event-popup'; });
-      var simRev=sim.reduce(function(x,o){ return x+(+o.simPrice||0); },0);
-      var amnQty=amn.reduce(function(x,o){ return x+(+o.amnQty||1); },0);
+      var bedRev=bed.reduce(function(x,o){ return x+(+o.amountKRW||0); },0);
+      var amnCnt=amn.reduce(function(x,o){ return x+(+o.amnQty||1); },0);
+      var amnRev=amn.reduce(function(x,o){ return x+amnAmount(o); },0);
       st.innerHTML=
-        card('팝업 접수 · 이불', bed.length, '전체 렌탈 <strong>'+(orders.rental||[]).length+'</strong>건 중', 'fa-bed')
-        +card('팝업 접수 · 유심', sim.length, '예상 매출 <strong>'+won(simRev)+'</strong>', 'fa-sim-card')
-        +card('팝업 접수 · 세면용품', amn.length, '총 <strong>'+amnQty+'</strong>개', 'fa-pump-soap')
+        card('팝업 접수 · 이불', bed.length, '예상 매출 <strong>'+won(bedRev)+'</strong>', 'fa-bed')
+        +card('팝업 접수 · 유심', sim.length, '요금제는 현장에서 정산', 'fa-sim-card')
+        +card('팝업 접수 · 세면용품', amn.length, '총 <strong>'+amnCnt+'</strong>개 · <strong>'+won(amnRev)+'</strong>', 'fa-pump-soap')
         +card('미처리', sim.filter(nw).length+amn.filter(nw).length, '유심 · 세면용품 접수 상태', 'fa-bell');
     }
     kzEvtBadges();
@@ -8992,7 +9009,6 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   /* ══════════ 공개 화면 초기화 ══════════ */
 
   function boot(){
-    paintPlans();
     /* 이 파일 끝에 추가된 관리자 페이지들의 사이드바에도 '운영/현장 이벤트' 섹션을 주입한다.
        (rzInit 은 이 블록보다 먼저 실행되어 여기 있는 .adm-nav 를 아직 보지 못했다) */
     try{ if(typeof rzInjectNav==='function') rzInjectNav(); }catch(e){}
