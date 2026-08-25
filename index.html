@@ -7981,7 +7981,7 @@ ChannelIO('boot', {
 .kzevt-head p{font-size:0.85rem;color:rgba(255,255,255,0.72);line-height:1.6;margin:0;max-width:44ch;}
 .kzevt-x{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:10px;border:none;background:rgba(255,255,255,0.12);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;}
 .kzevt-x:hover{background:rgba(255,255,255,0.25);}
-.kzevt-body{padding:26px 28px 8px;max-height:calc(100vh - 260px);max-height:calc(100dvh - 260px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.kzevt-body{padding:26px 28px 8px;max-height:calc(100vh - 260px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .kzevt-step{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-solid);margin:0 0 12px;display:flex;align-items:center;gap:8px;}
 .kzevt-step:not(:first-child){margin-top:30px;padding-top:24px;border-top:1px solid var(--border);}
 .kzevt-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
@@ -8026,29 +8026,6 @@ ChannelIO('boot', {
 .kzevt-submit:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-2px);box-shadow:0 8px 26px rgba(15,23,42,0.3);}
 .kzevt-submit:disabled{opacity:0.45;cursor:not-allowed;}
 .kzevt-skip{display:block;width:100%;margin-top:10px;background:none;border:none;font-size:0.78rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;font-family:'Pretendard',-apple-system,sans-serif;padding:4px;}
-/* ── 폰: 전체화면 시트 ──
-   예전에는 바깥(#kzEvtBg)과 본문이 각각 스크롤돼서, 손가락이 어디에 닿느냐에 따라
-   다른 게 움직였다. 게다가 본문 높이가 calc(100vh - 260px) 로 묶여 화면의 1/6만
-   보였고 Submit 버튼은 화면 밖에 있었다. 폰에서는 시트를 화면에 꽉 채우고
-   스크롤 영역을 본문 하나로 통일한다(머리말 고정 · 버튼은 항상 아래에 보이게). */
-@media (max-width:640px){
-  #kzEvtBg{padding:0;align-items:stretch;overflow:hidden;backdrop-filter:none;background:rgba(15,23,42,0.75);}
-  .kzevt-modal{max-width:none;width:100%;margin:0;border-radius:0;display:flex;flex-direction:column;height:100vh;height:100dvh;}
-  #kzEvtForm{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;}
-  /* 머리말·바닥은 최대한 얇게 — 폰에서는 입력 영역이 넓은 게 우선이다.
-     설명 문구는 부스에서 직접 안내하므로 폰에서만 감춘다(닫기는 우측 상단 X). */
-  .kzevt-head{flex:0 0 auto;padding:14px 52px 14px 20px;}
-  .kzevt-head .kzevt-badge{margin-bottom:7px;padding:4px 9px;font-size:0.62rem;}
-  .kzevt-head h3{font-size:1.15rem;margin:0;}
-  .kzevt-head p{display:none;}
-  .kzevt-x{top:12px;right:14px;}
-  .kzevt-body{flex:1 1 auto;min-height:0;max-height:none;padding:18px 20px 10px;}
-  .kzevt-foot{flex:0 0 auto;padding:11px 20px calc(12px + env(safe-area-inset-bottom,0px));}
-  .kzevt-sum{margin-bottom:9px;}
-  .kzevt-submit{padding:14px;}
-  .kzevt-skip{margin-top:6px;padding:2px;}
-  .kzevt-step:not(:first-child){margin-top:24px;padding-top:20px;}
-}
 /* 재오픈 플로팅 버튼 */
 #kzEvtFab{display:none;position:fixed;right:20px;bottom:20px;z-index:380;align-items:center;gap:9px;padding:13px 19px;border:none;border-radius:16px;background:var(--navy);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(15,23,42,0.32);font-family:'Pretendard',-apple-system,sans-serif;transition:transform .2s;}
 #kzEvtFab.show{display:inline-flex;}
