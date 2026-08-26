@@ -4224,7 +4224,7 @@ function renderAdminPage(page) {
         var row=e.row, oi=e.i;
         return '<div class="tbl-row rental-col">'+
           '<div style="color:var(--text-muted);font-size:0.78rem">#'+(n+1)+'</div>'+
-          '<div style="cursor:pointer" onclick="showRentalDetail('+oi+')"><strong style="color:var(--blue);text-decoration:underline dotted">'+esc(row.name||'-')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div></div>'+
+          '<div style="cursor:pointer" onclick="showRentalDetail('+oi+')"><strong style="color:var(--blue);text-decoration:underline dotted">'+esc(row.name||'-')+'</strong><div style="font-size:0.73rem;color:var(--text-muted)">'+kzFmtDateTime(row.submittedAt)+'</div>'+(typeof kzMemoBadge==='function'?kzMemoBadge(row):'')+'</div>'+
           '<div style="font-size:0.82rem">'+esc(row.email||'-')+'</div>'+
           '<div>'+esc(pkgMap[row.package]||row.package||'-')+'</div>'+
           '<div>'+esc(durMap[row.duration]||row.duration||'-')+'</div>'+
@@ -4409,6 +4409,7 @@ function showRentalDetail(idx){
  '<div class="detail-row"><span>요청사항</span><strong>'+(row.notes||'없음')+'</strong></div>'+
  '<div class="detail-row"><span>신청일시</span><strong>'+kzFmtDateTime(row.submittedAt)+'</strong></div>'+
  '<div class="detail-row"><span>언어</span><strong>'+(row.lang==='en'?'English':'한국어')+'</strong></div></div>'+
+ (typeof kzMemoBoxHtml==='function'?kzMemoBoxHtml('rental',idx):'')+
  '</div>';
  document.getElementById('detailModalBg').classList.add('show');
 }
@@ -6690,7 +6691,7 @@ function rzRenderOrders(){
     var o=r.o, i=r.i;
     return '<div class="tbl-row ordm-col">'
       +'<div class="rz-mono">'+rzEsc(o.orderNo||'-')+'</div>'
-      +'<div style="cursor:pointer" onclick="showRentalDetail('+i+')"><strong style="color:var(--blue)">'+rzEsc(o.name||'-')+'</strong><div style="font-size:0.72rem;color:var(--text-muted)">'+rzEsc(o.email||'')+'</div></div>'
+      +'<div style="cursor:pointer" onclick="showRentalDetail('+i+')"><strong style="color:var(--blue)">'+rzEsc(o.name||'-')+'</strong><div style="font-size:0.72rem;color:var(--text-muted)">'+rzEsc(o.email||'')+'</div>'+(typeof kzMemoBadge==='function'?kzMemoBadge(o):'')+'</div>'
       +'<div style="font-size:0.82rem">'+(o.school?rzEsc(o.school):'<span style="color:var(--text-sub)">미지정</span>')+'</div>'
       +'<div style="font-size:0.82rem">'+rzEsc(rzPkgDur(o))+'</div>'
       +'<div style="font-size:0.83rem">'+rzEsc(o.startDate||'-')+'</div>'
@@ -8041,6 +8042,11 @@ ChannelIO('boot', {
 body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none!important;}
 /* ── 관리자 테이블 그리드 ── */
 .simm-col{grid-template-columns:0.9fr 1fr 0.75fr 0.9fr 1.15fr 0.9fr 0.7fr;gap:10px;}
+/* 관리자 메모 (기타 · 특이사항) */
+.kz-memo-box{width:100%;min-height:76px;resize:vertical;font-size:0.85rem;line-height:1.6;text-align:left;}
+.kz-memo-row{text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.kz-memo-state{font-size:0.78rem;color:var(--text-muted);}
+.kz-memo-badge{display:inline-flex;align-items:center;gap:5px;max-width:100%;margin-top:5px;padding:3px 8px;border-radius:8px;background:#FEF3C7;color:#92400E;font-size:0.7rem;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 /* 유심 신청 직접 추가 모달 */
 .kzsim-add-modal{background:var(--white);border-radius:16px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;text-align:left;box-shadow:0 24px 70px rgba(15,23,42,0.35);animation:popIn .3s cubic-bezier(.34,1.56,.64,1) both;}
 .kzsim-add-modal .detail-modal-header{position:sticky;top:0;z-index:1;background:var(--white);}
@@ -8309,7 +8315,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         </div>
         <div class="fg"><label>접수일시</label><input type="datetime-local" id="kzSimAdd-at"><div class="hint">비워 두면 지금 시각으로 기록됩니다.</div></div>
       </div>
-      <div class="fg"><label>메모</label><textarea id="kzSimAdd-notes" placeholder="현장 특이사항 등"></textarea></div>
+      <div class="fg"><label>관리자 메모</label><textarea id="kzSimAdd-adminMemo" placeholder="기타 특이사항 등"></textarea></div>
     </div>
 
     <div class="detail-section">
@@ -8536,7 +8542,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   function pack(o){
     var meta={};
     ['kind','simPlan','simPrice','simChoice','birthday','passport','instagram','whatsapp',
-     'school','studentType','amnQty','amnPrice','evtStatus','evtAt']
+     'school','studentType','amnQty','amnPrice','evtStatus','evtAt','adminMemo']
       .forEach(function(k){ if(o[k]!==undefined && o[k]!=='') meta[k]=o[k]; });
     o.notes=String(o.notes||'').replace(/\s*##KZEVT##[\s\S]*$/,'').trim();
     o.notes=(o.notes?o.notes+'\n':'')+PACK_TAG+JSON.stringify(meta);
@@ -8885,7 +8891,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       return '<div class="tbl-row simm-col">'
         +'<div style="font-size:0.78rem;color:var(--text-muted)">'+esc(fmtDate(o.submittedAt))+'</div>'
         +'<div style="cursor:pointer" onclick="kzEvtDetail(\'sim\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
-          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.email||'')+'</div></div>'
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.email||'')+'</div>'+kzMemoBadge(o)+'</div>'
         +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
         +'<div style="font-size:0.8rem">'+esc(studentLabel(o.studentType)||'-')
           +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.school||'')+'</div></div>'
@@ -8924,7 +8930,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   window.kzSimAddOpen = function(){
     var bg=el('kzSimAddBg'); if(!bg) return;
     kzSimAddFillSchools();
-    ['lastName','firstName','nationality','email','instagram','phone','whatsapp','simChoice','notes','at']
+    ['lastName','firstName','nationality','email','instagram','phone','whatsapp','simChoice','adminMemo','at']
       .forEach(function(k){ var e=kzSimAddField(k); if(e) e.value=''; });
     var sc=kzSimAddField('school');        if(sc) sc.value='';
     var st=kzSimAddField('studentType');   if(st) st.value='';
@@ -8972,7 +8978,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       consentMethod:'onsite-staff', consentAt:now,
       submittedAt:at.toISOString(),
       evtStatus:kzSimAddVal('status')||'new',
-      notes:kzSimAddVal('notes'),
+      adminMemo:kzSimAddVal('adminMemo'), notes:'',
       lang:'en'
     };
 
@@ -9024,7 +9030,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       return '<div class="tbl-row amnm-col">'
         +'<div style="font-size:0.78rem;color:var(--text-muted)">'+esc(fmtDate(o.submittedAt))+'</div>'
         +'<div style="cursor:pointer" onclick="kzEvtDetail(\'amenity\','+i+')"><strong style="color:var(--blue)">'+esc(o.name||'-')+'</strong>'
-          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.instagram||'')+'</div></div>'
+          +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.instagram||'')+'</div>'+kzMemoBadge(o)+'</div>'
         +'<div style="font-size:0.82rem">'+esc(o.nationality||'-')+'</div>'
         +'<div style="font-size:0.78rem;word-break:break-all">'+esc(o.email||'-')
           +'<div style="font-size:0.72rem;color:var(--text-muted)">'+esc(o.phone||o.whatsapp||'')+'</div></div>'
@@ -9045,6 +9051,66 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   };
 
   function kzT(x){ return (typeof kzTime==='function') ? kzTime(x) : (new Date(x||0)).getTime()||0; }
+
+  /* ══════════ 관리자 메모 (기타 · 특이사항) ══════════
+     고객이 신청서에 쓴 요청사항(notes)과 별개로, 관리자가 건별로 남기는 내부 메모다.
+     서버에서 adminMemo 는 고객이 건드릴 수 없는 필드로 막혀 있다. */
+
+  function memoList(kind){
+    if(kind==='sim') return orders.sim||[];
+    if(kind==='amenity') return orders.amenity||[];
+    return orders.rental||[];
+  }
+  function memoRepaint(kind){
+    try{
+      if(kind==='sim') kzSimRender();
+      else if(kind==='amenity') kzAmnRender();
+      else if(typeof rzRenderOrders==='function') rzRenderOrders();
+    }catch(e){}
+  }
+
+  /* 목록에 메모가 있다는 표시 — 건마다 열어 보지 않아도 알 수 있게 한다 */
+  window.kzMemoBadge = function(o){
+    var m=String((o&&o.adminMemo)||'').trim();
+    if(!m) return '';
+    var one=m.replace(/\s+/g,' ');
+    return '<div class="kz-memo-badge" title="'+esc(m)+'"><i class="fa-solid fa-note-sticky"></i>'
+      +esc(one.length>18?one.slice(0,18)+'…':one)+'</div>';
+  };
+
+  window.kzMemoBoxHtml = function(kind, i){
+    var o=memoList(kind)[i]; if(!o) return '';
+    var id='kzMemo-'+kind+'-'+i;
+    return '<div class="detail-section">'
+      +'<div class="detail-sec-title"><i class="fa-solid fa-pen-to-square"></i> 관리자 메모</div>'
+      +'<textarea id="'+id+'" class="kz-memo-box" rows="3" placeholder="기타 특이사항을 적어 두세요. 관리자만 볼 수 있습니다.">'
+        +esc(o.adminMemo||'')+'</textarea>'
+      +'<div class="kz-memo-row">'
+        +'<span class="kz-memo-state" id="'+id+'-state"></span>'
+        +'<button type="button" class="rz-btn" onclick="kzMemoSave(\''+kind+'\','+i+')">'
+          +'<i class="fa-solid fa-floppy-disk"></i>메모 저장</button>'
+      +'</div></div>';
+  };
+
+  window.kzMemoSave = function(kind, i){
+    var o=memoList(kind)[i]; if(!o) return;
+    var box=el('kzMemo-'+kind+'-'+i); if(!box) return;
+    var state=el('kzMemo-'+kind+'-'+i+'-state');
+    var prev=String(o.adminMemo||''), next=String(box.value||'').trim();
+    if(next===prev){ if(state) state.textContent='변경된 내용이 없습니다.'; return; }
+
+    o.adminMemo=next;
+    if(state) state.textContent='저장 중...';
+    saveGuard([o], function(){
+      o.adminMemo=prev;          // 저장 못 했으면 입력칸도 되돌린다
+      box.value=prev;
+    }).then(function(ok){
+      if(state) state.textContent = ok ? '저장했습니다.' : '저장하지 못했습니다.';
+      if(!ok) return;
+      memoRepaint(kind);
+      if(typeof rzToast==='function') rzToast('메모를 저장했습니다.');
+    });
+  };
 
   /* ══════════ 관리자 — 공통 동작 ══════════ */
 
@@ -9096,7 +9162,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       +row('접수일시', fmtDate(o.submittedAt))
       +row('접수 경로', o.source==='admin-manual'?'관리자 직접 입력':(o.source==='event-popup'?'현장 이벤트 팝업':'-'))+'</div>';
     var body=el('detailModalBody');
-    if(body) body.innerHTML='<div class="detail-grid">'+head+mid+tail+'</div>';
+    if(body) body.innerHTML='<div class="detail-grid">'+head+mid+tail+kzMemoBoxHtml(kind,i)+'</div>';
     var bg=el('detailModalBg'); if(bg) bg.classList.add('show');
     function row(k,val){ return '<div class="detail-row"><span>'+k+'</span><strong>'+esc(val||'-')+'</strong></div>'; }
   };
