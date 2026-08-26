@@ -8041,6 +8041,15 @@ ChannelIO('boot', {
 body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none!important;}
 /* ── 관리자 테이블 그리드 ── */
 .simm-col{grid-template-columns:0.9fr 1fr 0.75fr 0.9fr 1.15fr 0.9fr 0.7fr;gap:10px;}
+/* 유심 신청 직접 추가 모달 */
+.kzsim-add-modal{background:var(--white);border-radius:16px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;text-align:left;box-shadow:0 24px 70px rgba(15,23,42,0.35);animation:popIn .3s cubic-bezier(.34,1.56,.64,1) both;}
+.kzsim-add-modal .detail-modal-header{position:sticky;top:0;z-index:1;background:var(--white);}
+.kzsim-add-modal .detail-modal-header h3{font-size:1.12rem;font-weight:800;color:var(--navy);margin:0;display:flex;align-items:center;gap:9px;letter-spacing:-0.2px;}
+.kzsim-add-modal .detail-section{padding:22px 26px;}
+.kzsim-add-modal .fg{margin-bottom:16px;}
+.kzsim-add-modal .fg:last-child{margin-bottom:0;}
+.kzsim-add-modal textarea{min-height:70px;}
+.kzsim-add-modal .chk-item span{font-size:0.83rem;color:var(--text-muted);}
 .amnm-col{grid-template-columns:0.95fr 1.05fr 0.8fr 1.15fr 0.85fr 0.5fr 0.7fr 0.85fr 0.7fr;gap:10px;}
 @media (max-width:920px){.simm-col{min-width:860px;}.amnm-col{min-width:1000px;}}
 .evt-hero{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px 28px;box-shadow:0 4px 20px var(--shadow);margin-bottom:22px;}
@@ -8212,9 +8221,10 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     <div class="adm-page-header">
       <div>
         <h2 class="adm-page-title"><i class="fa-solid fa-sim-card"></i> 유심 신청</h2>
-        <p class="adm-page-sub">현장 이벤트 팝업에서 접수된 유심 신청입니다 · 여권번호는 더 이상 수집하지 않습니다 (예전 기록은 <strong>여권번호 일괄 삭제</strong>로 지워 주세요)</p>
+        <p class="adm-page-sub">부스에서 받은 유심 신청을 <strong>직접 추가</strong>로 입력해 관리합니다 · 예전 팝업으로 접수된 기록도 함께 표시됩니다 · 여권번호는 더 이상 수집하지 않습니다 (예전 기록은 <strong>여권번호 일괄 삭제</strong>로 지워 주세요)</p>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="rz-btn" onclick="kzSimAddOpen()"><i class="fa-solid fa-plus"></i>직접 추가</button>
         <button type="button" class="rz-btn ghost" onclick="kzEvtExportCsv('sim')"><i class="fa-solid fa-file-csv"></i>CSV 내보내기</button>
         <button type="button" class="rz-btn ghost" onclick="kzEvtPurgePassports()"><i class="fa-solid fa-eraser"></i>여권번호 일괄 삭제</button>
       </div>
@@ -8243,6 +8253,77 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     </div>
   </main>
 </div>
+</div>
+
+<!-- ═══ 관리자: 유심 신청 직접 추가 ═══ -->
+<div class="modal-bg" id="kzSimAddBg" onclick="if(event.target===this)kzSimAddClose()">
+  <div class="kzsim-add-modal" role="dialog" aria-modal="true" aria-labelledby="kzSimAddTitle">
+    <div class="detail-modal-header">
+      <h3 id="kzSimAddTitle"><i class="fa-solid fa-sim-card"></i> 유심 신청 직접 추가</h3>
+      <button type="button" class="rz-icon-btn" onclick="kzSimAddClose()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-sec-title"><i class="fa-solid fa-user"></i> 신청자 정보</div>
+      <div class="frow">
+        <div class="fg"><label>성 (Last Name) <span class="req">*</span></label><input type="text" id="kzSimAdd-lastName"></div>
+        <div class="fg"><label>이름 (First Name) <span class="req">*</span></label><input type="text" id="kzSimAdd-firstName"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>국적</label><input type="text" id="kzSimAdd-nationality" list="countryOptions"></div>
+        <div class="fg"><label>이메일</label><input type="email" id="kzSimAdd-email" placeholder="example@email.com"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>인스타그램</label><input type="text" id="kzSimAdd-instagram" placeholder="@username"></div>
+        <div class="fg"><label>전화번호 (한국)</label><input type="tel" id="kzSimAdd-phone" placeholder="010-0000-0000"></div>
+      </div>
+      <div class="fg"><label>WhatsApp</label><input type="text" id="kzSimAdd-whatsapp" placeholder="+82 10-0000-0000"></div>
+      <div class="frow">
+        <div class="fg"><label>소속 학교</label><select id="kzSimAdd-school"><option value="">선택 안 함</option></select></div>
+        <div class="fg">
+          <label>학생 구분</label>
+          <select id="kzSimAdd-studentType">
+            <option value="">선택 안 함</option>
+            <option value="undergraduate">학부생</option>
+            <option value="exchange">교환학생</option>
+            <option value="graduate">대학원생</option>
+            <option value="gsis">GSIS 학생</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-sec-title"><i class="fa-solid fa-sim-card"></i> 유심 정보</div>
+      <div class="fg"><label>선택 요금제</label><input type="text" id="kzSimAdd-simChoice" placeholder="예: Plan A · 4개월"></div>
+      <div class="frow">
+        <div class="fg">
+          <label>상태</label>
+          <select id="kzSimAdd-status">
+            <option value="new">접수</option>
+            <option value="paid">결제완료</option>
+            <option value="issued">개통완료</option>
+            <option value="cancelled">취소</option>
+          </select>
+        </div>
+        <div class="fg"><label>접수일시</label><input type="datetime-local" id="kzSimAdd-at"><div class="hint">비워 두면 지금 시각으로 기록됩니다.</div></div>
+      </div>
+      <div class="fg"><label>메모</label><textarea id="kzSimAdd-notes" placeholder="현장 특이사항 등"></textarea></div>
+    </div>
+
+    <div class="detail-section">
+      <label class="chk-item" style="margin-bottom:0;">
+        <input type="checkbox" id="kzSimAdd-consent">
+        <span>현장에서 개인정보 수집·이용 및 이용약관 동의를 받았습니다. <strong>(필수)</strong></span>
+      </label>
+    </div>
+
+    <div class="detail-section" style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
+      <button type="button" class="rz-btn ghost" onclick="kzSimAddClose()">취소</button>
+      <button type="button" class="rz-btn" onclick="kzSimAddSave()"><i class="fa-solid fa-plus"></i>추가하기</button>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ 관리자: 세면용품 ═══ -->
@@ -8776,7 +8857,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(c) c.textContent=(rows.length===list.length)?(list.length+'건'):(rows.length+' / '+list.length+'건');
     if(!rows.length){
       tb.innerHTML='<div class="empty-st"><div class="ei"><i class="fa-solid fa-sim-card"></i></div><p>'
-        +(list.length?'조건에 맞는 신청이 없습니다.':'아직 유심 신청이 없습니다. 이벤트 팝업에서 접수되면 여기에 쌓입니다.')+'</p></div>';
+        +(list.length?'조건에 맞는 신청이 없습니다.':'아직 유심 신청이 없습니다. 위 <strong>직접 추가</strong> 버튼으로 부스에서 받은 신청을 입력하세요.')+'</p></div>';
       kzEvtBadges(); return;
     }
     tb.innerHTML=rows.map(function(r){
@@ -8799,6 +8880,87 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         +'</div></div>';
     }).join('');
     kzEvtBadges();
+  };
+
+  /* ── 유심 신청 직접 추가 ──
+     팝업에서 유심을 더 이상 받지 않으므로, 부스에서 받은 신청은 관리자가 직접 입력한다. ── */
+
+  function kzSimAddField(id){ return el('kzSimAdd-'+id); }
+  function kzSimAddVal(id){ var e=kzSimAddField(id); return e?String(e.value||'').trim():''; }
+
+  /* 학교 목록은 렌탈 신청 폼 select 를 그대로 복제해 쓴다 (한 곳만 관리) */
+  function kzSimAddFillSchools(){
+    var src=el('rentalSchoolSelect'), dst=kzSimAddField('school');
+    if(!src||!dst||dst.options.length>1) return;
+    // 원본 select 의 빈 안내 항목은 빼고, 관리자용 안내 항목 하나만 앞에 둔다
+    var opts=['<option value="">선택 안 함</option>'];
+    [].forEach.call(src.options, function(op){
+      if(op.value) opts.push('<option value="'+esc(op.value)+'">'+esc(op.textContent)+'</option>');
+    });
+    dst.innerHTML=opts.join('');
+    dst.value='';
+  }
+
+  window.kzSimAddOpen = function(){
+    var bg=el('kzSimAddBg'); if(!bg) return;
+    kzSimAddFillSchools();
+    ['lastName','firstName','nationality','email','instagram','phone','whatsapp','simChoice','notes','at']
+      .forEach(function(k){ var e=kzSimAddField(k); if(e) e.value=''; });
+    var sc=kzSimAddField('school');        if(sc) sc.value='';
+    var st=kzSimAddField('studentType');   if(st) st.value='';
+    var stt=kzSimAddField('status');       if(stt) stt.value='new';
+    var cs=kzSimAddField('consent');       if(cs) cs.checked=false;
+    bg.classList.add('show');
+    var first=kzSimAddField('lastName'); if(first) first.focus();
+  };
+
+  window.kzSimAddClose = function(){
+    var bg=el('kzSimAddBg'); if(bg) bg.classList.remove('show');
+  };
+
+  window.kzSimAddSave = function(){
+    var last=kzSimAddVal('lastName'), first=kzSimAddVal('firstName');
+    if(!last && !first){ alert('이름을 입력해 주세요.'); return; }
+
+    var cs=kzSimAddField('consent');
+    if(!cs || !cs.checked){
+      alert('개인정보를 저장하려면 현장에서 동의를 받았는지 확인해 주세요.');
+      return;
+    }
+
+    // 접수일시를 비워 두면 지금 시각으로 남긴다
+    var atRaw=kzSimAddVal('at');
+    var at=atRaw ? new Date(atRaw) : new Date();
+    if(isNaN(at.getTime())) at=new Date();
+
+    var now=new Date().toISOString();
+    var o={
+      id:Date.now(), kind:'sim',
+      lastName:last, firstName:first, name:(last+' '+first).trim(),
+      nationality:kzSimAddVal('nationality'),
+      email:kzSimAddVal('email'),
+      phone:kzSimAddVal('phone'),
+      whatsapp:kzSimAddVal('whatsapp'),
+      instagram:kzSimAddVal('instagram'),
+      school:kzSimAddVal('school'),
+      studentType:kzSimAddVal('studentType'),
+      simChoice:kzSimAddVal('simChoice'),
+      channel:'B',
+      source:'admin-manual',              // 관리자가 직접 입력한 건
+      // 동의는 현장에서 받았다고 관리자가 확인한 기록이다
+      consentPrivacy:true, consentTerms:true,
+      consentMethod:'onsite-staff', consentAt:now,
+      submittedAt:at.toISOString(),
+      evtStatus:kzSimAddVal('status')||'new',
+      notes:kzSimAddVal('notes'),
+      lang:'en'
+    };
+
+    orders.sim.push(o);
+    saveList([o]);
+    kzSimAddClose();
+    kzSimRender();
+    if(typeof rzToast==='function') rzToast('유심 신청을 추가했습니다.');
   };
 
   /* ══════════ 관리자 — 세면용품 탭 ══════════ */
@@ -8901,7 +9063,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     }
     var tail='<div class="detail-section"><div class="detail-sec-title"><i class="fa-solid fa-note-sticky"></i> 추가 정보</div>'
       +row('접수일시', fmtDate(o.submittedAt))
-      +row('접수 경로', o.source==='event-popup'?'현장 이벤트 팝업':'-')+'</div>';
+      +row('접수 경로', o.source==='admin-manual'?'관리자 직접 입력':(o.source==='event-popup'?'현장 이벤트 팝업':'-'))+'</div>';
     var body=el('detailModalBody');
     if(body) body.innerHTML='<div class="detail-grid">'+head+mid+tail+'</div>';
     var bg=el('detailModalBg'); if(bg) bg.classList.add('show');
