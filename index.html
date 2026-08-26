@@ -8207,7 +8207,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
           </div>
           <div class="frow">
             <div class="fg"><label>Rental start <span class="req">*</span></label><input type="date" id="kzEvt-startDate"></div>
-            <div class="fg"><label>Return date</label><input type="date" id="kzEvt-endDate"><div class="hint">Auto-filled from your university's move-out date.</div></div>
+            <div class="fg"><label>Return date</label><input type="date" id="kzEvt-endDate" value="2026-12-22" readonly><div class="hint">All bedding is returned on this date.</div></div>
           </div>
         </div>
 
@@ -8465,6 +8465,10 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   /* ── 현장 부스 가격 (원화 정찰가 — 웹사이트 달러 가격표와 별개) ── */
   var BED_PRICE = 60000;   // 이불 렌탈 한 학기
   var BED_PRICE_GSIS = 54000;  // 이불 렌탈 한 학기 — GSIS 학생 할인가
+
+  /* 현장 부스 이불 렌탈은 학교와 무관하게 반납일이 하나로 고정돼 있다.
+     학기가 바뀌면 이 날짜만 바꾸면 된다. */
+  var BED_RETURN_DATE = '2026-12-22';
   var AMN_PRICE = 9000;    // 세면용품 1개
 
   /* 이불 렌탈 가격은 학생 구분에 따라 달라진다 (GSIS 학생은 할인가) */
@@ -8700,6 +8704,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     });
     ['base','agree'].forEach(function(k){ var s=el('kzEvtSec-'+k); if(s) s.classList.toggle('on', any); });
 
+    var ed=el('kzEvt-endDate'); if(ed) ed.value=BED_RETURN_DATE;
+
     var parts=[], total=0;
     var bp=bedPrice(), gsis=(bp!==BED_PRICE);
     var bedTxt=el('kzEvtBedPrice');
@@ -8757,18 +8763,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(!src||!dst||dst.options.length>1) return;
     dst.innerHTML=src.innerHTML;
     dst.value='';
-    dst.onchange=function(){
-      // 학교별 고정 반납일이 있으면 반납예정일에 채운다
-      try{
-        var merged=(typeof getKozySchoolsMerged==='function')?getKozySchoolsMerged():{};
-        var hit=merged[dst.value];
-        var rd=hit&&hit.returnDate;
-        if(!rd && typeof kozySchools!=='undefined'){
-          (kozySchools||[]).forEach(function(s){ if(s.name===dst.value && s.returnDate) rd=s.returnDate; });
-        }
-        if(rd) el('kzEvt-endDate').value=rd;
-      }catch(e){}
-    };
+    // 반납일은 BED_RETURN_DATE 로 고정이라 학교별 반납일을 따라가지 않는다
   }
 
   function v(id){ var e=el(id); return e?String(e.value||'').trim():''; }
@@ -8831,7 +8826,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         id:stamp, kind:'bedding',
         submittedAt:new Date().toISOString(), status:'new',
         package:'A',
-        duration:'semester', startDate:v('kzEvt-startDate'), endDate:v('kzEvt-endDate'),
+        duration:'semester', startDate:v('kzEvt-startDate'), endDate:BED_RETURN_DATE,
         // 부스 정찰가(원화). 비워 두면 관리자 화면이 달러 가격표 × 환율로 채우므로 직접 넣는다.
         amountKRW:bedPrice(),
         // 현장 부스에서 직접 받아 가므로 배송지(우편번호·주소·건물명)는 받지 않는다.
