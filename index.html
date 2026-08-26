@@ -8034,6 +8034,24 @@ ChannelIO('boot', {
 .kzevt-submit:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-2px);box-shadow:0 8px 26px rgba(15,23,42,0.3);}
 .kzevt-submit:disabled{opacity:0.45;cursor:not-allowed;}
 .kzevt-skip{display:block;width:100%;margin-top:10px;background:none;border:none;font-size:0.78rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;font-family:'Pretendard',-apple-system,sans-serif;padding:4px;}
+/* 1단계 트랙 선택 — 이불·세면용품 데스크 / 유심 데스크 중 하나 */
+.kzevt-tracks{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media(max-width:560px){.kzevt-tracks{grid-template-columns:1fr;}}
+.kzevt-track{position:relative;border:1.5px solid var(--border);border-radius:16px;padding:26px 18px 22px;cursor:pointer;transition:all .18s;background:var(--white);text-align:center;font-family:inherit;display:block;width:100%;}
+.kzevt-track:hover{border-color:var(--blue);transform:translateY(-2px);}
+.kzevt-track .ck{position:absolute;top:11px;right:11px;width:21px;height:21px;border-radius:50%;border:1.5px solid var(--mid-gray);display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:transparent;transition:all .18s;}
+.kzevt-track .ic{font-size:1.65rem;color:var(--text-sub);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;transition:color .18s;}
+.kzevt-track .tt{font-size:1rem;font-weight:800;color:var(--navy);line-height:1.3;}
+.kzevt-track .ss{font-size:0.8rem;color:var(--text-muted);margin-top:4px;font-weight:600;}
+.kzevt-track .dd{font-size:0.75rem;color:var(--text-muted);margin-top:10px;line-height:1.55;}
+.kzevt-track.on{border-color:var(--blue);background:var(--blue-pale);box-shadow:0 6px 20px rgba(47,98,232,0.18);}
+.kzevt-track.on .ic{color:var(--blue-solid);}
+.kzevt-track.on .ck{background:var(--blue);border-color:var(--blue);color:#fff;}
+/* 2단계 상단 — 뒤로가기 + 선택한 트랙 표시 */
+.kzevt-crumb{display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+.kzevt-back{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);font-size:0.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;}
+.kzevt-back:hover{border-color:var(--navy);color:var(--navy);}
+.kzevt-crumb-now{font-size:0.8rem;font-weight:700;color:var(--navy);background:var(--blue-pale);padding:7px 13px;border-radius:10px;}
 /* 재오픈 플로팅 버튼 */
 #kzEvtFab{display:none;position:fixed;right:20px;bottom:20px;z-index:380;align-items:center;gap:9px;padding:13px 19px;border:none;border-radius:16px;background:var(--navy);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(15,23,42,0.32);font-family:'Pretendard',-apple-system,sans-serif;transition:transform .2s;}
 #kzEvtFab.show{display:inline-flex;}
@@ -8068,7 +8086,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       <button type="button" class="kzevt-x" onclick="kzEvtClose()" aria-label="close"><i class="fa-solid fa-xmark"></i></button>
       <div class="kzevt-badge"><i class="fa-solid fa-bolt"></i><span id="kzEvtBadge">Today Only</span></div>
       <h3 id="kzEvtTitle">Welcome Day Special</h3>
-      <p id="kzEvtDesc">On-site only, for today. Pick everything you need — bedding, a SIM card, or an amenity kit — and fill in one form.</p>
+      <p id="kzEvtDesc">On-site only, for today. Choose the desk you are at — bedding &amp; amenity kit, or SIM card — and fill in that form.</p>
     </div>
 
     <!-- On-site booth only notice (top of popup) -->
@@ -8083,37 +8101,65 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     </div>
 
     <form id="kzEvtForm" onsubmit="kzEvtSubmit(event)" accept-charset="UTF-8">
-      <div class="kzevt-body">
+      <div class="kzevt-body" id="kzEvtBody">
 
-        <!-- STEP 1 · 항목 선택 (중복 선택) -->
-        <div class="kzevt-step"><i class="fa-solid fa-1"></i><span id="kzEvtS1">Choose what you need (multiple choice)</span></div>
-        <div class="kzevt-picks">
-          <label class="kzevt-pick" id="kzEvtPick-bedding" onclick="setTimeout(kzEvtSync,0)">
-            <input type="checkbox" id="kzEvtChk-bedding" value="bedding">
-            <div class="ck"><i class="fa-solid fa-check"></i></div>
-            <div class="ic"><i class="fa-solid fa-bed"></i></div>
-            <div class="tt">Bedding Rental</div>
-            <div class="ss">이불 렌탈</div>
-          </label>
-          <label class="kzevt-pick" id="kzEvtPick-sim" onclick="setTimeout(kzEvtSync,0)">
-            <input type="checkbox" id="kzEvtChk-sim" value="sim">
-            <div class="ck"><i class="fa-solid fa-check"></i></div>
-            <div class="ic"><i class="fa-solid fa-sim-card"></i></div>
-            <div class="tt">SIM Card</div>
-            <div class="ss">유심</div>
-          </label>
-          <label class="kzevt-pick" id="kzEvtPick-amenity" onclick="setTimeout(kzEvtSync,0)">
-            <input type="checkbox" id="kzEvtChk-amenity" value="amenity">
-            <div class="ck"><i class="fa-solid fa-check"></i></div>
-            <div class="ic"><i class="fa-solid fa-pump-soap"></i></div>
-            <div class="tt">Amenity Kit</div>
-            <div class="ss">세면용품</div>
-          </label>
+        <!-- ═══ 화면 1 · 트랙 선택 (둘 중 하나만) ═══ -->
+        <div id="kzEvtScreen1">
+          <div class="kzevt-step"><i class="fa-solid fa-store"></i><span>Choose your service (select one)</span></div>
+          <div class="kzevt-tracks">
+            <button type="button" class="kzevt-track" id="kzEvtTrack-goods" onclick="kzEvtSetTrack('goods')">
+              <div class="ck"><i class="fa-solid fa-check"></i></div>
+              <div class="ic"><i class="fa-solid fa-bed"></i><i class="fa-solid fa-pump-soap"></i></div>
+              <div class="tt">Bedding &amp; Amenity Kit</div>
+              <div class="ss">이불 · 세면용품</div>
+              <div class="dd">Rent bedding, buy an amenity kit, or both.</div>
+            </button>
+            <button type="button" class="kzevt-track" id="kzEvtTrack-sim" onclick="kzEvtSetTrack('sim')">
+              <div class="ck"><i class="fa-solid fa-check"></i></div>
+              <div class="ic"><i class="fa-solid fa-sim-card"></i></div>
+              <div class="tt">SIM Card</div>
+              <div class="ss">유심</div>
+              <div class="dd">Sign up for a SIM plan with our staff.</div>
+            </button>
+          </div>
+          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bedding &amp; amenity kits and SIM cards are handled at separate desks. Please choose the desk you are at — you can come back and submit the other form afterwards.</span></div>
         </div>
 
-        <!-- STEP 2 · 공통 기본 정보 -->
+        <!-- ═══ 화면 2 · 선택한 트랙의 폼 ═══ -->
+        <div id="kzEvtScreen2" style="display:none;">
+
+          <div class="kzevt-crumb">
+            <button type="button" class="kzevt-back" onclick="kzEvtBack()"><i class="fa-solid fa-arrow-left"></i>Back</button>
+            <span class="kzevt-crumb-now" id="kzEvtCrumb"></span>
+          </div>
+
+        <!-- STEP 2-A · 항목 선택 (이불·세면용품 트랙에서만, 복수 선택) -->
+        <div id="kzEvtPicksWrap">
+          <div class="kzevt-step"><i class="fa-solid fa-list-check"></i><span>Choose what you need (multiple choice)</span></div>
+          <div class="kzevt-picks" style="grid-template-columns:repeat(2,1fr);">
+            <label class="kzevt-pick" id="kzEvtPick-bedding" onclick="setTimeout(kzEvtSync,0)">
+              <input type="checkbox" id="kzEvtChk-bedding" value="bedding">
+              <div class="ck"><i class="fa-solid fa-check"></i></div>
+              <div class="ic"><i class="fa-solid fa-bed"></i></div>
+              <div class="tt">Bedding Rental</div>
+              <div class="ss">이불 렌탈</div>
+            </label>
+            <label class="kzevt-pick" id="kzEvtPick-amenity" onclick="setTimeout(kzEvtSync,0)">
+              <input type="checkbox" id="kzEvtChk-amenity" value="amenity">
+              <div class="ck"><i class="fa-solid fa-check"></i></div>
+              <div class="ic"><i class="fa-solid fa-pump-soap"></i></div>
+              <div class="tt">Amenity Kit</div>
+              <div class="ss">세면용품</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 유심 트랙은 항목이 하나뿐이라 선택 화면 없이 자동으로 체크한다 -->
+        <input type="checkbox" id="kzEvtChk-sim" value="sim" hidden aria-hidden="true" tabindex="-1">
+
+        <!-- STEP 2-B · 공통 기본 정보 -->
         <div class="kzevt-sec" id="kzEvtSec-base">
-          <div class="kzevt-step"><i class="fa-solid fa-2"></i><span>Your details / 기본 정보</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-user"></i><span>Your details / 기본 정보</span></div>
           <div class="frow">
             <div class="fg"><label>Last Name <span class="req">*</span></label><input type="text" name="lastName" id="kzEvt-lastName" required></div>
             <div class="fg"><label>First Name <span class="req">*</span></label><input type="text" name="firstName" id="kzEvt-firstName" required></div>
@@ -8198,15 +8244,24 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them. / 위 연락처를 확인했으며, 반납·수령 안내가 이 연락처로 전달된다는 점을 이해했습니다.</span></label>
           </div>
         </div>
+        </div><!-- /화면 2 -->
       </div>
 
       <div class="kzevt-foot">
-        <div class="kzevt-sum">
-          <span id="kzEvtSumLabel">Nothing selected yet</span>
-          <strong id="kzEvtSumTotal"></strong>
+        <!-- 화면 1 · 트랙을 고른 뒤 다음으로 -->
+        <div id="kzEvtFoot1">
+          <button type="button" class="kzevt-submit" id="kzEvtGoBtn" onclick="kzEvtGo()" disabled>Continue</button>
+          <button type="button" class="kzevt-skip" onclick="kzEvtClose()">Maybe later</button>
         </div>
-        <button type="submit" class="kzevt-submit" id="kzEvtSubmitBtn" disabled>Submit</button>
-        <button type="button" class="kzevt-skip" onclick="kzEvtClose()">Maybe later</button>
+        <!-- 화면 2 · 합계와 제출 -->
+        <div id="kzEvtFoot2" style="display:none;">
+          <div class="kzevt-sum">
+            <span id="kzEvtSumLabel">Nothing selected yet</span>
+            <strong id="kzEvtSumTotal"></strong>
+          </div>
+          <button type="submit" class="kzevt-submit" id="kzEvtSubmitBtn" disabled>Submit</button>
+          <button type="button" class="kzevt-skip" onclick="kzEvtClose()">Maybe later</button>
+        </div>
       </div>
     </form>
   </div>
@@ -8580,8 +8635,54 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   function picked(k){ var c=el('kzEvtChk-'+k); return !!(c&&c.checked); }
   function amnQty(){ var n=parseInt(v('kzEvt-amnQty'),10); return (n>0)?n:0; }
 
+  /* ── 현장 부스는 「이불·세면용품」과 「유심」을 각각 다른 데스크에서 운영한다.
+        그래서 첫 화면에서 트랙을 하나만 고르고, 그 트랙의 폼만 작성하게 한다. ── */
+  var track='';    // '' | 'goods'(이불·세면용품) | 'sim'(유심)
+  var screenNo=1;  // 1: 트랙 선택, 2: 폼 작성
+
+  var TRACK_LABEL = {
+    goods:'Bedding & Amenity Kit / 이불 · 세면용품',
+    sim:'SIM Card / 유심'
+  };
+
+  function clearTrackUI(){
+    ['goods','sim'].forEach(function(k){
+      var c=el('kzEvtTrack-'+k); if(c) c.classList.remove('on');
+    });
+  }
+
+  window.kzEvtSetTrack = function(t){
+    track=t;
+    // 트랙이 바뀌면 항목 체크 상태를 트랙에 맞게 정리한다 (유심은 단독 접수)
+    var sim=el('kzEvtChk-sim'); if(sim) sim.checked=(t==='sim');
+    if(t==='sim'){
+      ['bedding','amenity'].forEach(function(k){ var c=el('kzEvtChk-'+k); if(c) c.checked=false; });
+    }
+    clearTrackUI();
+    var on=el('kzEvtTrack-'+t); if(on) on.classList.add('on');
+    kzEvtSync();
+  };
+
+  function toTop(){ var b=el('kzEvtBody'); if(b) b.scrollTop=0; }
+
+  window.kzEvtGo   = function(){ if(!track) return; screenNo=2; kzEvtSync(); toTop(); };
+  window.kzEvtBack = function(){ screenNo=1; kzEvtSync(); toTop(); };
+
   /* 선택 상태에 따라 필요한 입력 섹션만 노출 + 합계 갱신 */
   window.kzEvtSync = function(){
+    // ── 화면 전환 (1: 트랙 선택 / 2: 폼) ──
+    var s1=el('kzEvtScreen1'), s2=el('kzEvtScreen2');
+    if(s1) s1.style.display=(screenNo===1?'':'none');
+    if(s2) s2.style.display=(screenNo===2?'':'none');
+    var f1=el('kzEvtFoot1'), f2=el('kzEvtFoot2');
+    if(f1) f1.style.display=(screenNo===1?'':'none');
+    if(f2) f2.style.display=(screenNo===2?'':'none');
+    var go=el('kzEvtGoBtn'); if(go) go.disabled=!track;
+    var crumb=el('kzEvtCrumb'); if(crumb) crumb.textContent=TRACK_LABEL[track]||'';
+
+    // 항목 복수 선택은 이불·세면용품 트랙에서만 노출한다
+    var pw=el('kzEvtPicksWrap'); if(pw) pw.style.display=(track==='goods'?'':'none');
+
     var any=false;
     ['bedding','sim','amenity'].forEach(function(k){
       var on=picked(k);
@@ -8612,14 +8713,24 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       total+=AMN_PRICE*amnQty();
     }
     var lab=el('kzEvtSumLabel'), tot=el('kzEvtSumTotal');
-    if(lab) lab.textContent = parts.length ? ('Selected: '+parts.join(' + ')) : 'Nothing selected yet';
-    if(tot) tot.textContent = total ? won(total) : '';
+    if(track==='sim'){
+      // 유심 요금은 부스에서 직접 안내하므로 합계를 표시하지 않는다
+      if(lab) lab.textContent='Our staff will confirm your plan and price at the booth.';
+      if(tot) tot.textContent='';
+    }else{
+      if(lab) lab.textContent = parts.length ? ('Selected: '+parts.join(' + ')) : 'Nothing selected yet';
+      if(tot) tot.textContent = total ? won(total) : '';
+    }
     var btn=el('kzEvtSubmitBtn'); if(btn) btn.disabled=!parts.length;
   };
 
   window.kzEvtOpen = function(){
     var bg=el('kzEvtBg'); if(!bg) return;
     fillSchools();
+    // 열 때마다 트랙 선택 화면부터 시작한다
+    track=''; screenNo=1;
+    clearTrackUI();
+    ['bedding','sim','amenity'].forEach(function(k){ var c=el('kzEvtChk-'+k); if(c) c.checked=false; });
     kzEvtSetDur('semester');
     kzEvtSync();
     bg.classList.add('show');
@@ -8769,6 +8880,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
   function resetForm(){
     var f=el('kzEvtForm'); if(f) f.reset();
+    track=''; screenNo=1;
+    clearTrackUI();
     kzEvtSetDur('semester');
     kzEvtSync();
   }
