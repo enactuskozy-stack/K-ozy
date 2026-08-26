@@ -7981,6 +7981,14 @@ ChannelIO('boot', {
 .kzevt-head p{font-size:0.85rem;color:rgba(255,255,255,0.72);line-height:1.6;margin:0;max-width:44ch;}
 .kzevt-x{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:10px;border:none;background:rgba(255,255,255,0.12);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;}
 .kzevt-x:hover{background:rgba(255,255,255,0.25);}
+.kzevt-alert{display:flex;gap:12px;align-items:flex-start;padding:16px 28px;background:#FEF2F2;border-top:1px solid #FECACA;border-bottom:2px solid #DC2626;color:#7F1D1D;}
+.kzevt-alert .kzevt-alert-ic{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#DC2626;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.82rem;margin-top:1px;}
+.kzevt-alert .kzevt-alert-tx{min-width:0;}
+.kzevt-alert .kzevt-alert-tt{font-size:0.9rem;font-weight:800;color:#B91C1C;letter-spacing:-0.2px;line-height:1.45;margin:0 0 5px;}
+.kzevt-alert .kzevt-alert-tt b{font-weight:800;text-decoration:underline;text-underline-offset:3px;}
+.kzevt-alert .kzevt-alert-sub{font-size:0.79rem;font-weight:600;color:#9F1239;line-height:1.65;margin:0;}
+.kzevt-alert .kzevt-alert-sub span{display:block;color:#7F1D1D;opacity:0.82;font-weight:500;}
+@media(max-width:560px){.kzevt-alert{padding:14px 20px;}.kzevt-alert .kzevt-alert-tt{font-size:0.84rem;}.kzevt-alert .kzevt-alert-sub{font-size:0.75rem;}}
 .kzevt-body{padding:26px 28px 8px;max-height:calc(100vh - 260px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .kzevt-step{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-solid);margin:0 0 12px;display:flex;align-items:center;gap:8px;}
 .kzevt-step:not(:first-child){margin-top:30px;padding-top:24px;border-top:1px solid var(--border);}
@@ -8061,6 +8069,17 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       <div class="kzevt-badge"><i class="fa-solid fa-bolt"></i><span id="kzEvtBadge">Today Only</span></div>
       <h3 id="kzEvtTitle">Welcome Day Special</h3>
       <p id="kzEvtDesc">On-site only, for today. Pick everything you need — bedding, a SIM card, or an amenity kit — and fill in one form.</p>
+    </div>
+
+    <!-- 현장 부스 전용 주의사항 (제일 위, 눈에 띄게) -->
+    <div class="kzevt-alert" role="alert">
+      <div class="kzevt-alert-ic"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="kzevt-alert-tx">
+        <p class="kzevt-alert-tt">서강대학교 <b>현장 부스에서만</b> 제공되는 이벤트입니다. 현장 방문자가 아니라면 제출하지 말아주세요!</p>
+        <p class="kzevt-alert-sub">This offer is available <b>ONLY at the on-site booth at Sogang University</b>. Please do NOT submit this form if you are not at the booth.
+          <span>· 현장 확인이 되지 않은 신청은 예고 없이 취소될 수 있습니다 / Submissions that cannot be verified on site may be cancelled without notice.</span>
+        </p>
+      </div>
     </div>
 
     <form id="kzEvtForm" onsubmit="kzEvtSubmit(event)" accept-charset="UTF-8">
