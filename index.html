@@ -8111,14 +8111,12 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
               <div class="ck"><i class="fa-solid fa-check"></i></div>
               <div class="ic"><i class="fa-solid fa-bed"></i><i class="fa-solid fa-pump-soap"></i></div>
               <div class="tt">Bedding &amp; Amenity Kit</div>
-              <div class="ss">이불 · 세면용품</div>
               <div class="dd">Rent bedding, buy an amenity kit, or both.</div>
             </button>
             <button type="button" class="kzevt-track" id="kzEvtTrack-sim" onclick="kzEvtSetTrack('sim')">
               <div class="ck"><i class="fa-solid fa-check"></i></div>
               <div class="ic"><i class="fa-solid fa-sim-card"></i></div>
               <div class="tt">SIM Card</div>
-              <div class="ss">유심</div>
               <div class="dd">Sign up for a SIM plan with our staff.</div>
             </button>
           </div>
@@ -8142,14 +8140,12 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
               <div class="ck"><i class="fa-solid fa-check"></i></div>
               <div class="ic"><i class="fa-solid fa-bed"></i></div>
               <div class="tt">Bedding Rental</div>
-              <div class="ss">이불 렌탈</div>
             </label>
             <label class="kzevt-pick" id="kzEvtPick-amenity" onclick="setTimeout(kzEvtSync,0)">
               <input type="checkbox" id="kzEvtChk-amenity" value="amenity">
               <div class="ck"><i class="fa-solid fa-check"></i></div>
               <div class="ic"><i class="fa-solid fa-pump-soap"></i></div>
               <div class="tt">Amenity Kit</div>
-              <div class="ss">세면용품</div>
             </label>
           </div>
         </div>
@@ -8159,7 +8155,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
         <!-- STEP 2-B · 공통 기본 정보 -->
         <div class="kzevt-sec" id="kzEvtSec-base">
-          <div class="kzevt-step"><i class="fa-solid fa-user"></i><span>Your details / 기본 정보</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-user"></i><span>Your details</span></div>
           <div class="frow">
             <div class="fg"><label>Last Name <span class="req">*</span></label><input type="text" name="lastName" id="kzEvt-lastName" required></div>
             <div class="fg"><label>First Name <span class="req">*</span></label><input type="text" name="firstName" id="kzEvt-firstName" required></div>
@@ -8182,20 +8178,20 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
               <label>Student status <span class="req">*</span></label>
               <select id="kzEvt-studentType" onchange="kzEvtSync()">
                 <option value="">Select your student status</option>
-                <option value="undergraduate">Undergraduate / 학부생</option>
-                <option value="exchange">Exchange student / 교환학생</option>
-                <option value="graduate">Graduate student / 대학원생</option>
-                <option value="gsis">GSIS student / GSIS 학생</option>
-                <option value="other">Other / 기타</option>
+                <option value="undergraduate">Undergraduate</option>
+                <option value="exchange">Exchange student</option>
+                <option value="graduate">Graduate student</option>
+                <option value="gsis">GSIS student</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
-          <div class="kzevt-note warn"><i class="fa-solid fa-triangle-exclamation"></i><span><b>Double-check your contact details.</b> Please make sure the contact details above are ones we can actually reach you on — we will use them to send return instructions and other follow-up notices. / 반납 안내 등이 이 연락처로 전달되니 반드시 연락 가능한 정보를 적어 주세요.</span></div>
+          <div class="kzevt-note warn"><i class="fa-solid fa-triangle-exclamation"></i><span><b>Double-check your contact details.</b> Please make sure the contact details above are ones we can actually reach you on — we will use them to send return instructions and other follow-up notices.</span></div>
         </div>
 
         <!-- STEP 3-A · 이불 렌탈 -->
         <div class="kzevt-sec" id="kzEvtSec-bedding">
-          <div class="kzevt-step"><i class="fa-solid fa-bed"></i><span>Bedding Rental / 이불 렌탈</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-bed"></i><span>Bedding Rental</span></div>
           <div class="fg">
             <label>Rental period <span class="req">*</span></label>
             <div class="pkg-cards" style="grid-template-columns:1fr;">
@@ -8215,7 +8211,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
         <!-- STEP 3-B · 유심 -->
         <div class="kzevt-sec" id="kzEvtSec-sim">
-          <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card / 유심</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card</span></div>
           <div class="fg">
             <label>Which plan did you choose? <span class="req">*</span></label>
             <input type="text" id="kzEvt-simChoice" placeholder="e.g. Plan A · 4 months" autocomplete="off">
@@ -8230,18 +8226,18 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
         <!-- STEP 3-C · 세면용품 -->
         <div class="kzevt-sec" id="kzEvtSec-amenity">
-          <div class="kzevt-step"><i class="fa-solid fa-pump-soap"></i><span>Amenity Kit / 세면용품</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-pump-soap"></i><span>Amenity Kit</span></div>
           <div class="fg"><label>Quantity <span class="req">*</span></label><input type="number" id="kzEvt-amnQty" min="1" max="20" step="1" value="1" oninput="kzEvtSync()"><div class="hint">₩ 9,000 per kit (9,000KRW)</div></div>
           <div class="kzevt-note"><i class="fa-solid fa-hand-holding-heart"></i><span>Pick up your kit at the K-ozy booth today.</span></div>
         </div>
 
         <!-- 동의 -->
         <div class="kzevt-sec" id="kzEvtSec-agree">
-          <div class="kzevt-step"><i class="fa-solid fa-check"></i><span>Consent / 동의</span></div>
+          <div class="kzevt-step"><i class="fa-solid fa-check"></i><span>Consent</span></div>
           <div class="chk-wrap">
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree1"><span>[Required] I agree to the collection and use of my personal information for the selected services.</span></label>
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree2"><span>[Required] I agree to the terms of service.</span></label>
-            <label class="chk-item"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them. / 위 연락처를 확인했으며, 반납·수령 안내가 이 연락처로 전달된다는 점을 이해했습니다.</span></label>
+            <label class="chk-item"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them.</span></label>
           </div>
         </div>
         </div><!-- /화면 2 -->
@@ -8518,6 +8514,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function el(id){ return document.getElementById(id); }
   function won(v){ return (+v||0).toLocaleString('ko-KR')+'원'; }
+  /* 팝업은 전부 영문이라 고객에게 보이는 금액만 ₩ 표기를 쓴다 */
+  function wonEn(v){ return '\u20A9 '+(+v||0).toLocaleString('en-US'); }
   function online(){ return location.protocol==='http:'||location.protocol==='https:'; }
 
   /* ══════════ 저장 계층 ══════════ */
@@ -8641,8 +8639,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   var screenNo=1;  // 1: 트랙 선택, 2: 폼 작성
 
   var TRACK_LABEL = {
-    goods:'Bedding & Amenity Kit / 이불 · 세면용품',
-    sim:'SIM Card / 유심'
+    goods:'Bedding & Amenity Kit',
+    sim:'SIM Card'
   };
 
   function clearTrackUI(){
@@ -8719,7 +8717,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       if(tot) tot.textContent='';
     }else{
       if(lab) lab.textContent = parts.length ? ('Selected: '+parts.join(' + ')) : 'Nothing selected yet';
-      if(tot) tot.textContent = total ? won(total) : '';
+      if(tot) tot.textContent = total ? wonEn(total) : '';
     }
     var btn=el('kzEvtSubmitBtn'); if(btn) btn.disabled=!parts.length;
   };
@@ -8833,7 +8831,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       orders.rental.push(o);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, o)));
       total+=bedPrice();
-      made.push('Bedding rental (one semester) — '+won(bedPrice()));
+      made.push('Bedding rental (one semester) — '+wonEn(bedPrice()));
     }
 
     // ── 유심 ──
@@ -8862,7 +8860,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       orders.amenity.push(a);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, a)));
       total+=a.amnPrice;
-      made.push('Amenity kit × '+qty+' — '+won(a.amnPrice));
+      made.push('Amenity kit × '+qty+' — '+wonEn(a.amnPrice));
     }
 
     // ── 초기화 & 완료 ──
@@ -8874,7 +8872,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(mt) mt.textContent='Thank you!';
     if(mm) mm.textContent='We have received your request. Please come to the K-ozy booth to pay on-site and pick up your items.\n\nWe will send return and pickup notices to the contact details you entered — please keep an eye on them, and let our staff know right away if anything was wrong.';
     if(mx) mx.innerHTML='<div class="account-box"><strong>Your request</strong><code>'
-      +esc(made.join('\n'))+(total?'\n\nTotal (pay at the booth): '+won(total):'')+'</code></div>';
+      +esc(made.join('\n'))+(total?'\n\nTotal (pay at the booth): '+wonEn(total):'')+'</code></div>';
     var mb=el('modalBg'); if(mb) mb.classList.add('show');
   };
 
