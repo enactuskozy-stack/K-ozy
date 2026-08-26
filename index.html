@@ -8052,6 +8052,8 @@ ChannelIO('boot', {
 .kzevt-back{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);font-size:0.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;}
 .kzevt-back:hover{border-color:var(--navy);color:var(--navy);}
 .kzevt-crumb-now{font-size:0.8rem;font-weight:700;color:var(--navy);background:var(--blue-pale);padding:7px 13px;border-radius:10px;}
+/* 유심 트랙에서 짝 입력칸이 숨겨진 줄은 한 칸으로 편다 */
+.kzevt-solo{grid-template-columns:1fr;}
 /* 재오픈 플로팅 버튼 */
 #kzEvtFab{display:none;position:fixed;right:20px;bottom:20px;z-index:380;align-items:center;gap:9px;padding:13px 19px;border:none;border-radius:16px;background:var(--navy);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(15,23,42,0.32);font-family:'Pretendard',-apple-system,sans-serif;transition:transform .2s;}
 #kzEvtFab.show{display:inline-flex;}
@@ -8160,15 +8162,15 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
             <div class="fg"><label>Last Name <span class="req">*</span></label><input type="text" name="lastName" id="kzEvt-lastName" required></div>
             <div class="fg"><label>First Name <span class="req">*</span></label><input type="text" name="firstName" id="kzEvt-firstName" required></div>
           </div>
-          <div class="frow">
-            <div class="fg"><label>Nationality <span class="req">*</span></label><input type="text" name="nationality" id="kzEvt-nationality" list="countryOptions" required></div>
+          <div class="frow" id="kzEvtRow-natEmail">
+            <div class="fg" id="kzEvtF-nationality"><label>Nationality <span class="req">*</span></label><input type="text" name="nationality" id="kzEvt-nationality" list="countryOptions"></div>
             <div class="fg"><label>Email <span class="req">*</span></label><input type="email" name="email" id="kzEvt-email" placeholder="example@email.com" required></div>
           </div>
-          <div class="frow">
+          <div class="frow" id="kzEvtRow-instaPhone">
             <div class="fg"><label>Instagram ID <span class="req">*</span></label><input type="text" name="instagram" id="kzEvt-instagram" placeholder="@username" required></div>
-            <div class="fg"><label>Phone (Korean number)</label><input type="tel" name="phone" id="kzEvt-phone" placeholder="010-0000-0000"></div>
+            <div class="fg" id="kzEvtF-phone"><label>Phone (Korean number)</label><input type="tel" name="phone" id="kzEvt-phone" placeholder="010-0000-0000"></div>
           </div>
-          <div class="fg"><label>WhatsApp ID</label><input type="text" name="whatsapp" id="kzEvt-whatsapp" placeholder="+82 10-0000-0000 or your WhatsApp ID"></div>
+          <div class="fg" id="kzEvtF-whatsapp"><label>WhatsApp ID</label><input type="text" name="whatsapp" id="kzEvt-whatsapp" placeholder="+82 10-0000-0000 or your WhatsApp ID"></div>
           <div class="frow">
             <div class="fg">
               <label>University <span class="req">*</span></label>
@@ -8186,7 +8188,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
               </select>
             </div>
           </div>
-          <div class="kzevt-note warn"><i class="fa-solid fa-triangle-exclamation"></i><span><b>Double-check your contact details.</b> Please make sure the contact details above are ones we can actually reach you on — we will use them to send return instructions and other follow-up notices.</span></div>
+          <div class="kzevt-note warn" id="kzEvtNote-contact"><i class="fa-solid fa-triangle-exclamation"></i><span><b>Double-check your contact details.</b> Please make sure the contact details above are ones we can actually reach you on — we will use them to send return instructions and other follow-up notices.</span></div>
         </div>
 
         <!-- STEP 3-A · 이불 렌탈 -->
@@ -8212,16 +8214,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         <!-- STEP 3-B · 유심 -->
         <div class="kzevt-sec" id="kzEvtSec-sim">
           <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card</span></div>
-          <div class="fg">
-            <label>Which plan did you choose? <span class="req">*</span></label>
-            <input type="text" id="kzEvt-simChoice" placeholder="e.g. Plan A · 4 months" autocomplete="off">
-            <div class="hint">Write down the plan you picked with our staff at the booth.</div>
-            <div class="kzevt-plan-info">
-              <b>Plan C</b> — Only for Samsung &amp; i-Phone<br>
-              <b>Plan A</b> — Available for all kinds of smartphones
-            </div>
-          </div>
-          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bring your passport to the booth — our staff will complete the SIM registration with you on-site.</span></div>
+          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bring your passport to the booth — our staff will pick your plan and complete the SIM registration with you on-site.</span></div>
         </div>
 
         <!-- STEP 3-C · 세면용품 -->
@@ -8237,7 +8230,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
           <div class="chk-wrap">
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree1"><span>[Required] I agree to the collection and use of my personal information for the selected services.</span></label>
             <label class="chk-item"><input type="checkbox" id="kzEvt-agree2"><span>[Required] I agree to the terms of service.</span></label>
-            <label class="chk-item"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them.</span></label>
+            <label class="chk-item" id="kzEvtF-agree3"><input type="checkbox" id="kzEvt-agree3"><span>[Required] I have checked my email, phone and WhatsApp above, and I understand K-ozy will send return and pickup notices to them.</span></label>
           </div>
         </div>
         </div><!-- /화면 2 -->
@@ -8681,6 +8674,14 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     // 항목 복수 선택은 이불·세면용품 트랙에서만 노출한다
     var pw=el('kzEvtPicksWrap'); if(pw) pw.style.display=(track==='goods'?'':'none');
 
+    /* 유심은 현장에서 바로 개통하므로 이름·인스타그램·이메일·대학·학생 구분만 받는다.
+       국적·전화·WhatsApp 과 반납 안내용 연락처 확인 동의는 숨긴다. */
+    var simOnly=(track==='sim');
+    ['kzEvtF-nationality','kzEvtF-phone','kzEvtF-whatsapp','kzEvtNote-contact','kzEvtF-agree3']
+      .forEach(function(id){ var e=el(id); if(e) e.style.display=(simOnly?'none':''); });
+    ['kzEvtRow-natEmail','kzEvtRow-instaPhone']
+      .forEach(function(id){ var e=el(id); if(e) e.classList.toggle('kzevt-solo', simOnly); });
+
     var any=false;
     ['bedding','sim','amenity'].forEach(function(k){
       var on=picked(k);
@@ -8771,16 +8772,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     // ── 검증 ──
     var need=[];
     if(!v('kzEvt-lastName')||!v('kzEvt-firstName')) need.push('name');
-    if(!v('kzEvt-nationality')) need.push('nationality');
+    if(track!=='sim' && !v('kzEvt-nationality')) need.push('nationality');
     if(!v('kzEvt-email')) need.push('email');
     if(!v('kzEvt-instagram')) need.push('Instagram ID');
     if(!v('kzEvt-school')) need.push('university');
     if(!v('kzEvt-studentType')) need.push('student status');
     if(items.indexOf('bedding')>=0){
       if(!v('kzEvt-startDate')) need.push('rental start date');
-    }
-    if(items.indexOf('sim')>=0){
-      if(!v('kzEvt-simChoice')) need.push('the SIM plan you chose');
     }
     if(items.indexOf('amenity')>=0){
       if(!amnQty()) need.push('quantity');
@@ -8789,8 +8787,8 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(!el('kzEvt-agree1').checked||!el('kzEvt-agree2').checked){
       alert('Please agree to both required items.'); return;
     }
-    // 연락처는 반납 안내가 나가는 통로라 제출 전에 한 번 더 확인받는다
-    if(!el('kzEvt-agree3').checked){
+    // 연락처는 반납 안내가 나가는 통로라 제출 전에 한 번 더 확인받는다 (유심은 반납이 없어 생략)
+    if(track!=='sim' && !el('kzEvt-agree3').checked){
       alert('Please check your contact details (email / phone / WhatsApp) and tick the last box —\nwe will send your return and pickup notices there.');
       return;
     }
@@ -8839,13 +8837,12 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       var s=Object.assign({}, base, {
         id:stamp+1, kind:'sim',
         submittedAt:new Date().toISOString(),
-        // 요금제는 부스에서 정한 내용을 그대로 적어 둔다 (생년월일·여권번호는 받지 않는다)
-        simChoice:v('kzEvt-simChoice'),
+        // 요금제·금액은 부스에서 직접 정하므로 접수 단계에서는 받지 않는다
         evtStatus:'new', notes:''
       });
       orders.sim.push(s);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, s)));
-      made.push('SIM card — '+v('kzEvt-simChoice'));
+      made.push('SIM card — our staff will confirm your plan at the booth');
     }
 
     // ── 세면용품 ──
