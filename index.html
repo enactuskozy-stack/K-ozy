@@ -8214,7 +8214,16 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         <!-- STEP 3-B · 유심 -->
         <div class="kzevt-sec" id="kzEvtSec-sim">
           <div class="kzevt-step"><i class="fa-solid fa-sim-card"></i><span>SIM Card</span></div>
-          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bring your passport to the booth — our staff will pick your plan and complete the SIM registration with you on-site.</span></div>
+          <div class="fg">
+            <label>Which plan did you choose? <span class="req">*</span></label>
+            <input type="text" id="kzEvt-simChoice" placeholder="e.g. Plan A · 4 months" autocomplete="off">
+            <div class="hint">Write down the plan you picked with our staff at the booth.</div>
+            <div class="kzevt-plan-info">
+              <b>Plan C</b> — Only for Samsung &amp; i-Phone<br>
+              <b>Plan A</b> — Available for all kinds of smartphones
+            </div>
+          </div>
+          <div class="kzevt-note"><i class="fa-solid fa-circle-info"></i><span>Bring your passport to the booth — our staff will complete the SIM registration with you on-site.</span></div>
         </div>
 
         <!-- STEP 3-C · 세면용품 -->
@@ -8780,6 +8789,9 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     if(items.indexOf('bedding')>=0){
       if(!v('kzEvt-startDate')) need.push('rental start date');
     }
+    if(items.indexOf('sim')>=0){
+      if(!v('kzEvt-simChoice')) need.push('the SIM plan you chose');
+    }
     if(items.indexOf('amenity')>=0){
       if(!amnQty()) need.push('quantity');
     }
@@ -8837,12 +8849,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
       var s=Object.assign({}, base, {
         id:stamp+1, kind:'sim',
         submittedAt:new Date().toISOString(),
-        // 요금제·금액은 부스에서 직접 정하므로 접수 단계에서는 받지 않는다
+        // 부스에서 정한 요금제를 그대로 적어 둔다 (금액은 현장에서 안내)
+        simChoice:v('kzEvt-simChoice'),
         evtStatus:'new', notes:''
       });
       orders.sim.push(s);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, s)));
-      made.push('SIM card — our staff will confirm your plan at the booth');
+      made.push('SIM card — '+v('kzEvt-simChoice'));
     }
 
     // ── 세면용품 ──
