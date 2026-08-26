@@ -8134,7 +8134,7 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
             </div>
             <div class="fg">
               <label>Student status <span class="req">*</span></label>
-              <select id="kzEvt-studentType">
+              <select id="kzEvt-studentType" onchange="kzEvtSync()">
                 <option value="">Select your student status</option>
                 <option value="undergraduate">Undergraduate / 학부생</option>
                 <option value="exchange">Exchange student / 교환학생</option>
@@ -8156,9 +8156,10 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
               <label class="pkg-card selected" id="kzEvtDur-semester" onclick="kzEvtSetDur('semester')">
                 <div class="pkg-card-check"><i class="fa-solid fa-check"></i></div>
                 <div class="pkg-card-title">One Semester</div>
-                <div class="pkg-card-items">₩ 60,000 (60,000KRW)</div>
+                <div class="pkg-card-items" id="kzEvtBedPrice">₩ 60,000 (60,000KRW)</div>
               </label>
             </div>
+            <div class="hint" id="kzEvtBedPriceHint">GSIS students pay a discounted rate of ₩ 54,000 — select your student status above.</div>
           </div>
           <div class="frow">
             <div class="fg"><label>Rental start <span class="req">*</span></label><input type="date" id="kzEvt-startDate"></div>
@@ -8410,7 +8411,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
 
   /* ── 현장 부스 가격 (원화 정찰가 — 웹사이트 달러 가격표와 별개) ── */
   var BED_PRICE = 60000;   // 이불 렌탈 한 학기
+  var BED_PRICE_GSIS = 54000;  // 이불 렌탈 한 학기 — GSIS 학생 할인가
   var AMN_PRICE = 9000;    // 세면용품 1개
+
+  /* 이불 렌탈 가격은 학생 구분에 따라 달라진다 (GSIS 학생은 할인가) */
+  function bedPrice(){
+    return (v('kzEvt-studentType')==='gsis') ? BED_PRICE_GSIS : BED_PRICE;
+  }
 
   /* ── 유심 요금제 ──
      현장 팝업에서는 더 이상 요금제를 고르지 않는다(부스에서 정한 항목을 직접 적는다).
@@ -8585,9 +8592,16 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     ['base','agree'].forEach(function(k){ var s=el('kzEvtSec-'+k); if(s) s.classList.toggle('on', any); });
 
     var parts=[], total=0;
+    var bp=bedPrice(), gsis=(bp!==BED_PRICE);
+    var bedTxt=el('kzEvtBedPrice');
+    if(bedTxt) bedTxt.textContent='\u20A9 '+bp.toLocaleString('en-US')+' ('+bp.toLocaleString('en-US')+'KRW)';
+    var bedHint=el('kzEvtBedPriceHint');
+    if(bedHint) bedHint.textContent = gsis
+      ? 'GSIS student rate applied — \u20A9 54,000 instead of \u20A9 60,000.'
+      : 'GSIS students pay a discounted rate of \u20A9 54,000 \u2014 select your student status above.';
     if(picked('bedding')){
       parts.push('Bedding');
-      total+=BED_PRICE;
+      total+=bp;
     }
     if(picked('sim')){
       parts.push('SIM');
@@ -8700,15 +8714,15 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
         package:'A',
         duration:'semester', startDate:v('kzEvt-startDate'), endDate:v('kzEvt-endDate'),
         // 부스 정찰가(원화). 비워 두면 관리자 화면이 달러 가격표 × 환율로 채우므로 직접 넣는다.
-        amountKRW:BED_PRICE,
+        amountKRW:bedPrice(),
         // 현장 부스에서 직접 받아 가므로 배송지(우편번호·주소·건물명)는 받지 않는다.
         // 배송이 필요해지면 관리자 화면의 주문 수정에서 채워 넣으면 된다.
         notes:''
       });
       orders.rental.push(o);
       if(typeof kzCreateOrder==='function') kzCreateOrder(pack(Object.assign({}, o)));
-      total+=BED_PRICE;
-      made.push('Bedding rental (one semester) — '+won(BED_PRICE));
+      total+=bedPrice();
+      made.push('Bedding rental (one semester) — '+won(bedPrice()));
     }
 
     // ── 유심 ──
