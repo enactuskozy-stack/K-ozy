@@ -8570,13 +8570,33 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   };
 
   /* 유심·세면용품 배열 저장 (id 기준 upsert — 기존 렌탈 데이터는 건드리지 않는다) */
+  /* 저장 결과를 Promise<boolean> 로 돌려준다.
+     true  = 저장했거나 저장할 필요가 없는 상황
+     false = 저장을 시도했지만 실패 (로그인 만료·네트워크 등) */
   function saveList(list){
-    if(!window.__kzAdmin || !online()) return;
+    if(!window.__kzAdmin || !online()) return Promise.resolve(true);
     var body=(list||[]).map(function(o){ return pack(Object.assign({}, o)); });
-    fetch('/.netlify/functions/orders', {
+    return fetch('/.netlify/functions/orders', {
       method:'POST', credentials:'same-origin', cache:'no-store',
       headers:{'content-type':'application/json'}, body:JSON.stringify(body)
-    }).catch(function(e){ console.warn('[kzEvt] save', e); });
+    }).then(function(r){
+      if(r.ok) return true;
+      console.warn('[kzEvt] save', r.status);
+      return false;
+    }).catch(function(e){ console.warn('[kzEvt] save', e); return false; });
+  }
+
+  /* 저장 실패를 조용히 넘기지 않는다.
+     화면에만 반영되고 서버에 안 들어가면 새로고침하는 순간 사라지기 때문에,
+     실패하면 알리고 onFail 로 화면 상태도 되돌린다. */
+  function saveGuard(list, onFail){
+    return saveList(list).then(function(ok){
+      if(!ok){
+        if(typeof onFail==='function') onFail();
+        alert('저장에 실패했습니다.\n\n관리자 로그인이 풀렸거나 네트워크가 끊겼을 수 있습니다.\n다시 로그인한 뒤 시도해 주세요.');
+      }
+      return ok;
+    });
   }
 
   /* ══════════ 팝업 ON/OFF 플래그 ══════════ */
@@ -8957,10 +8977,18 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     };
 
     orders.sim.push(o);
-    saveList([o]);
-    kzSimAddClose();
     kzSimRender();
-    if(typeof rzToast==='function') rzToast('유심 신청을 추가했습니다.');
+    saveGuard([o], function(){
+      // 서버에 못 들어간 건은 목록에서도 지운다 (새로고침하면 사라질 데이터를 남기지 않는다)
+      var at=orders.sim.indexOf(o);
+      if(at>=0) orders.sim.splice(at,1);
+      kzSimRender();
+    }).then(function(ok){
+      // 실패하면 입력값을 그대로 두어 바로 다시 시도할 수 있게 모달을 닫지 않는다
+      if(!ok) return;
+      kzSimAddClose();
+      if(typeof rzToast==='function') rzToast('유심 신청을 추가했습니다.');
+    });
   };
 
   /* ══════════ 관리자 — 세면용품 탭 ══════════ */
@@ -9023,10 +9051,13 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
   window.kzEvtSetStatus = function(kind, i, val){
     var list=(kind==='sim')?orders.sim:orders.amenity;
     var o=list[i]; if(!o) return;
+    var prev=o.evtStatus;
     o.evtStatus=val;
-    saveList([o]);
-    (kind==='sim')?kzSimRender():kzAmnRender();
-    if(typeof rzToast==='function') rzToast('상태를 변경했습니다.');
+    var repaint=function(){ (kind==='sim')?kzSimRender():kzAmnRender(); };
+    repaint();
+    saveGuard([o], function(){ o.evtStatus=prev; repaint(); }).then(function(ok){
+      if(ok && typeof rzToast==='function') rzToast('상태를 변경했습니다.');
+    });
   };
 
   window.kzEvtDelete = function(kind, i){
@@ -9075,11 +9106,17 @@ body.admin-subpage-mode #kzEvtFab, body.admin-subpage-mode #kzEvtBg{display:none
     var n=(orders.sim||[]).filter(function(o){ return o.passport; }).length;
     if(!n){ alert('삭제할 여권번호가 없습니다.'); return; }
     if(!confirm('여권번호 '+n+'건을 삭제할까요?\n신청 정보는 그대로 남고 여권번호만 지워집니다.')) return;
-    var touched=[];
-    (orders.sim||[]).forEach(function(o){ if(o.passport){ o.passport=''; touched.push(o); } });
-    saveList(touched);
+    var touched=[], backup=[];
+    (orders.sim||[]).forEach(function(o){
+      if(o.passport){ backup.push({o:o, v:o.passport}); o.passport=''; touched.push(o); }
+    });
     kzSimRender();
-    if(typeof rzToast==='function') rzToast('여권번호 '+n+'건을 삭제했습니다.');
+    saveGuard(touched, function(){
+      backup.forEach(function(b){ b.o.passport=b.v; });   // 저장 못 했으면 화면도 되돌린다
+      kzSimRender();
+    }).then(function(ok){
+      if(ok && typeof rzToast==='function') rzToast('여권번호 '+n+'건을 삭제했습니다.');
+    });
   };
 
   window.kzEvtExportCsv = function(kind){
